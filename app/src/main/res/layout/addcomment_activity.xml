@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black" >
+    
+   
+    <TextView android:id="@+id/label_username_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+    
+
+    <TextView android:id="@+id/label_date_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:text="16.5.2014"
+        android:textColor="@color/white"
+        />
+    
+    	<RatingBar 
+    	    android:id="@+id/rating_bar"
+    	    android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+    	    android:layout_gravity="center"
+    	    android:numStars="5"
+    	    android:rating="3"
+    	    android:stepSize="1.0"
+    	    android:isIndicator="false"/>
+    	
+    	<TextView 
+    	    android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:textSize="20sp"
+	        android:text="@string/comment"
+	        android:textColor="@color/white"/>
+    	
+    	<EditText 
+    	    android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20sp"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:id="@+id/et_comment"
+            android:background="@color/white"
+            android:textColor="@color/black"/>
+    	
+    	 <LinearLayout 
+            android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+       		android:orientation="horizontal"
+       		android:layout_margin="20dp"
+        	android:layout_gravity="center">
+            
+            <ImageView 
+            android:id = "@+id/img_comment_picture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="30dp"
+            />
+        
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btn_comment_picture"
+            android:text="@string/select_picture"
+            android:background="@color/white"
+            android:layout_marginTop="10sp"
+            android:padding="10dp"
+
+            />
+        </LinearLayout>
+        
+    	 <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/btn_add_comment"
+            android:text="@string/add_comment"
+            android:background="@color/white"
+            android:layout_marginTop="10sp"
+            android:padding="10dp"
+            />
+    	
+</LinearLayout>

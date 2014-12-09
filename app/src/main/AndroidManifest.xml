@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.elfak.mosis.phoneguardian"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="21" />
+
+    <permission
+	android:name="edu.elfak.mosis.phoneguardian.permission.MAPS_RECEIVE"
+	android:protectionLevel="signature"/>
+    
+	<uses-permission android:name="org.elfak.modis.myplaces.permission.MAPS_RECEIVE"/>
+	<uses-permission android:name="android.permission.BLUETOOTH"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"/> 
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	
+	<uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+	
+    <application
+        android:name="PhoneGuardianApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        
+        <meta-data 
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBG5r-E77lTLgskukt7izcYaarrrGqi0Lg"/>
+        
+        <meta-data android:name="com.google.android.gms.version" 
+            		android:value="@integer/google_play_services_version"/>
+        
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.LoginActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.RegisterActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        
+        <activity android:name="edu.elfak.mosis.phoneguardian.PGMapActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+            
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.ShowUsersActivity"
+            android:label="@string/title_activity_show_users" >
+        </activity>
+        
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.AlertActivity"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.ProfileActivity"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.AddLocationActivity"
+            android:theme="@android:style/Theme.Black"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter >
+                <action android:name="android.media.action.IMAGE_CAPTURE"/>
+  				<category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.FilterActivity"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.MarkerActivity"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.AddCommentActivity"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.ViewCommentsActivity"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.ViewMarkerDetailsActivity"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.ListFilterActivity"
+            android:theme="@android:style/Theme.Black" >
+        </activity>
+        
+        <service android:name = "edu.elfak.mosis.phoneguardian.NotificationService" />
+    </application>
+
+</manifest>

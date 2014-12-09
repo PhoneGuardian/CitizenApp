@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/black" >
+    
+    <LinearLayout  android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/black"
+    android:padding="30dp">
+        
+    <TextView
+        	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30sp"
+            android:textSize="24.5sp"
+            android:text="@string/add_loication"
+            android:textColor="@color/white"
+        />
+        
+    <TextView android:id="@+id/label_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+    <TextView android:id="@+id/label_addingtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+    <TextView android:id="@+id/label_long"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+    <TextView android:id="@+id/label_lat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+    <TextView android:id="@+id/label_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+   		android:layout_height="wrap_content">
+   		
+        <TextView android:id="@+id/label_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/category"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+        
+        <RadioGroup android:id="@+id/rg_category"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content">
+            
+            <RadioButton android:id="@+id/rb_redzone"
+                android:text="@string/red"
+                android:textSize="20sp"
+        		android:textColor="@color/white"
+        		android:checked="true"
+        		android:onClick="onRadioButtonClicked"
+                  />
+            
+            <RadioButton android:id="@+id/rb_orangezone"
+                android:text="@string/orange"
+                android:textSize="20sp"
+        		android:textColor="@color/white"
+        		android:onClick="onRadioButtonClicked"/>
+            
+            <RadioButton android:id="@+id/rb_yellowzone"
+                android:text="@string/yellow"
+                android:textSize="20sp"
+        		android:textColor="@color/white"
+        		android:onClick="onRadioButtonClicked"/>
+            
+        </RadioGroup>
+    </LinearLayout>
+    
+    <TextView android:id="@+id/label_descr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        />
+    
+    <EditText android:id="@+id/edit_text_descr"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:background="@color/white"
+        android:textColor="@color/black" />
+    
+    <LinearLayout 
+            android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:baselineAligned="false"
+       		android:orientation="horizontal"
+       		android:layout_marginTop="10dp"
+        	android:layout_gravity="center">
+        
+        <LinearLayout 
+            android:layout_width="0dp"
+        	android:layout_height="wrap_content"
+       		android:orientation="vertical"
+       		android:layout_marginTop="10dp"
+        	android:layout_weight="2">
+            
+		        <TextView android:id="@+id/label_picture"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/picture"
+		        android:textSize="20sp"
+		        android:textColor="@color/white"
+		        />
+		        
+		        <Button
+		            android:id="@+id/btn_take_picture"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginTop="10dp"
+		            android:padding="10dp"
+		            android:background="@color/white"
+		            android:text="@string/take_picture" />
+		        
+		  </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="0dp"
+        	android:layout_height="match_parent"
+       		android:orientation="vertical"
+       		android:layout_marginTop="10dp"
+        	android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/img_location"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+        
+        </LinearLayout>
+        
+        <Button
+            android:id="@+id/btn_save_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@color/white"
+            android:text="@string/save" />
+        
+     </LinearLayout>   
+
+</ScrollView>

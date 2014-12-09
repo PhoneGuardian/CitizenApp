@@ -6,3 +6,4 @@ A safety app which provides citizens an easy way to report and receive notificat
 + crime
 + fire emergencies
 + medical emergencies
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="DefaultLocale">
+        <ignore path="src/edu/elfak/mosis/phoneguardian/RegisterActivity.java" />
+    </issue>
+    <issue id="SimpleDateFormat">
+        <ignore path="src/edu/elfak/mosis/phoneguardian/AddCommentActivity.java" />
+        <ignore path="src/edu/elfak/mosis/phoneguardian/AddLocationActivity.java" />
+    </issue>
+</lint>

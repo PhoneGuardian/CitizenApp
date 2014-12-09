@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    >
+    <LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dip"
+    android:orientation="vertical"
+    android:background="@color/black">
+        
+    
+    
+    <TextView
+         android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center"
+           android:layout_marginBottom="30sp"
+           android:textSize="24.5sp"
+           android:text="@string/view_details"
+           android:textColor="@color/white"
+        />
+    
+    <RatingBar 
+    	    android:id="@+id/avg_rating_marker"
+    	    android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+    	    android:layout_gravity="center"
+    	    android:numStars="5"
+    	    android:rating="2.5"
+    	    android:stepSize="0.5"
+    	    android:isIndicator="true"
+    	    />
+    
+     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10sp"
+        >
+
+    <ImageView
+        android:id="@+id/img_marker_picture"
+        android:layout_width="118dp"
+        android:layout_height="160dp"
+        android:layout_marginRight="30dp" />
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="fill_parent"
+         android:orientation="vertical" >
+        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:textColor="@color/white"
+        android:textSize="20sp" 
+        />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/username_marker"
+        android:textColor="@color/white"
+        android:textSize="20sp" 
+        android:layout_gravity="center"
+        android:layout_marginBottom="10sp"
+        />
+    
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_marker"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="20sp" 
+        />
+    
+
+    </LinearLayout>
+    </LinearLayout>
+    
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/address"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+    
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/address_marker"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+    
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+    
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_marker"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+    
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+    
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/description_marker"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+
+</ScrollView>

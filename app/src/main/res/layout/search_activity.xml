@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/black"  >
+    
+   <LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:background="@color/black"
+		android:padding="25dp">
+    
+        <LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:background="@color/black"
+			>
+            
+            <TextView
+		       		android:layout_width="0dp"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="2"
+		            android:layout_gravity="left"
+		            android:textSize="24.5sp"
+		            android:text="@string/filter"
+		            android:textColor="@color/white"/>
+
+            <ToggleButton
+                android:id="@+id/btn_offon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:onClick="onToggleClicked"
+                android:textOff="Off"
+                android:textOn="On" />
+            
+        </LinearLayout>
+        
+        <LinearLayout android:id="@+id/filter_layout"
+            android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:visibility="invisible">
+            
+	        <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+	            
+	            <CheckBox
+	                	android:id="@+id/cb_address_filter"
+			       		android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="4"
+			            android:layout_gravity="left"
+			            android:text="@string/address"
+			            android:textColor="@color/white"
+			            android:onClick="onCheckboxClicked"/>
+	
+	            <EditText
+	                android:id="@+id/et_address_filter"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="5"
+	                android:enabled="false"
+	                android:inputType="text" />
+	            
+	        </LinearLayout>
+	        
+	        <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+	            
+	            <CheckBox
+	                	android:id="@+id/cb_category_filter"
+			       		android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="2"
+			            android:layout_gravity="left"
+			            android:text="@string/category"
+			            android:textColor="@color/white"
+			            android:onClick="onCheckboxClicked"/>
+	
+	            <RadioGroup android:id="@+id/rg_category"
+		            android:orientation="vertical"
+		            android:layout_width="0dp"
+		            android:layout_weight="2"
+		            android:layout_height="wrap_content">
+	            
+			            <RadioButton android:id="@+id/rb_redzone_filter"
+			                android:text="@string/red"
+			                android:textSize="20sp"
+			        		android:textColor="@color/white"
+			        		android:checked="true"
+			        		android:onClick="onRadioButtonClicked"
+			                android:enabled="false"   />
+			            
+			            <RadioButton android:id="@+id/rb_orangezone_filter"
+			                android:text="@string/orange"
+			                android:textSize="20sp"
+			        		android:textColor="@color/white"
+			        		android:onClick="onRadioButtonClicked"
+			        		android:enabled="false" />
+			            
+			            <RadioButton android:id="@+id/rb_yellowzone_filter"
+			                android:text="@string/yellow"
+			                android:textSize="20sp"
+			        		android:textColor="@color/white"
+			        		android:onClick="onRadioButtonClicked"
+			        		android:enabled="false" />
+	            
+	        		</RadioGroup>
+	            
+	        </LinearLayout>
+	        
+	        <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+	            
+	            <CheckBox
+	                	android:id="@+id/cb_desc_filter"
+			       		android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="4"
+			            android:layout_gravity="left"
+			            android:text="@string/description"
+			            android:textColor="@color/white"
+			            android:onClick="onCheckboxClicked"/>
+	
+	            <EditText
+	                android:id="@+id/et_desc_filter"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="5"
+	                android:enabled="false"
+	                android:inputType="text" />
+	            
+	        </LinearLayout>
+	        
+	        <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+	            
+	            <CheckBox
+	                	android:id="@+id/cb_user_filter"
+			       		android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="4"
+			            android:layout_gravity="left"
+			            android:text="@string/username"
+			            android:textColor="@color/white"
+			            android:onClick="onCheckboxClicked"/>
+	
+	            <EditText
+	                android:id="@+id/et_user_filter"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="5"
+	                android:enabled="false"
+	                android:inputType="text" />
+	            
+	        </LinearLayout>
+	        
+	        <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				>
+	            
+	            <CheckBox
+	                	android:id="@+id/cb_date_filter"
+			       		android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_gravity="left"
+			            android:text="@string/date"
+			            android:textColor="@color/white"
+			            android:onClick="onCheckboxClicked"/>
+	
+	            
+			 
+			            <LinearLayout android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+							android:orientation="vertical">
+					           
+			                <TextView
+					       		android:layout_width="wrap_content"
+					            android:layout_height="wrap_content"
+					            android:layout_gravity="left"
+					            android:text="@string/from"
+					            android:textColor="@color/white"/>
+			                
+			                <DatePicker android:id="@+id/datepicker_from"
+			                    android:layout_width="wrap_content"
+			                    android:layout_height="wrap_content"
+			                    android:endYear="2050"
+			        			android:startYear="1950"
+			        			/>
+
+							    
+			                <TextView
+					       		android:layout_width="wrap_content"
+					            android:layout_height="wrap_content"
+					            android:layout_gravity="left"
+					            android:text="@string/to"
+					            android:textColor="@color/white"/>
+			                
+			                <DatePicker android:id="@+id/datepicker_to"
+			                    android:layout_width="wrap_content"
+			                    android:layout_height="wrap_content"
+			                    android:endYear="2050"
+			        			android:startYear="1950"
+			        			/>
+			                
+			            </LinearLayout>
+	            
+	            
+	        </LinearLayout>
+	        
+	        <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+	            
+	            <CheckBox
+	                	android:id="@+id/cb_comment_username_filter"
+			       		android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="4"
+			            android:layout_gravity="left"
+			            android:text="@string/username_comment"
+			            android:textColor="@color/white"
+			            android:onClick="onCheckboxClicked"/>
+	
+	            <EditText
+	                android:id="@+id/et_comment_user_filter"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="5"
+	                android:enabled="false"
+	                android:inputType="text" />
+	            
+	        </LinearLayout>
+	        
+	        <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+	            
+	            <CheckBox
+	                	android:id="@+id/cb_comment_filter"
+			       		android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="4"
+			            android:layout_gravity="left"
+			            android:text="@string/comment"
+			            android:textColor="@color/white"
+			            android:onClick="onCheckboxClicked"/>
+	
+	            <EditText
+	                android:id="@+id/et_comment_filter"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="5"
+	                android:enabled="false"
+	                android:inputType="text" />
+	            
+	        </LinearLayout>
+	        
+	        
+	        
+	        
+	        
+	       <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+	            
+	            <CheckBox
+	                	android:id="@+id/cb_radius"
+			       		android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="4"
+			            android:layout_gravity="left"
+			            android:text="@string/radius"
+			            android:textColor="@color/white"
+			            android:onClick="onCheckboxClicked"/>
+	
+	            <Spinner
+	                android:id="@+id/radius_near_me"
+	                android:layout_width="91dp"
+	                android:layout_height="wrap_content" />
+
+	        </LinearLayout>
+	            
+	            
+	            <LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+				>
+
+	            
+		            <CheckBox
+		                	android:id="@+id/cb_location_filter"
+				       		android:layout_width="0dp"
+				            android:layout_height="wrap_content"
+				            android:layout_weight="2"
+				            android:layout_gravity="left"
+				            android:text="@string/location"
+				            android:textColor="@color/white"
+				            android:onClick="onCheckboxClicked"/>
+		
+		            <RadioGroup android:id="@+id/rg_location"
+			            android:orientation="vertical"
+			            android:layout_width="0dp"
+			            android:layout_weight="2"
+			            android:layout_height="wrap_content">
+		            
+				            <RadioButton android:id="@+id/rb_current_location"
+				                android:text="@string/current_location"
+				                android:textSize="20sp"
+				        		android:textColor="@color/white"
+				        		android:checked="true"
+				        		android:onClick="onRadioButtonClicked"
+				                android:enabled="false"   />
+				            
+				            <RadioButton android:id="@+id/rb_location_from_address"
+				                android:text="@string/location_from_address"
+				                android:textSize="20sp"
+				        		android:textColor="@color/white"
+				        		android:onClick="onRadioButtonClicked"
+				        		android:enabled="false" />
+			            
+	            			
+	                
+	              
+	            
+		            
+	        		</RadioGroup>
+	            
+	        </LinearLayout>
+
+	             <LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal">
+		            
+		            <EditText
+		                android:id="@+id/et_loaction_address_for_radius"
+		                android:layout_width="0dp"
+		                android:layout_height="wrap_content"
+		                android:layout_weight="5"
+		                android:enabled="false"
+		                android:inputType="text" />
+	            </LinearLayout>
+	            
+	         <LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+	            
+	            <Button
+	                	android:id="@+id/btn_show_filltered_markers"
+			       		android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="1"
+			            android:layout_gravity="left"
+			            android:text="@string/show_list"
+			            android:textColor="@color/white"/>
+	
+	            <Button
+	                	android:id="@+id/btn_show_filltered_markers_on_map"
+	                	android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="1"
+			            android:layout_gravity="left"
+			            android:text="@string/show_markers_on_map"
+			            android:textColor="@color/white"/>
+	            
+	        </LinearLayout>
+	            
+	        
+	        
+	    </LinearLayout>
+	    
+    	
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    >
+<ListView android:id="@android:id/list" 
+    android:layout_height="wrap_content" 
+    android:layout_width="fill_parent"
+    />
+ 	<TextView 
+           android:id="@+id/tv_empty"
+           android:text="@string/list_is_empty"
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent"
+           android:textSize="25sp"
+           android:gravity="center_vertical|center_horizontal"    />
+</LinearLayout>
