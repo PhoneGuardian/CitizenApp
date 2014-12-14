@@ -44,8 +44,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
 	int pom = 0;
 
 	final JSONParser jParser = new JSONParser();
-	private String url_check_user = "http://nemanjastolic.co.nf/check_user.php";
-    private String url_add_user = "http://nemanjastolic.co.nf/add_user.php";
+	private String url_check_user = "http://nemanjastolic.co.nf/guardian/check_user.php";
+    private String url_add_user = "http://nemanjastolic.co.nf/guardian/add_user.php";
 
     final String TAG_SUCCESS = "success";
 
