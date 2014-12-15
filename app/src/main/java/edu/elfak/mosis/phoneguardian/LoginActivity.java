@@ -24,7 +24,7 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
 	
 	String argss[] = new String[2];
 	
-	private String url_check_user = "http://nikolamilica10.site90.com/get_signin_user.php";
+	private String url_check_user = "http://nemanjastolic.co.nf/guardian/get_signin_user.php";
 	
 	final String TAG_SUCCESS = "success";
     public int success=0;
@@ -101,7 +101,8 @@ public class LoginActivity extends Activity implements android.view.View.OnClick
 	        params.add(new BasicNameValuePair("password", argss[1]));
             params.add(new BasicNameValuePair("username", argss[0]));
             
-            JSONObject json = jParser.makeHttpRequest(url_check_user, "POST", params);
+            JSONObject json = jParser.makeHttpRequest(url_check_user, "POST", params);//check if username and password match on the server
+            //if the credentials aren't correct success will be 0, if successful success will be 1
 
             try 
             {

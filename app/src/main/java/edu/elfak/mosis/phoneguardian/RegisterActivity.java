@@ -50,7 +50,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     final String TAG_SUCCESS = "success";
 
     public int success=0;
-    String argss[] = new String[2];
+    String argss[] = new String[3];
 
     
     @Override
@@ -101,9 +101,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
 				String userNm =etUsername.getText().toString();
 				EditText etPhone = (EditText) findViewById(R.id.et_register_phone_num);
 				String phone =etPhone.getText().toString();
+                EditText etPassword = (EditText) findViewById(R.id.et_register_password);
+                String password =etPassword.getText().toString();
 				
-				
-				if(userNm.compareTo("")==0 ||  phone.compareTo("")==0)
+				if(userNm.compareTo("")==0 ||  phone.compareTo("")==0 ||  password.compareTo("")==0)
 					Toast.makeText(this, "Invalid input data!", Toast.LENGTH_LONG).show();
 				else
 					{
@@ -111,7 +112,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
 						try
 						{
 							argss[0]= phone;
-							new CheckUser().execute().get();
+                            argss[2]= password;
+							new CheckUser().execute().get();//on the top of the class success is initialized to 0 when thread is executed
 						} catch (InterruptedException e)
 						{
 							// TODO Auto-generated catch block
@@ -122,13 +124,13 @@ public class RegisterActivity extends Activity implements OnClickListener {
 							e.printStackTrace();
 						}
 
-						if( success==1 )
+						if( success==1 )//if the thread returned 1 we will start it once more to execute adding of user
 						{
 							argss[1]=userNm;
 
 							try
 							{
-								new CheckUser().execute().get();
+								new CheckUser().execute().get();//starting of thread
 							}
 							catch (InterruptedException e)
 							{
@@ -163,7 +165,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
         }
  
         /**
-         * getting All products from url
+         * getting All users from url
          * */
         protected String doInBackground(String... args) {
             // Building Parameters
@@ -174,18 +176,21 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
 	            params.add(new BasicNameValuePair("username", argss[1]));
                 params.add(new BasicNameValuePair("phone", argss[0]));
+                params.add(new BasicNameValuePair("password", argss[2]));
                 json = jParser.makeHttpRequest(url_add_user, "GET", params);
 	            pom=1;
 
             }
-            else {
+            else {//so when the thread start success will be 0, and we need to check if the user already exists in db
                 params.add(new BasicNameValuePair("phone", argss[0]));
-                json = jParser.makeHttpRequest(url_check_user, "POST", params);
+                json = jParser.makeHttpRequest(url_check_user, "POST", params);//here we send user's phone and check if he is in the database.
+                                                                                // php will return 1 if he doesn't exist, 0 otherwise
             }
 
             try 
             {
-                success = json.getInt(TAG_SUCCESS); //user doesn't exist in the databaseb returns 1
+                success = json.getInt(TAG_SUCCESS); //1 if he doesn't exist, 0 otherwise
+                //now return to  the line 127
             }
             catch (JSONException e)
             {
@@ -208,7 +213,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                      * Updating parsed JSON data into ListView
                      * */
                 	if( success == 0 ) 
-                		Toast.makeText(RegisterActivity.this, "Username already exist!" , Toast.LENGTH_LONG).show();
+                		Toast.makeText(RegisterActivity.this, "Phone number already exists in our system!" , Toast.LENGTH_LONG).show();
                     else
                         Toast.makeText(RegisterActivity.this, "User created!" , Toast.LENGTH_LONG).show();
                 	
