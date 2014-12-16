@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class AlertActivity extends Activity implements OnClickListener
 {
@@ -17,15 +18,11 @@ public class AlertActivity extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.alert_activity);
 		
-		Button mapa = (Button) findViewById(R.id.btn_map);
-		mapa.setOnClickListener(this);
+		ImageButton map = (ImageButton) findViewById(R.id.btn_map);
+		map.setOnClickListener(this);
 		
-		Button btnAlert = (Button) findViewById(R.id.btn_alert);
+		ImageButton btnAlert = (ImageButton) findViewById(R.id.btn_alert);
 		btnAlert.setOnClickListener(this);
-		
-		Button btnProfle = (Button) findViewById(R.id.btn_profile);
-		btnProfle.setOnClickListener(this);
-	
 		
 		
 	}
@@ -36,12 +33,6 @@ public class AlertActivity extends Activity implements OnClickListener
 		user = getIntent().getStringExtra("USERNAME");
 		switch(v.getId())
 		{
-
-			case R.id.btn_profile:
-				Intent i1 = new Intent(this,ProfileActivity.class);
-				i1.putExtra("USERNAME", user);
-				startActivity(i1);
-				break;
 			case R.id.btn_alert:
 				Intent i2 = new Intent(this,AddLocationActivity.class);
 				i2.putExtra("USERNAME", user);
