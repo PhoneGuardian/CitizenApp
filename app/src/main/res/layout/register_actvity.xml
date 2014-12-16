@@ -41,6 +41,7 @@
             android:layout_marginBottom="10sp"
             android:layout_gravity="center"
             android:textSize="20sp"
+            android:fontFamily="sans-serif-thin"
             android:id="@+id/et_login_username"
             />
 
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20sp"
+            android:fontFamily="sans-serif-thin"
             android:id="@+id/et_register_phone_num"
             android:inputType="phone"
             />

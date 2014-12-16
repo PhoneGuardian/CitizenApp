@@ -80,7 +80,7 @@ public class FileHelper extends Activity{
         }
         catch (FileNotFoundException e) {
             Log.e("FileHelper - Error: ", "File not found: " + e.toString());//create file
-            writeToFile("{}", filename);
+            //writeToFile("{}", filename);
         } catch (IOException e) {
             Log.e("FileHelper - Error: ", "Can not read file: " + e.toString());
         }

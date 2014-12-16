@@ -206,7 +206,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             Credentials cred = new Credentials();
             cred.setUsername(username);
             cred.setPhoneNumber(phoneNumber);
-            jobj.put("Name", username);
+            jobj.put("Username", username);
             jobj.put("PhoneNumber", phoneNumber);
 
             jsonStringCredentials = jobj.toString();
