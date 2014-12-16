@@ -3,37 +3,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/black" >
-    
-    <Button
-        android:id="@+id/btn_alert"
+    android:background="@color/background_color"
+    >
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/alert"
+        android:layout_weight="1"
         android:layout_gravity="center"
+        android:text="@string/app_name"
         android:textSize="30sp"
+        android:fontFamily="serif"
         android:textColor="@color/black"
-        android:background="@drawable/redbutton"
-         />
+        android:paddingBottom="40sp"
+        android:paddingTop="20sp"
+        />
+
+  <GridLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:columnCount="2"
+      android:rowCount="2"
+      android:layout_gravity="center"
+      android:layout_weight="5"
+      >
     
-    <Button 
+    <ImageButton
+        android:id="@+id/btn_alert"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/warning_icon"
+        android:layout_row="0"
+        android:layout_column="0"
+         />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:text="@string/home_alert_btn_desc"
+          android:textSize="30sp"
+          android:paddingLeft="20sp"
+          android:layout_row="0"
+          android:layout_column="1"
+          android:textColor="@color/black"
+          android:fontFamily="sans-serif-light"
+          />
+    
+    <ImageButton
 	        android:id="@+id/btn_map"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/map"
 	        android:layout_gravity="center"
-	        android:textSize="30sp"
-	        android:textColor="@color/black"
-	        android:background="@drawable/yellowbutton"/>
-    
-    <Button 
-	        android:id="@+id/btn_profile"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/profile"
-	        android:layout_gravity="center"
-	        android:textSize="30sp"
-	        android:textColor="@color/black"
-	        android:background="@drawable/greenbutton"/>
+	        android:background="@drawable/map_icon"
+            android:layout_row="1"
+            android:layout_column="0"
+        />
 
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:text="@string/home_map_btn_desc"
+          android:textSize="30sp"
+          android:fontFamily="sans-serif-light"
+          android:paddingLeft="20sp"
+          android:layout_row="1"
+          android:layout_column="1"
+          android:textColor="@color/black"
+          />
+
+
+  </GridLayout>
 </LinearLayout>

@@ -66,11 +66,7 @@
             android:name="edu.elfak.mosis.phoneguardian.AlertActivity"
             android:theme="@android:style/Theme.Black" >
         </activity>
-        
-        <activity
-            android:name="edu.elfak.mosis.phoneguardian.ProfileActivity"
-            android:theme="@android:style/Theme.Black" >
-        </activity>
+
         
         <activity
             android:name="edu.elfak.mosis.phoneguardian.AddLocationActivity"
