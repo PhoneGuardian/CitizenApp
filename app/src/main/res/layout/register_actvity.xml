@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    android:background="@color/black"
+    android:background="@color/background_color"
     android:fillViewport="true"
     >
 
@@ -23,6 +23,7 @@
             android:textSize="24.5sp"
             android:text="@string/app_name"
             android:textColor="@color/white"
+            android:fontFamily="sans-serif-light"
             />
 
         <TextView
@@ -31,6 +32,7 @@
             android:text="@string/username"
             android:textSize="20sp"
             android:textColor="@color/white"
+            android:fontFamily="sans-serif-thin"
             />
 
         <EditText
@@ -40,8 +42,6 @@
             android:layout_gravity="center"
             android:textSize="20sp"
             android:id="@+id/et_login_username"
-            android:background="@color/white"
-            android:textColor="@color/black"
             />
 
         <TextView
@@ -50,6 +50,7 @@
             android:text="@string/phone_num"
             android:textSize="20sp"
             android:textColor="@color/white"
+            android:fontFamily="sans-serif-thin"
             />
 
         <EditText
@@ -59,10 +60,7 @@
             android:textSize="20sp"
             android:id="@+id/et_register_phone_num"
             android:inputType="phone"
-            android:background="@color/white"
-            android:textColor="@color/black"
             />
-
 
 
         <Button
@@ -71,9 +69,10 @@
             android:layout_gravity="center"
             android:id="@+id/btn_finished"
             android:text="@string/finish"
-            android:background="@color/white"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="15sp"
             android:padding="10dp"
+            android:fontFamily="sans-serif-thin"
+            android:background="@drawable/border_white"
             />
     </LinearLayout>
 

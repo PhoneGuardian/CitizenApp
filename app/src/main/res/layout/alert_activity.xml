@@ -13,8 +13,8 @@
         android:layout_gravity="center"
         android:text="@string/app_name"
         android:textSize="30sp"
-        android:fontFamily="serif"
-        android:textColor="@color/black"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="@color/white"
         android:paddingBottom="40sp"
         android:paddingTop="20sp"
         />
