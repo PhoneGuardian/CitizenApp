@@ -16,6 +16,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -36,6 +37,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.j;
+
 public class RegisterActivity extends Activity implements OnClickListener {
 
 
@@ -51,7 +54,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
     public int success=0;
     String argss[] = new String[2];
-
+    Credentials myCredentials = new Credentials();
+    protected Context context;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,20 @@ public class RegisterActivity extends Activity implements OnClickListener {
         
         EditText etPhone = (EditText) findViewById(R.id.et_register_phone_num);
 		etPhone.setText(this.GetCountryZipCode());
+
+        context = this;
+        if(credentialsAlreadySaved()){
+            myCredentials = ReadFromCredentialsFile();
+            argss[1] = myCredentials.getUsername();
+            argss[0] = myCredentials.getPhoneNumber();
+
+            Intent i = new Intent(getApplicationContext(),AlertActivity.class );
+            startActivity(i);
+        }
+        else {
+
+            Log.d("RegisterAcitivity - creating file credentials with content {}: ","proceed to registration");
+        }
 
     }
     
@@ -150,6 +168,96 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		}
 		
 	}
+    protected Boolean credentialsAlreadySaved()
+    {
+        EditText et_login_username = (EditText) findViewById(R.id.et_login_username);
+        String username =et_login_username.getText().toString();
+        EditText et_register_phone_num = (EditText) findViewById(R.id.et_register_phone_num);
+        String phoneNumber =et_register_phone_num.getText().toString();
+
+        String jsonStringCredentials="";
+        // credentials from file
+        try{
+            FileHelper fileHelper = new FileHelper();
+            jsonStringCredentials = fileHelper.readFromFile("credentials.txt");
+            if(jsonStringCredentials.equals("") || jsonStringCredentials.equals("{}")){//if file didn't exist
+
+                return false;
+            }
+            else {
+                return true;
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            Log.d("RegisterAcitivity - Error: ",e.getMessage());
+            Log.d("RegisterAcitivity - jsonStringCredentials: ",jsonStringCredentials);
+        }
+        Toast.makeText(context, "File reading failed.", Toast.LENGTH_LONG).show();
+        return false;
+    }
+    protected Credentials CreateCredentialsFile(String username, String phoneNumber){
+
+        String jsonStringCredentials="";
+        // credentials from file
+        try{
+            FileHelper fileHelper = new FileHelper();
+            //make credentials object and put it inside JSONObject
+            JSONObject jobj = new JSONObject();
+            Credentials cred = new Credentials();
+            cred.setUsername(username);
+            cred.setPhoneNumber(phoneNumber);
+            jobj.put("Name", username);
+            jobj.put("PhoneNumber", phoneNumber);
+
+            jsonStringCredentials = jobj.toString();
+            //write stringCredentials into credentials file
+            fileHelper.writeToFile(jsonStringCredentials, "credentials.txt");
+            Toast.makeText(context, "Credentials are added.", Toast.LENGTH_LONG).show();
+            //return created credentials object
+            return cred;
+
+        } catch(Exception e){
+            e.printStackTrace();
+            Log.d("RegisterAcitivity - Error: ",e.getMessage());
+            Log.d("RegisterAcitivity - jsonStringCredentials: ",jsonStringCredentials);
+        }
+        return null;
+    }
+    protected Credentials ReadFromCredentialsFile(){
+
+        String jsonStringCredentials="";
+        // credentials from file
+        try{
+            FileHelper fileHelper = new FileHelper();
+            jsonStringCredentials = fileHelper.readFromFile("credentials.txt");
+            if(!(jsonStringCredentials.equals("") || jsonStringCredentials.equals("{}"))) {//there are other credentials data  already in the file
+                JSONObject jObj;
+                Credentials cred = new Credentials();
+                // try parse the string to a JSON object
+                try {
+                    jObj = new JSONObject(jsonStringCredentials);
+                } catch (JSONException e) {
+                    Log.e("JSON Parser", "Error parsing json data from credentials.txt" + e.toString());
+                    jObj = null;
+                }
+                if(jObj != null) {
+                    //citanje  starih kredencijala
+                    cred.setUsername(jObj.getString("Username"));
+                    cred.setPhoneNumber(jObj.getString("PhoneNumber"));
+                    Toast.makeText(context, "Credentials already existed.", Toast.LENGTH_LONG).show();
+                    return cred;
+                } else {
+                    Toast.makeText(context, "File exists, but couldn't parse.", Toast.LENGTH_LONG).show();
+                    return null;
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            Log.d("RegisterAcitivity - Error: ",e.getMessage());
+            Log.d("RegisterAcitivity - jsonStringCredentials: ",jsonStringCredentials);
+        }
+        return null;
+    }
 
 	class CheckUser extends AsyncTask<String, String, String>
 	{
@@ -175,7 +283,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
 	            params.add(new BasicNameValuePair("username", argss[1]));
                 params.add(new BasicNameValuePair("phone_number", argss[0]));
-
                 json = jParser.makeHttpRequest(url_add_user, "GET", params);
 	            pom=1;
 
@@ -216,6 +323,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     else
                     {
                         Toast.makeText(RegisterActivity.this, "User created!" , Toast.LENGTH_LONG).show();
+                        myCredentials.setUsername(argss[1]);
+                        myCredentials.setPhoneNumber(argss[0]);
+                        CreateCredentialsFile(myCredentials.getUsername(), myCredentials.getPhoneNumber());
+
                         Intent i = new Intent(getApplicationContext(),AlertActivity.class );
                         startActivity(i);
                     }
@@ -226,6 +337,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             });
         	
         }
+
  
     }
 
