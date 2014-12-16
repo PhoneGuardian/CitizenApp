@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    android:background="@color/black"
+    android:background="@color/background_color"
     android:fillViewport="true"
     >
 
