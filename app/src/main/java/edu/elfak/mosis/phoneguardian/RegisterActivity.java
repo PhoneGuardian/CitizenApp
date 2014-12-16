@@ -175,14 +175,14 @@ public class RegisterActivity extends Activity implements OnClickListener {
             {
 
 	            params.add(new BasicNameValuePair("username", argss[1]));
-                params.add(new BasicNameValuePair("phone", argss[0]));
+                params.add(new BasicNameValuePair("phone_number", argss[0]));
                 params.add(new BasicNameValuePair("password", argss[2]));
                 json = jParser.makeHttpRequest(url_add_user, "GET", params);
 	            pom=1;
 
             }
             else {//so when the thread start success will be 0, and we need to check if the user already exists in db
-                params.add(new BasicNameValuePair("phone", argss[0]));
+                params.add(new BasicNameValuePair("phone_number", argss[0]));
                 json = jParser.makeHttpRequest(url_check_user, "POST", params);//here we send user's phone and check if he is in the database.
                                                                                 // php will return 1 if he doesn't exist, 0 otherwise
             }
