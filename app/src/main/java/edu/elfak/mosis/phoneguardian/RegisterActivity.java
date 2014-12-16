@@ -77,6 +77,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
             Intent i = new Intent(getApplicationContext(),AlertActivity.class );
             startActivity(i);
         }
+        else {
+
+            Log.d("RegisterAcitivity - creating file credentials with content {}: ","proceed to registration");
+        }
 
     }
     
@@ -321,6 +325,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         Toast.makeText(RegisterActivity.this, "User created!" , Toast.LENGTH_LONG).show();
                         myCredentials.setUsername(argss[1]);
                         myCredentials.setPhoneNumber(argss[0]);
+                        CreateCredentialsFile(myCredentials.getUsername(), myCredentials.getPhoneNumber());
 
                         Intent i = new Intent(getApplicationContext(),AlertActivity.class );
                         startActivity(i);
