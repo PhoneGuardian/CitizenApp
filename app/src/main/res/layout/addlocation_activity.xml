@@ -78,6 +78,8 @@
             
             <RadioButton android:id="@+id/rb_fire"
                 android:text="Fire"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:textSize="20sp"
         		android:textColor="@color/white"
         		android:checked="true"
@@ -86,6 +88,8 @@
             
             <RadioButton android:id="@+id/rb_emergency"
                 android:text="Emergency"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:textSize="20sp"
         		android:textColor="@color/white"
         		android:onClick="onRadioButtonClicked"/>
@@ -93,6 +97,8 @@
             <RadioButton android:id="@+id/rb_police"
                 android:text="Police"
                 android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
         		android:textColor="@color/white"
         		android:onClick="onRadioButtonClicked"/>
             
