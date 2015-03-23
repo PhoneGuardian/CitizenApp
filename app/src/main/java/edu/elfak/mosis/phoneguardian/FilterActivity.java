@@ -503,11 +503,11 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	                        markers[i] = new Marker();
 	                        // Storing each json item in variable
 	                        markers[i].setAddress(c.getString(TAG_ADDRESS));
-	                        markers[i].setUsername(c.getString(TAG_USERNAME));
-	                        markers[i].setCategory( c.getString(TAG_CATEGORY));
+	                        markers[i].setUser_phone(c.getString(TAG_USERNAME));
+	                        markers[i].setType_of_event( c.getString(TAG_CATEGORY));
 	                        markers[i].setDescription(c.getString(TAG_DESC));
-	                        markers[i].setAddingTime(c.getString(TAG_TIME));
-	                        markers[i].setLong(c.getDouble(TAG_LONG));
+	                        markers[i].setEvent_time(c.getString(TAG_TIME));
+	                        markers[i].setLng(c.getDouble(TAG_LONG));
 	                        markers[i].setLat(c.getDouble(TAG_LAT));
 	 
 	                   
@@ -542,8 +542,8 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
                  
                  for( int i=0 ; i < markers.length; i++ )
                  {
-	                  Location.distanceBetween(markers[i].latitude,
-	                    markers[i].longitude, latitude,
+	                  Location.distanceBetween(markers[i].lat,
+	                    markers[i].lng, latitude,
 	                             longitude, distance);
 	    
 	                  if (distance[0] <= radius)

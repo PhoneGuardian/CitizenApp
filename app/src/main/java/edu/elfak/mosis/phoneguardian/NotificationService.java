@@ -84,8 +84,8 @@ public class NotificationService extends Service implements LocationListener {
 		        
 		        for( int i=0 ; i < markers.length && isRunning; i++ )
 		        {
-			         Location.distanceBetween(markers[i].latitude,
-			           markers[i].longitude, lat,
+			         Location.distanceBetween(markers[i].lat,
+			           markers[i].lng, lat,
 			                    lng, distance);
 			
 			         if (distance[0] <= radius)
@@ -94,13 +94,13 @@ public class NotificationService extends Service implements LocationListener {
 			        	 
 			        	 NotificationCompat.Builder mBuilder =
 							        new NotificationCompat.Builder(this)
-							        .setContentTitle(markers[i].getCategory())
+							        .setContentTitle(markers[i].getType_of_event())
 							        .setContentText("You are in "+radius+"m range of "+markers[i].address )
 							        .setDefaults( Notification.DEFAULT_SOUND);
-			        	 if(markers[i].category.compareTo("Red zone!") == 0)
+			        	 if(markers[i].type_of_event.compareTo("Red zone!") == 0)
 			        		 mBuilder.setSmallIcon(R.drawable.red_circle);
 			        	 else
-			        		 if(markers[i].category.compareTo("Orange zone!") == 0)
+			        		 if(markers[i].type_of_event.compareTo("Orange zone!") == 0)
 			        			 mBuilder.setSmallIcon(R.drawable.orange_circle);
 			        		 else
 			        			 mBuilder.setSmallIcon(R.drawable.yellow_circle);

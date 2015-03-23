@@ -46,8 +46,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	ArrayList<Marker> markers_in_radius;
 	int finishedTask = 0;
 	Spinner s;
-	
-	String username;
+
 	
 	int flag_red = 1;
 	int flag_orange = 1;
@@ -68,12 +67,14 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
     private static final String TAG_MARKERS = "markers";
     
     private static final String TAG_ADDRESS = "address";
-    private static final String TAG_USERNAME = "username";
-    private static final String TAG_CATEGORY = "category";
+    private static final String TAG_USER_PHONE = "user_phone";
+    private static final String TAG_TYPE_OF_EVENT = "type_of_event";
     private static final String TAG_DESC = "description";
-    private static final String TAG_TIME = "time";
+    private static final String TAG_EVENT_TIME = "event_time";
     private static final String TAG_LAT = "latitude";
     private static final String TAG_LONG = "longitude";
+    private static final String TAG_ACCURACY = "location_acc";
+    private static final String TAG_ANONYMOUS = "anonymous";
     private static final String TAG_ID = "id";
 
     JSONArray markers_response = null;
@@ -102,7 +103,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		markers_in_radius = new ArrayList<Marker>();
 		s.setOnItemSelectedListener(this);
 		
-		username = getIntent().getStringExtra("USERNAME");
+
 		new GetMarkersByCategory().execute();
 		
 		service_intent = new Intent(this,NotificationService.class);
@@ -110,12 +111,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 	}
 	
-	@Override
-	  public void onBackPressed() {
-	    Intent i = new Intent(PGMapActivity.this,AlertActivity.class);
-	    i.putExtra("USERNAME", username);
-	    startActivity(i);
-	  }
+
 	
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position,long id) {
@@ -181,15 +177,14 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			niz = snip.split("&");
 			
 			m.id = niz[4];
-			m.setCategory(marker.getTitle());
-			m.setUsername(niz[0]);
+			m.setType_of_event(marker.getTitle());
+			m.setUser_phone(niz[0]);
 			m.setAddress(niz[1]);
-			m.setAddingTime(niz[2]);
+			m.setEvent_time(niz[2]);
 			m.setDescription(niz[3]);
 			m.setLat(marker.getPosition().latitude);
-			m.setLong(marker.getPosition().longitude);
-			
-			i.putExtra("USERNAME", username);
+			m.setLng(marker.getPosition().longitude);
+
 			i.putExtra("marker", m);
 			startActivity(i);
 			// TODO Auto-generated method stub
@@ -328,43 +323,45 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		{
 			for(int i=0;i<markers.length;i++)
 			{
-				String title = markers[i].category;
-				String snippet = markers[i].username+"&"
+				String title = markers[i].type_of_event;
+				String snippet = markers[i].user_phone+"&"
 						+markers[i].address+"&"
-						+markers[i].adding_time+"&"
+						+markers[i].event_time+"&"
+                        +markers[i].anonymous+"&"
+                        +markers[i].location_acc+"&"
 						+markers[i].description+"&"+markers[i].id;
 				CircleOptions circleOptions = new CircleOptions()
-		        .center(new LatLng(markers[i].latitude,markers[i].longitude))
+		        .center(new LatLng(markers[i].lat,markers[i].lng))
 		        .radius(100)
 		        .strokeColor(Color.alpha(255))
 		        ;
 				
 				
-				if(markers[i].category.equals("Red zone!"))
+				if(markers[i].type_of_event.equals("F"))
 				{
 					circleOptions.fillColor(Color.argb(128, 255, 0, 0));
 					
 					com.google.android.gms.maps.model.Marker m = mapa
 			        .addMarker(new MarkerOptions()
-			                .position(new LatLng(markers[i].latitude,markers[i].longitude))
+			                .position(new LatLng(markers[i].lat,markers[i].lng))
 			                .title(title)
 			                .snippet(snippet)
-			                .icon(BitmapDescriptorFactory.fromResource(R.drawable.emergency)));
+			                .icon(BitmapDescriptorFactory.fromResource(R.drawable.fire)));
 					m.hideInfoWindow();
 
 
 				}
 				else
-					if(markers[i].category.equals("Orange zone!"))
+					if(markers[i].type_of_event.equals("E"))
 					{
 						circleOptions.fillColor(Color.argb(128, 255, 165, 0));
 						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
-				                .position(new LatLng(markers[i].latitude,markers[i].longitude))
+				                .position(new LatLng(markers[i].lat,markers[i].lng))
 				                .title(title)
 				                .snippet(snippet)
-				                .icon(BitmapDescriptorFactory.defaultMarker(R.drawable.fire)));
+				                .icon(BitmapDescriptorFactory.defaultMarker(R.drawable.emergency)));
 						m.hideInfoWindow();
 					}
 					else
@@ -373,7 +370,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
-				                .position(new LatLng(markers[i].latitude,markers[i].longitude))
+				                .position(new LatLng(markers[i].lat,markers[i].lng))
 				                .title(title)
 				                .snippet(snippet)
 				                .icon(BitmapDescriptorFactory.defaultMarker(R.drawable.police)));
@@ -438,12 +435,14 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	                        // Storing each json item in variable
 	                        markers[i].id = c.getString(TAG_ID);
 	                        markers[i].setAddress(c.getString(TAG_ADDRESS));
-	                        markers[i].setUsername(c.getString(TAG_USERNAME));
-	                        markers[i].setCategory( c.getString(TAG_CATEGORY));
+	                        markers[i].setUser_phone(c.getString(TAG_USER_PHONE));
+	                        markers[i].setType_of_event( c.getString(TAG_TYPE_OF_EVENT));
 	                        markers[i].setDescription(c.getString(TAG_DESC));
-	                        markers[i].setAddingTime(c.getString(TAG_TIME));
-	                        markers[i].setLong(c.getDouble(TAG_LONG));
+	                        markers[i].setEvent_time(c.getString(TAG_EVENT_TIME));
+	                        markers[i].setLng(c.getDouble(TAG_LONG));
 	                        markers[i].setLat(c.getDouble(TAG_LAT));
+                            markers[i].setAnonymous(c.getInt(TAG_ANONYMOUS));
+                            markers[i].setLocation_acc(c.getLong(TAG_ACCURACY));
 	 
 	                   
 	                    }

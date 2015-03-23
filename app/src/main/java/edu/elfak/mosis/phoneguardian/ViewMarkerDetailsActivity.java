@@ -49,15 +49,15 @@ public class ViewMarkerDetailsActivity extends Activity {
 		id_marker = m.id;
 		
 		TextView t =(TextView) findViewById(R.id.username_marker);
-		t.setText(m.getUsername());
+		t.setText(m.getUser_phone());
 		TextView t1 =(TextView) findViewById(R.id.address_marker);
 		t1.setText(m.getAddress());
 		TextView t2 =(TextView) findViewById(R.id.date_marker);
-		t2.setText(m.getAddingTime());
+		t2.setText(m.getEvent_time());
 		TextView t3 =(TextView) findViewById(R.id.description_marker);
 		t3.setText(m.getDescription());
 		TextView t4 =(TextView) findViewById(R.id.category_marker);
-		t4.setText(m.getCategory());
+		t4.setText(m.getType_of_event());
 		
 		t5 =(RatingBar) findViewById(R.id.avg_rating_marker);
 		new GetAvgRate().execute();

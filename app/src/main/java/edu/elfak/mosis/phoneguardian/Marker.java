@@ -10,24 +10,26 @@ public class Marker implements Serializable
 	private static final long serialVersionUID = 1L;
 	String id;
 	String address;
-	String category;
+	String type_of_event;
 	String description;
-	String username;
-	String adding_time;
-	double longitude;
-	double latitude;
-	
+	String user_phone;
+	String event_time;
+	double lng;
+	double lat;
+    int anonymous;
+    float location_acc;
+
 	public Marker()
     {
     }
 	
 	
-    public String getUsername() {
-        return this.username;
+    public String getUser_phone() {
+        return this.user_phone;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_phone(String username) {
+        this.user_phone = username;
     }
     
     public String getAddress() {
@@ -38,14 +40,14 @@ public class Marker implements Serializable
         this.address = address;
     }
     
-    public String getCategory()
+    public String getType_of_event()
     {
-    	return this.category;
+    	return this.type_of_event;
     }
     
-    public void setCategory(String category)
+    public void setType_of_event(String category)
     {
-    	this.category=category;
+    	this.type_of_event=category;
     }
     
     public String getDescription()
@@ -58,39 +60,50 @@ public class Marker implements Serializable
     	this.description=description;
     }
     
-    public String getAddingTime()
+    public String getEvent_time()
     {
-    	return this.adding_time;
+    	return this.event_time;
     }
     
-    public void setAddingTime(String addingtime)
+    public void setEvent_time(String time)
     {
-    	this.adding_time=addingtime;
+    	this.event_time=time;
     }
     
-    public double getLong()
+    public double getLng()
     {
-    	return this.longitude;
+    	return this.lng;
     }
     
-    public void setLong(double longitude)
+    public void setLng(double longitude)
     {
-    	this.longitude=longitude;
+    	this.lng=longitude;
     }
     
     public double getLat()
     {
-    	return this.longitude;
+    	return this.lat;
     }
     
     public void setLat(double lat)
     {
-    	this.latitude=lat;
+    	this.lat=lat;
     }
+
+    public float getLocation_acc() {return this.location_acc;}
+
+    public void setLocation_acc(float acc) { this.location_acc=acc;}
+
+    public int getAnonymous() { return this.anonymous;}
+
+    public void setAnonymous(int anonymous) { this.anonymous = anonymous;}
+
     
     @Override
     public String toString()
     { 
-      return "Marker [id="+id+", address=" + address + ", category=" + category + ", description=" + description +", username=" + username +", adding_time=" + adding_time +", longitude=" + Double.toString(longitude) +", latitude=" + Double.toString(latitude) +"]";
+      return "Marker [id="+id+", address=" + address + ", type_of_event=" + type_of_event + ", description=" + description +
+              ", user_phone=" + user_phone +", event_time=" + event_time +", longitude=" + Double.toString(lng) +", latitude=" + Double.toString(lat) +
+              ", location_acc=" + Float.toString(location_acc) +", anonymous=" + Integer.toString(anonymous) +"]";
     }
 }
