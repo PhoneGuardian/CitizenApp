@@ -10,8 +10,6 @@ import android.widget.ImageButton;
 
 public class AlertActivity extends Activity implements OnClickListener
 {
-	String user;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -30,17 +28,15 @@ public class AlertActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		user = getIntent().getStringExtra("USERNAME");
 		switch(v.getId())
 		{
 			case R.id.btn_alert:
 				Intent i2 = new Intent(this,AddLocationActivity.class);
-				i2.putExtra("USERNAME", user);
+
 				startActivity(i2);
 				break;
 			case R.id.btn_map:
 				Intent i3 = new Intent(this,PGMapActivity.class);
-				i3.putExtra("USERNAME", user);
 				startActivity(i3);
 				break;
 				

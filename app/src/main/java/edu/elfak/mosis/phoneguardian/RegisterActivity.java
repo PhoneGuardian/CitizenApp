@@ -51,7 +51,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     private String url_add_user = "http://nemanjastolic.co.nf/guardian/add_user.php";
 
     final String TAG_SUCCESS = "success";
-
+    User u;
     public int success=0;
     String argss[] = new String[2];
     Credentials myCredentials = new Credentials();
@@ -325,6 +325,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         Toast.makeText(RegisterActivity.this, "User created!" , Toast.LENGTH_LONG).show();
                         myCredentials.setUsername(argss[1]);
                         myCredentials.setPhoneNumber(argss[0]);
+
+                        u = new User(argss[1],argss[0]);
+
                         CreateCredentialsFile(myCredentials.getUsername(), myCredentials.getPhoneNumber());
 
                         Intent i = new Intent(getApplicationContext(),AlertActivity.class );
