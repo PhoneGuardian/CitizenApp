@@ -73,6 +73,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
             myCredentials = ReadFromCredentialsFile();
             argss[1] = myCredentials.getUsername();
             argss[0] = myCredentials.getPhoneNumber();
+            u = User.getInstance();
+            u.setPhone(argss[0]);
+            u.setUsername(argss[1]);
 
             Intent i = new Intent(getApplicationContext(),AlertActivity.class );
             startActivity(i);
