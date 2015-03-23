@@ -38,6 +38,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.j;
+import com.matesnetwork.callverification.Cognalys;
+import com.matesnetwork.interfaces.VerificationListner;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class RegisterActivity extends Activity implements OnClickListener {
 
@@ -119,58 +123,76 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
 			case R.id.btn_finished:
 				EditText etUsername = (EditText) findViewById(R.id.et_login_username);
-				String userNm =etUsername.getText().toString();
+				final String userNm =etUsername.getText().toString();
 				EditText etPhone = (EditText) findViewById(R.id.et_register_phone_num);
-				String phone =etPhone.getText().toString();
+				final String phone =etPhone.getText().toString();
 
 				
 				if(userNm.compareTo("")==0 ||  phone.compareTo("")==0)
-					Toast.makeText(this, "Invalid input data!", Toast.LENGTH_LONG).show();
+					Toast.makeText(this, "Invalid input data!", LENGTH_LONG).show();
 				else
 					{
+                        Cognalys.verifyMobileNumber(context, "d11cf058b1991bada9be7114bbe471410d433454", "bd0f84a2509f4f0f92b89b5", phone, new VerificationListner() {
+                            @Override
+                            public void onVerificationStarted() { }
 
-						try
-						{
-							argss[0]= phone;
+                            @Override
+                            public void onVerificationSuccess() {
+                                checkAndSaveUser(userNm, phone);
+                            }
 
-							new CheckUser().execute().get();//on the top of the class success is initialized to 0 when thread is executed
-						} catch (InterruptedException e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (ExecutionException e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+                            @Override
+                            public void onVerificationFailed(ArrayList<String> errorList) {
+                                Toast.makeText(RegisterActivity.this, "You have inserted an incorrect number", LENGTH_LONG).show();
+                            }
+                        });
 
-						if( success==1 )//if the thread returned 1 we will start it once more to execute adding of user
-						{
-							argss[1]=userNm;
-
-							try
-							{
-								new CheckUser().execute().get();//starting of thread
-							}
-							catch (InterruptedException e)
-							{
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							catch (ExecutionException e)
-							{
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-
-						
-						}
 					}
 				
 				
 		}
 		
 	}
+
+    private void checkAndSaveUser(String userNm, String phone) {
+        try
+        {
+            argss[0]= phone;
+
+            new CheckUser().execute().get();//on the top of the class success is initialized to 0 when thread is executed
+        } catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ExecutionException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if( success==1 )//if the thread returned 1 we will start it once more to execute adding of user
+        {
+            argss[1]=userNm;
+
+            try
+            {
+                new CheckUser().execute().get();//starting of thread
+            }
+            catch (InterruptedException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (ExecutionException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
     protected Boolean credentialsAlreadySaved()
     {
         EditText et_login_username = (EditText) findViewById(R.id.et_login_username);
@@ -195,7 +217,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             Log.d("RegisterAcitivity - Error: ",e.getMessage());
             Log.d("RegisterAcitivity - jsonStringCredentials: ",jsonStringCredentials);
         }
-        Toast.makeText(context, "File reading failed.", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "File reading failed.", LENGTH_LONG).show();
         return false;
     }
     protected Credentials CreateCredentialsFile(String username, String phoneNumber){
@@ -215,7 +237,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             jsonStringCredentials = jobj.toString();
             //write stringCredentials into credentials file
             fileHelper.writeToFile(jsonStringCredentials, "credentials.txt");
-            Toast.makeText(context, "Credentials are added.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Credentials are added.", LENGTH_LONG).show();
             //return created credentials object
             return cred;
 
@@ -247,10 +269,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     //citanje  starih kredencijala
                     cred.setUsername(jObj.getString("Username"));
                     cred.setPhoneNumber(jObj.getString("PhoneNumber"));
-                    Toast.makeText(context, "Credentials already existed.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Credentials already existed.", LENGTH_LONG).show();
                     return cred;
                 } else {
-                    Toast.makeText(context, "File exists, but couldn't parse.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "File exists, but couldn't parse.", LENGTH_LONG).show();
                     return null;
                 }
             }
@@ -322,10 +344,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
                      * Updating parsed JSON data into ListView
                      * */
                 	if( success == 0 ) 
-                		Toast.makeText(RegisterActivity.this, "Phone number already exists in our system!" , Toast.LENGTH_LONG).show();
+                		Toast.makeText(RegisterActivity.this, "Phone number already exists in our system!" , LENGTH_LONG).show();
                     else
                     {
-                        Toast.makeText(RegisterActivity.this, "User created!" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, "User created!" , LENGTH_LONG).show();
                         myCredentials.setUsername(argss[1]);
                         myCredentials.setPhoneNumber(argss[0]);
                         u = User.getInstance();
