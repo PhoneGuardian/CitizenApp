@@ -325,8 +325,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         Toast.makeText(RegisterActivity.this, "User created!" , Toast.LENGTH_LONG).show();
                         myCredentials.setUsername(argss[1]);
                         myCredentials.setPhoneNumber(argss[0]);
-
-                        u = new User(argss[1],argss[0]);
+                        u = User.getInstance();
+                        u.setPhone(argss[0]);
+                        u.setUsername(argss[1]);
 
                         CreateCredentialsFile(myCredentials.getUsername(), myCredentials.getPhoneNumber());
 

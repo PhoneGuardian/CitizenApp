@@ -1,15 +1,18 @@
 package edu.elfak.mosis.phoneguardian;
 
 public class User {
+   private static User instance = null;
+   String username;
+   String phone;
 
-   static String username;
-   static String phone;
+    private User(){}
 
-    public User(String uname)
-    {
-        this.username = uname;
+    public static User getInstance(){
+        if(instance  == null){
+            instance = new User();
+        }
+        return instance;
     }
-
     public String getUsername() {
         return this.username;
     }
