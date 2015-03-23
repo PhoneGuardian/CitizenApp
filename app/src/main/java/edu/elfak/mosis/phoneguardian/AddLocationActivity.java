@@ -130,8 +130,7 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 			if(type_of_event!="" && description.getText().toString()!="")
 			{
 
-                //if()
-				
+                argss[0] = User.getInstance().getPhone();
 				argss[1] = address.getText().toString();
 				argss[2] = type_of_event;
 				argss[3] = description.getText().toString();
@@ -150,7 +149,7 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 		}
 		
 	}
-	public void onCheckBoxClicked(View view)
+	public void onCheckboxClicked(View view)
     {
         boolean checked = ((CheckBox) view).isChecked();
         if(checked)
@@ -298,9 +297,9 @@ public class AddLocationActivity extends Activity implements OnClickListener {
                 params.add(new BasicNameValuePair("location_acc", argss[7]));
                 params.add(new BasicNameValuePair("anonymous", argss[8]));
 	            
-	            params.add(new BasicNameValuePair("user_id", argss[0]));
+	            params.add(new BasicNameValuePair("user_phone", argss[0]));
 	            // getting JSON string from URL
-                URL = "http://nemanjastolic.co.nf/guardian/add_marker.php";
+                URL = "http://nemanjastolic.co.nf/guardian/add_event.php";
 	            JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
 
 	 
@@ -325,7 +324,7 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	         * **/
 	        protected void onPostExecute(String file_url) {
 
-	        	
+                Toast.makeText(AddLocationActivity.this, "Location added!", Toast.LENGTH_LONG).show();
 	        }
 	 
 	    }

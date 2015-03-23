@@ -32,7 +32,6 @@ public class AlertActivity extends Activity implements OnClickListener
 		{
 			case R.id.btn_alert:
 				Intent i2 = new Intent(this,AddLocationActivity.class);
-
 				startActivity(i2);
 				break;
 			case R.id.btn_map:
