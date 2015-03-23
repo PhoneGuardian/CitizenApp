@@ -60,22 +60,22 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	
 	Intent service_intent;
 	
-    private static String URL = "http://nikolamilica10.site90.com/get_markers_by_category.php";
+    private static String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
  
     
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MARKERS = "markers";
+    private static final String TAG_EVENTS = "events";
     
     private static final String TAG_ADDRESS = "address";
     private static final String TAG_USER_PHONE = "user_phone";
     private static final String TAG_TYPE_OF_EVENT = "type_of_event";
     private static final String TAG_DESC = "description";
     private static final String TAG_EVENT_TIME = "event_time";
-    private static final String TAG_LAT = "latitude";
-    private static final String TAG_LONG = "longitude";
+    private static final String TAG_LAT = "lat";
+    private static final String TAG_LONG = "lng";
     private static final String TAG_ACCURACY = "location_acc";
     private static final String TAG_ANONYMOUS = "anonymous";
-    private static final String TAG_ID = "id";
+    private static final String TAG_ID = "event_id";
 
     JSONArray markers_response = null;
     
@@ -417,7 +417,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	                {
 	                    // products found
 	                    // Getting Array of Products
-	                	markers_response = json.getJSONArray(TAG_MARKERS);
+	                	markers_response = json.getJSONArray(TAG_EVENTS);
 	                	if(markers_response==null)
 	                		Toast.makeText(PGMapActivity.this, "No markers found!", Toast.LENGTH_LONG).show();
 	                	else
