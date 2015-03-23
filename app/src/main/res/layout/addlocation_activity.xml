@@ -113,22 +113,22 @@
         android:textSize="20sp"
         android:background="@color/white"
         android:textColor="@color/black" />
-    
-    <LinearLayout 
+
+    <LinearLayout
             android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:baselineAligned="false"
        		android:orientation="horizontal"
        		android:layout_marginTop="10dp"
         	android:layout_gravity="center">
-        
-        <LinearLayout 
+
+        <LinearLayout
             android:layout_width="0dp"
         	android:layout_height="wrap_content"
        		android:orientation="vertical"
        		android:layout_marginTop="10dp"
         	android:layout_weight="2">
-            
+
 		        <TextView android:id="@+id/label_picture"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
 		        android:textSize="20sp"
 		        android:textColor="@color/white"
 		        />
-		        
+
 		        <Button
 		            android:id="@+id/btn_take_picture"
 		            android:layout_width="wrap_content"
@@ -145,10 +145,10 @@
 		            android:padding="10dp"
 		            android:background="@color/white"
 		            android:text="@string/take_picture" />
-		        
+
 		  </LinearLayout>
         
-        <LinearLayout 
+        <LinearLayout
             android:layout_width="0dp"
         	android:layout_height="match_parent"
        		android:orientation="vertical"

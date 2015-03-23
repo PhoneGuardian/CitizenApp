@@ -349,8 +349,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			                .position(new LatLng(markers[i].latitude,markers[i].longitude))
 			                .title(title)
 			                .snippet(snippet)
-			                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+			                .icon(BitmapDescriptorFactory.fromResource(R.drawable.emergency)));
 					m.hideInfoWindow();
+
+
 				}
 				else
 					if(markers[i].category.equals("Orange zone!"))
@@ -362,7 +364,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 				                .position(new LatLng(markers[i].latitude,markers[i].longitude))
 				                .title(title)
 				                .snippet(snippet)
-				                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+				                .icon(BitmapDescriptorFactory.defaultMarker(R.drawable.fire)));
 						m.hideInfoWindow();
 					}
 					else
@@ -374,7 +376,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 				                .position(new LatLng(markers[i].latitude,markers[i].longitude))
 				                .title(title)
 				                .snippet(snippet)
-				                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+				                .icon(BitmapDescriptorFactory.defaultMarker(R.drawable.police)));
 						m.hideInfoWindow();
 					}
 				

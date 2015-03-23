@@ -125,8 +125,8 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 			
 			if(category!="" && description.getText().toString()!="")
 			{
-				URL = "http://nikolamilica10.site90.com/add_marker.php";
-				
+				/*URL = "http://nikolamilica10.site90.com/add_marker.php";*/
+
 				
 				argss[1] = address.getText().toString();
 				argss[2] = category;
@@ -278,14 +278,15 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	            List<NameValuePair> params = new ArrayList<NameValuePair>();
 	           
 	            params.add(new BasicNameValuePair("address", argss[1]));
-	            params.add(new BasicNameValuePair("category", argss[2]));
+	            params.add(new BasicNameValuePair("type_of_event", argss[2]));
 	            params.add(new BasicNameValuePair("description", argss[3]));
-	            params.add(new BasicNameValuePair("time", argss[4]));
-	            params.add(new BasicNameValuePair("longitude", argss[5]));
-	            params.add(new BasicNameValuePair("latitude", argss[6]));
+	            params.add(new BasicNameValuePair("event_time", argss[4]));
+	            params.add(new BasicNameValuePair("lng", argss[5]));
+	            params.add(new BasicNameValuePair("lat", argss[6]));
 	            
 	            params.add(new BasicNameValuePair("username", argss[0]));
 	            // getting JSON string from URL
+                URL = "http://nemanjastolic.co.nf/guardian/add_marker.php";
 	            JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
 
 	 
