@@ -46,6 +46,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -54,7 +55,7 @@ import android.widget.Toast;
 
 public class AddLocationActivity extends Activity implements OnClickListener {
 	
-	String category = "Red zone!";
+	String type_of_event = "F";
 	boolean alertClicked = false;
 	
 	static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -63,8 +64,8 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	final String TAG_MARKER_ID = "id";
 	final JSONParser jParser = new JSONParser();
 	String URL = "";
-	String[] argss = new String[7];
-	String img_marker_id ="";
+	String[] argss = new String[9];
+	//String img_marker_id ="";
 	
 	TextView user;
 	TextView time;
@@ -72,10 +73,12 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	TextView latitude;
 	TextView address;
 	EditText description;
-	
-	File photo;
+
+    int anonymous=0; //1 anonymous message is sent, 0 message is not sent anonymously, default state not checked
+    float accuracy_of_location;
+	/*File photo;
 	int serverResponseCode = 0;
-	ProgressDialog dialog = null;
+	ProgressDialog dialog = null;*/
 
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -107,6 +110,7 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 		Location location = getlocation();
 		latitude.setText(Double.toString(location.getLatitude()));
 		longitude.setText(Double.toString(location.getLongitude()));
+        accuracy_of_location = location.getAccuracy();
 
 		(new GetAddressTask(this)).execute(location);
 
@@ -123,19 +127,20 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 		{
 		case R.id.btn_save_location:
 			
-			if(category!="" && description.getText().toString()!="")
+			if(type_of_event!="" && description.getText().toString()!="")
 			{
-				/*URL = "http://nikolamilica10.site90.com/add_marker.php";*/
 
+                //if()
 				
 				argss[1] = address.getText().toString();
-				argss[2] = category;
+				argss[2] = type_of_event;
 				argss[3] = description.getText().toString();
 				argss[4] = time.getText().toString();
 				argss[5] = longitude.getText().toString();
 				argss[6] = latitude.getText().toString();
-				
-				new AddLocation().execute(argss);
+                argss[7] = Float.toString(accuracy_of_location);
+				argss[8] = Integer.toString(anonymous);
+                new AddLocation().execute(argss);
 			}
 			else
 				Toast.makeText(AddLocationActivity.this, "Some fields are empty!", Toast.LENGTH_LONG).show();
@@ -145,24 +150,31 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 		}
 		
 	}
-	
+	public void onCheckBoxClicked(View view)
+    {
+        boolean checked = ((CheckBox) view).isChecked();
+        if(checked)
+            anonymous=1;
+        else
+            anonymous=0;
+    }
 	public void onRadioButtonClicked(View view) {
 	    // Is the button now checked?
 	    boolean checked = ((RadioButton) view).isChecked();
 	    
 	    // Check which radio button was clicked
 	    switch(view.getId()) {
-	        case R.id.rb_redzone:
+	        case R.id.rb_fire:
 	            if (checked)
-	                category="Red zone!";
+                    type_of_event="F";
 	            break;
-	        case R.id.rb_orangezone:
+	        case R.id.rb_emergency:
 	            if (checked)
-	            	category="Orange zone!";
+                    type_of_event="E";
 	            break;
-	        case R.id.rb_yellowzone:
+	        case R.id.rb_police:
 	            if (checked)
-	            	category="Yellow zone!";
+                    type_of_event="P";
 	            break;
 	    }
 	}
@@ -283,8 +295,10 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	            params.add(new BasicNameValuePair("event_time", argss[4]));
 	            params.add(new BasicNameValuePair("lng", argss[5]));
 	            params.add(new BasicNameValuePair("lat", argss[6]));
+                params.add(new BasicNameValuePair("location_acc", argss[7]));
+                params.add(new BasicNameValuePair("anonymous", argss[8]));
 	            
-	            params.add(new BasicNameValuePair("username", argss[0]));
+	            params.add(new BasicNameValuePair("user_id", argss[0]));
 	            // getting JSON string from URL
                 URL = "http://nemanjastolic.co.nf/guardian/add_marker.php";
 	            JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
@@ -295,7 +309,7 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	                // Checking for SUCCESS TAG
 	                success = json.getInt(TAG_SUCCESS);
 	                msg = json.getString(TAG_MESSAGE);
-	                img_marker_id = json.getString(TAG_MARKER_ID);
+	                //img_marker_id = json.getString(TAG_MARKER_ID);
 	 
 	            }
 	            catch (JSONException e)

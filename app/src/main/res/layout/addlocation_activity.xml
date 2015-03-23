@@ -76,22 +76,22 @@
             android:layout_weight="2"
             android:layout_height="wrap_content">
             
-            <RadioButton android:id="@+id/rb_redzone"
-                android:text="@string/red"
+            <RadioButton android:id="@+id/rb_fire"
+                android:text="Fire"
                 android:textSize="20sp"
         		android:textColor="@color/white"
         		android:checked="true"
         		android:onClick="onRadioButtonClicked"
                   />
             
-            <RadioButton android:id="@+id/rb_orangezone"
-                android:text="@string/orange"
+            <RadioButton android:id="@+id/rb_emergency"
+                android:text="Emergency"
                 android:textSize="20sp"
         		android:textColor="@color/white"
         		android:onClick="onRadioButtonClicked"/>
             
-            <RadioButton android:id="@+id/rb_yellowzone"
-                android:text="@string/yellow"
+            <RadioButton android:id="@+id/rb_police"
+                android:text="Police"
                 android:textSize="20sp"
         		android:textColor="@color/white"
         		android:onClick="onRadioButtonClicked"/>
@@ -114,56 +114,14 @@
         android:background="@color/white"
         android:textColor="@color/black" />
 
-    <LinearLayout
-            android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:baselineAligned="false"
-       		android:orientation="horizontal"
-       		android:layout_marginTop="10dp"
-        	android:layout_gravity="center">
 
-        <LinearLayout
-            android:layout_width="0dp"
-        	android:layout_height="wrap_content"
-       		android:orientation="vertical"
-       		android:layout_marginTop="10dp"
-        	android:layout_weight="2">
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/anonymous"
+        android:onClick="onCheckboxClicked"/>
 
-		        <TextView android:id="@+id/label_picture"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/picture"
-		        android:textSize="20sp"
-		        android:textColor="@color/white"
-		        />
 
-		        <Button
-		            android:id="@+id/btn_take_picture"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_marginTop="10dp"
-		            android:padding="10dp"
-		            android:background="@color/white"
-		            android:text="@string/take_picture" />
-
-		  </LinearLayout>
-        
-        <LinearLayout
-            android:layout_width="0dp"
-        	android:layout_height="match_parent"
-       		android:orientation="vertical"
-       		android:layout_marginTop="10dp"
-        	android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/img_location"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-
-        </LinearLayout>
-        
-        </LinearLayout>
         
         <Button
             android:id="@+id/btn_save_location"

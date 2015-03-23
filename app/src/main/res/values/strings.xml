@@ -7,6 +7,7 @@
     <string name="home_alert_btn_desc">Report event</string>
     <string name="home_map_btn_desc">Browse map</string>
 
+    <string name="anonymous">Anonymous message</string>
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="signin">Sign in</string>
