@@ -103,22 +103,10 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
-        mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.select_dialog_item,BOUNDS_GREATER, null);
-        /*String[] arr = { "MS SQL SERVER", "MySQL", "Oracle" };
-        ArrayAdapter adapter = new ArrayAdapter
-                (this,android.R.layout.select_dialog_item, arr);
-        mAutocompleteView.setAdapter(adapter);*/
-        mAutocompleteView.setAdapter(mAdapter);
 
 
-       /* mAutocompleteView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mAutocompleteView.showDropDown();
-                mAutocompleteView.requestFocus();
-                return false;
-            }
-        });*/
+
+
 
 		Button btnSave = (Button) findViewById(R.id.btn_save_location);
 
@@ -135,6 +123,10 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
         BOUNDS_GREATER = new LatLngBounds(new LatLng(location.getLatitude()-0.5, location.getLongitude()-0.5),
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
+
+        mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,BOUNDS_GREATER, null);
+
+        mAutocompleteView.setAdapter(mAdapter);
 
 		(new GetAddressTask(this)).execute(location);
 
@@ -181,7 +173,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
             final Place place = places.get(0);
 
             // Format details of the place for display and show it in a TextView.
-            address.setText(place.getAddress());
+            mAutocompleteView.setText(place.getAddress());
             picked_location_coordinates = place.getLatLng();
 
         }
@@ -308,6 +300,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                 {
                     pick_location = false;
                     mAutocompleteView.setEnabled(false);
+
                 }
             }
 

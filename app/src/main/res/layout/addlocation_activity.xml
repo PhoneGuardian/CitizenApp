@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/autocomplete_hint"
             android:id="@+id/autocomplete_places"
-            android:textColor="@android:color/primary_text_light"
+            android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
             android:enabled="false"/>
     
