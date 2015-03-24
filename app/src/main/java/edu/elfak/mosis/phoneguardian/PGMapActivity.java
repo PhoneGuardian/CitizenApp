@@ -339,14 +339,15 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 				
 				if(markers[i].type_of_event.equals("F"))
 				{
-					circleOptions.fillColor(Color.argb(128, 255, 0, 0));
+					//circleOptions.fillColor(Color.argb(128, 255, 0, 0));
 					
 					com.google.android.gms.maps.model.Marker m = mapa
 			        .addMarker(new MarkerOptions()
 			                .position(new LatLng(markers[i].lat,markers[i].lng))
 			                .title(title)
 			                .snippet(snippet)
-			                .icon(BitmapDescriptorFactory.fromResource(R.drawable.fire)));
+                            .icon(BitmapDescriptorFactory.defaultMarker(0)));
+                            //.icon(BitmapDescriptorFactory.fromResource(R.drawable.fire)));
 					m.hideInfoWindow();
 
 
@@ -354,30 +355,32 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 				else
 					if(markers[i].type_of_event.equals("E"))
 					{
-						circleOptions.fillColor(Color.argb(128, 255, 165, 0));
+						//circleOptions.fillColor(Color.argb(128, 255, 165, 0));
 						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
 				                .position(new LatLng(markers[i].lat,markers[i].lng))
 				                .title(title)
 				                .snippet(snippet)
-				                .icon(BitmapDescriptorFactory.defaultMarker(R.drawable.emergency)));
+                                .icon(BitmapDescriptorFactory.defaultMarker(60)));
+				                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.emergency)));
 						m.hideInfoWindow();
 					}
 					else
 					{
-						circleOptions.fillColor(Color.argb(128, 255, 255, 0));
+						//circleOptions.fillColor(Color.argb(128, 255, 255, 0));
 						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
 				                .position(new LatLng(markers[i].lat,markers[i].lng))
 				                .title(title)
 				                .snippet(snippet)
-				                .icon(BitmapDescriptorFactory.defaultMarker(R.drawable.police)));
+                                .icon(BitmapDescriptorFactory.defaultMarker(240)));
+				                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.police)));
 						m.hideInfoWindow();
 					}
 				
-				mapa.addCircle(circleOptions);
+				//mapa.addCircle(circleOptions);
 			}
 		}
 		 // In meters
