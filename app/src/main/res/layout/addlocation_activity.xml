@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="24.5sp"
-            android:text="@string/add_loication"
+            android:text="@string/add_location"
             android:textColor="@color/white"
         />
         

@@ -46,6 +46,7 @@
             />
 
         <TextView
+            android:paddingTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/phone_num"
@@ -53,18 +54,31 @@
             android:textColor="@color/white"
             android:fontFamily="sans-serif-thin"
             />
-
-        <EditText
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-thin"
-            android:id="@+id/et_register_phone_num"
-            android:inputType="phone"
-            />
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-thin"
+                android:id="@+id/tv_register_mcc"
+                />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-thin"
+                android:id="@+id/et_register_phone_num"
+                android:inputType="phone"
+                />
 
+        </LinearLayout>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

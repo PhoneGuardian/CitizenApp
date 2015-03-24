@@ -35,6 +35,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.j;
@@ -69,8 +70,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
         Button btnFinish = (Button) findViewById(R.id.btn_finished);
         btnFinish.setOnClickListener(this);
         
-        EditText etPhone = (EditText) findViewById(R.id.et_register_phone_num);
-		etPhone.setText(this.GetCountryZipCode());
+        TextView tvPhoneCountryCode = (TextView) findViewById(R.id.tv_register_mcc);
+        tvPhoneCountryCode.setText(Cognalys.getCountryCode(this));
 
         context = this;
         if(credentialsAlreadySaved()){
