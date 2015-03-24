@@ -28,6 +28,7 @@
 	<string name="profile_underlined"><u><i>Profile</i></u></string>
 	<string name="picture">Picture:</string>
 	<string name="add_loication">Add location</string>
+    <string name="autocomplete_hint">Enter place name or address</string>
 	
 	<string name="red">Red</string>
 	<string name="orange">Orange</string>

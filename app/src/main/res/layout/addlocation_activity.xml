@@ -21,19 +21,14 @@
             android:textColor="@color/white"
         />
         
-    <TextView android:id="@+id/label_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        />
+
     <TextView android:id="@+id/label_addingtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@color/white"
+        android:text="DATE:"
         />
     <TextView android:id="@+id/label_long"
         android:layout_width="wrap_content"
@@ -41,6 +36,7 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@color/white"
+        android:text="LNG:"
         />
     <TextView android:id="@+id/label_lat"
         android:layout_width="wrap_content"
@@ -48,6 +44,7 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@color/white"
+        android:text="LAT:"
         />
     <TextView android:id="@+id/label_address"
         android:layout_width="wrap_content"
@@ -55,7 +52,25 @@
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textColor="@color/white"
+        android:text="Address:"
+
         />
+
+        <CheckBox
+            android:id="@+id/cb_pick_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use different location"
+            android:onClick="onCheckboxClicked"/>
+
+     <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/autocomplete_hint"
+            android:id="@+id/autocomplete_places"
+            android:textColor="@android:color/primary_text_light"
+            android:layout_gravity="center_horizontal"
+            android:enabled="false"/>
     
     <LinearLayout 
         android:layout_width="fill_parent"
@@ -122,6 +137,7 @@
 
 
     <CheckBox
+        android:id="@+id/cb_anonymous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/anonymous"

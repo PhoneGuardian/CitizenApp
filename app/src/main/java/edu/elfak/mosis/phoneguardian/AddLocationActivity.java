@@ -1,21 +1,11 @@
 package edu.elfak.mosis.phoneguardian;
 
-
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-
 import java.io.IOException;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -23,67 +13,74 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.RingtoneManager;
-import android.net.Uri;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.MediaStore.MediaColumns;
+
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
+
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddLocationActivity extends Activity implements OnClickListener {
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+
+public class AddLocationActivity extends FragmentActivity implements OnClickListener
+        ,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks
+{
 	
 	String type_of_event = "F";
-	boolean alertClicked = false;
-	
-	static final int REQUEST_IMAGE_CAPTURE = 1;
+
 	final String TAG_SUCCESS = "success";
 	final String TAG_MESSAGE = "message";
-	final String TAG_MARKER_ID = "id";
+
 	final JSONParser jParser = new JSONParser();
 	String URL = "";
 	String[] argss = new String[9];
-	//String img_marker_id ="";
-	
-	TextView user;
+
 	TextView time;
 	TextView longitude;
 	TextView latitude;
 	TextView address;
 	EditText description;
+    AutoCompleteTextView mAutocompleteView;
+
+    protected GoogleApiClient mGoogleApiClient;
+
+    private PlaceAutocompleteAdapter mAdapter;
+
+    LatLngBounds BOUNDS_GREATER;
+
+    LatLng picked_location_coordinates;
 
     int anonymous=0; //1 anonymous message is sent, 0 message is not sent anonymously, default state not checked
+    boolean pick_location=false;
     float accuracy_of_location;
-	/*File photo;
-	int serverResponseCode = 0;
-	ProgressDialog dialog = null;*/
-
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-
-
 	Calendar cal = Calendar.getInstance();
 
 	@Override
@@ -92,12 +89,36 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addlocation_activity);
 
-		user = (TextView) findViewById(R.id.label_username);
+        if (mGoogleApiClient == null) {
+            rebuildGoogleApiClient();
+        }
+
 		time = (TextView) findViewById(R.id.label_addingtime);
 		longitude = (TextView) findViewById(R.id.label_long);
 		latitude = (TextView) findViewById(R.id.label_lat);
-		address = (TextView) findViewById(R.id.label_address);
+		address = (TextView) findViewById(R.id.label_address); // here will be the  current address
 		description = (EditText) findViewById(R.id.edit_text_descr);
+        mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places); // here will be selected address if exists,
+        // if we decide to pick location, not use current location
+
+        mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+
+        mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.select_dialog_item,BOUNDS_GREATER, null);
+        /*String[] arr = { "MS SQL SERVER", "MySQL", "Oracle" };
+        ArrayAdapter adapter = new ArrayAdapter
+                (this,android.R.layout.select_dialog_item, arr);
+        mAutocompleteView.setAdapter(adapter);*/
+        mAutocompleteView.setAdapter(mAdapter);
+
+
+       /* mAutocompleteView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mAutocompleteView.showDropDown();
+                mAutocompleteView.requestFocus();
+                return false;
+            }
+        });*/
 
 		Button btnSave = (Button) findViewById(R.id.btn_save_location);
 
@@ -112,14 +133,117 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 		longitude.setText(Double.toString(location.getLongitude()));
         accuracy_of_location = location.getAccuracy();
 
+        BOUNDS_GREATER = new LatLngBounds(new LatLng(location.getLatitude()-0.5, location.getLongitude()-0.5),
+                new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
+
 		(new GetAddressTask(this)).execute(location);
 
-		user.setText(getIntent().getStringExtra("USERNAME"));
 
 	}
 
-	
-	@Override
+    private AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             Retrieve the place ID of the selected item from the Adapter.
+             The adapter stores each Place suggestion in a PlaceAutocomplete object from which we
+             read the place ID.
+              */
+            final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
+            final String placeId = String.valueOf(item.placeId);
+
+
+            /*
+             Issue a request to the Places Geo Data API to retrieve a Place object with additional
+              details about the place.
+              */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(mGoogleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
+                    Toast.LENGTH_SHORT).show();
+
+        }
+    };
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                // Request did not complete successfully
+
+
+                return;
+            }
+            // Get the Place object from the buffer.
+            final Place place = places.get(0);
+
+            // Format details of the place for display and show it in a TextView.
+            address.setText(place.getAddress());
+            picked_location_coordinates = place.getLatLng();
+
+        }
+    };
+
+
+
+
+    /**
+     * Construct a GoogleApiClient for the {@link Places#GEO_DATA_API} using AutoManage
+     * functionality.
+     * This automatically sets up the API client to handle Activity lifecycle events.
+     */
+    protected synchronized void rebuildGoogleApiClient() {
+        // When we build the GoogleApiClient we specify where connected and connection failed
+        // callbacks should be returned, which Google APIs our app uses and which OAuth 2.0
+        // scopes our app requests.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addConnectionCallbacks(this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+    }
+
+    /**
+     * Called when the Activity could not connect to Google Play services and the auto manager
+     * could resolve the error automatically.
+     * In this case the API is not available and notify the user.
+     *
+     * @param connectionResult can be inspected to determine the cause of the failure
+     */
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+
+        // TODO(Developer): Check error code and notify the user of error state and resolution.
+        Toast.makeText(this,
+                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+                Toast.LENGTH_SHORT).show();
+
+        // Disable API access in the adapter because the client was not initialised correctly.
+        mAdapter.setGoogleApiClient(null);
+
+    }
+
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        // Successfully connected to the API client. Pass it to the adapter to enable API access.
+        mAdapter.setGoogleApiClient(mGoogleApiClient);
+
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        // Connection to the API client has been suspended. Disable API access in the client.
+        mAdapter.setGoogleApiClient(null);
+
+    }
+
+    @Override
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
@@ -131,12 +255,22 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 			{
 
                 argss[0] = User.getInstance().getPhone();
-				argss[1] = address.getText().toString();
 				argss[2] = type_of_event;
 				argss[3] = description.getText().toString();
 				argss[4] = time.getText().toString();
-				argss[5] = longitude.getText().toString();
-				argss[6] = latitude.getText().toString();
+
+                if(pick_location)
+                {
+                    argss[1] = mAutocompleteView.getText().toString();
+                    argss[5]= Double.toString(picked_location_coordinates.longitude);
+                    argss[6] = Double.toString(picked_location_coordinates.latitude);
+                }
+                else
+                {
+                    argss[1] = address.getText().toString();
+                    argss[5] = longitude.getText().toString();
+                    argss[6] = latitude.getText().toString();
+                }
                 argss[7] = Float.toString(accuracy_of_location);
 				argss[8] = Integer.toString(anonymous);
                 new AddLocation().execute(argss);
@@ -151,12 +285,37 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	}
 	public void onCheckboxClicked(View view)
     {
-        boolean checked = ((CheckBox) view).isChecked();
-        if(checked)
-            anonymous=1;
-        else
-            anonymous=0;
+        boolean checked;
+        switch (view.getId())
+        {
+            case R.id.cb_anonymous:
+            {
+                checked = ((CheckBox) view).isChecked();
+                if (checked)
+                    anonymous = 1;
+                else
+                    anonymous = 0;
+            }
+            break;
+            case R.id.cb_pick_location:
+            {
+                checked = ((CheckBox) view).isChecked();
+                if(checked) {
+                    pick_location = true;
+                    mAutocompleteView.setEnabled(true);
+                }
+                else
+                {
+                    pick_location = false;
+                    mAutocompleteView.setEnabled(false);
+                }
+            }
+
+
+        }
     }
+
+
 	public void onRadioButtonClicked(View view) {
 	    // Is the button now checked?
 	    boolean checked = ((RadioButton) view).isChecked();
@@ -191,8 +350,10 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	   
 	    return l;
 	}
-	
-		private class GetAddressTask extends AsyncTask<Location, Void, String>
+
+
+
+    private class GetAddressTask extends AsyncTask<Location, Void, String>
 		{
 			Context mContext;
 	        public GetAddressTask(Context context) {
@@ -308,7 +469,6 @@ public class AddLocationActivity extends Activity implements OnClickListener {
 	                // Checking for SUCCESS TAG
 	                success = json.getInt(TAG_SUCCESS);
 	                msg = json.getString(TAG_MESSAGE);
-	                //img_marker_id = json.getString(TAG_MARKER_ID);
 	 
 	            }
 	            catch (JSONException e)
