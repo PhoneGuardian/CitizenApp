@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:state_pressed="true" android:textColor="@color/white" android:drawable="@drawable/border_white_oval_overlay" />
+        <item android:state_active="false" android:textColor="@color/red" android:drawable="@drawable/border_white_oval_transparent" />
+        <item android:textColor="@color/white" android:drawable="@drawable/border_white_oval_transparent" />
+    </selector>

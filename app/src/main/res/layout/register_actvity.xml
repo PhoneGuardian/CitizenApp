@@ -84,21 +84,38 @@
                 android:id="@+id/et_register_phone_num"
                 android:inputType="phone"
                 />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:weightSum="1"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"/>
+            <Button
+                style="@style/btn_oval"
+                android:text="@string/sign_up"
+                android:id="@+id/btn_signup"
+                android:layout_weight="0"
+            />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:paddingLeft="-20dp"
+                android:paddingRight="20dp"
+                android:visibility="invisible"
+                android:id="@+id/spinner_signup"
+                android:layout_weight=".5"
+                />
 
         </LinearLayout>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/btn_finished"
-            android:text="@string/finish"
-            android:layout_marginTop="10sp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:fontFamily="sans-serif-light"
-            android:textSize="18sp"
-            android:background="@drawable/border_white_oval"
-            />
     </LinearLayout>
 
 
