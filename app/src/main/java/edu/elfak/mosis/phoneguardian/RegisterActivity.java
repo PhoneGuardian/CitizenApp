@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.matesnetwork.callverification.Cognalys;
 import com.matesnetwork.interfaces.VerificationListner;
 
@@ -53,7 +54,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_actvity);
-        
+
         Button btnFinish = (Button) findViewById(R.id.btn_signup);
         btnFinish.setOnClickListener(this);
         
@@ -129,6 +130,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                             @Override
                             public void onVerificationSuccess() {
                                 enableSignUp();
+                                checkAndSaveUser(userNm, phone);
                             }
 
                             @Override
