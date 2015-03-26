@@ -11,4 +11,7 @@
     <style name="AppTheme"  parent="@android:style/Theme.Holo">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    <style name="AppThemeNoActionBar"  parent="@android:style/Theme.Holo.NoActionBar">
+    <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+</style>
 </resources>

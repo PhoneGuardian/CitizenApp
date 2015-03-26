@@ -53,7 +53,9 @@
         <activity
             android:name="edu.elfak.mosis.phoneguardian.RegisterActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/AppThemeNoActionBar">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

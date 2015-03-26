@@ -17,16 +17,9 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="btn_oval">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/btn_selector_oval_transparent</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">10dp</item>
-        <item name="android:minHeight">40dip</item>
+    <style name="AppThemeNoActionBar" parent="AppBaseTheme">
+    <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
 
 </resources>

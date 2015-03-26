@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
     android:fillViewport="true"
     tools:context=".RegisterActivity"
     >
@@ -13,26 +12,27 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_above="@id/signup_form"
+        android:text="@string/app_name"
+        style="@style/heading"
+        />
+    
     <LinearLayout
+        android:id="@+id/signup_form"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:padding="30dp"
-        android:layout_margin="30dp"
-        android:layout_gravity="center"
+        android:padding="@dimen/spacing_huge"
+        android:layout_margin="@dimen/spacing_huge"
         android:background="@drawable/bg_white_oval_overlay"
         >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="30sp"
-            android:textSize="24.5sp"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:fontFamily="sans-serif-bold"
-            />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,11 +96,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"/>
+
             <Button
-                style="@style/btn_oval"
-                android:text="@string/sign_up"
                 android:id="@+id/btn_signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:text="@string/sign_up"
+                style="@style/button_rounded"
             />
 
             <ProgressBar
