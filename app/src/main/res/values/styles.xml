@@ -1,25 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <style name="button_rounded">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingLeft">@dimen/spacing_small</item>
+        <item name="android:paddingRight">@dimen/spacing_small</item>
+        <item name="android:height">@dimen/button_height_normal</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:background">@drawable/btn_selector_oval_transparent</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="app_name_header">
+        <item name="android:fontFamily">sans-serif-bold</item>
+        <item name="android:textSize">@dimen/font_huge</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingBottom">@dimen/spacing_huge</item>
     </style>
-
-    <style name="AppThemeNoActionBar" parent="AppBaseTheme">
-    <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
-
 
 </resources>

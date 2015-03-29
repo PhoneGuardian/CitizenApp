@@ -1,35 +1,25 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         tools:context=".RegisterActivity"
         >
         <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:src="@drawable/bg_main"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription"
             />
-        <TextView
-            android:id="@+id/signup_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/app_name"
-            style="@style/heading"
-            />
-
         <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/signup_header"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             >
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:minWidth="270dp"
                 android:padding="@dimen/spacing_large"
                 android:orientation="vertical"
@@ -37,28 +27,25 @@
                 >
 
                 <TextView
+                    android:id="@+id/signup_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/username"
-                    style="@style/signup_form_base"
+                    android:layout_gravity="center"
+                    android:text="@string/app_name"
+                    style="@style/app_name_header"
                     />
 
                 <EditText
                     android:id="@+id/et_login_username"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_large"
-                    style="@style/signup_form_base"
+                    android:hint="@string/username"
+                    style="@style/signup_form_hint"
                     />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/phone_num"
-                    style="@style/signup_form_base"
-                    />
                 <RelativeLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_large"
                     >
@@ -73,16 +60,17 @@
 
                     <EditText
                         android:id="@id/et_register_phone_num"
-                        android:inputType="phone"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/tv_register_mcc"
-                        style="@style/signup_form_base"
+                        android:hint="@string/phone_num"
+                        android:inputType="phone"
+                        style="@style/signup_form_hint"
                         />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     >
 
