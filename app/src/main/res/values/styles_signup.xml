@@ -24,5 +24,12 @@
         <item name="android:textSize">@dimen/font_large</item>
         <item name="android:textColor">@color/white</item>
     </style>
+    <style name="signup_form_hint">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColorHint">@color/gray_light</item>
+
+        <item name="android:textStyle">italic</item>
+    </style>
 
 </resources>

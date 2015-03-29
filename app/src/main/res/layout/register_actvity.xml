@@ -34,27 +34,17 @@
                     style="@style/heading"
                     />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/username"
-                    style="@style/signup_form_base"
-                    />
+
 
                 <EditText
                     android:id="@+id/et_login_username"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_large"
-                    style="@style/signup_form_base"
+                    android:hint="@string/username"
+                    style="@style/signup_form_hint"
                     />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/phone_num"
-                    style="@style/signup_form_base"
-                    />
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -71,11 +61,12 @@
 
                     <EditText
                         android:id="@id/et_register_phone_num"
-                        android:inputType="phone"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/tv_register_mcc"
-                        style="@style/signup_form_base"
+                        android:hint="@string/phone_num"
+                        android:inputType="phone"
+                        style="@style/signup_form_hint"
                         />
                 </RelativeLayout>
 
