@@ -37,6 +37,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.lang.Math;
+
 public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener, OnItemSelectedListener 
 {
 	
@@ -47,7 +49,9 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	int finishedTask = 0;
 	Spinner s;
 
-	
+    double d=1; // radius around our location where we want to find events, in km
+	double lat;
+    double lng;
 	int flag_red = 1;
 	int flag_orange = 1;
 	int flag_yellow = 1;
@@ -89,24 +93,24 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		setContentView(R.layout.pgmap_activity);
 		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				  this, R.array.spinner, android.R.layout.simple_spinner_item );
+				  this, R.array.radius_array, android.R.layout.simple_spinner_item );
 				adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 		
 		s = (Spinner) findViewById( R.id.radius_near_me );
 		s.setAdapter( adapter );
 				
-		GoogleMap googleMap;
-	    googleMap = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
-		googleMap.setOnMarkerClickListener(this);
+		//GoogleMap googleMap;
+	    mapa = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
+		mapa.setOnMarkerClickListener(this);
 			
 		finishedTask=0;
 		markers_in_radius = new ArrayList<Marker>();
 		s.setOnItemSelectedListener(this);
-		
 
+        GetCurrentLocation();
 		new GetMarkersByCategory().execute();
 		
-		service_intent = new Intent(this,NotificationService.class);
+		//service_intent = new Intent(this,NotificationService.class);
 		
 
 	}
@@ -145,14 +149,13 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	{
 		filterOnOff = ((ToggleButton) v).isChecked();
 		Spinner s = (Spinner) findViewById(R.id.radius_near_me);
+
 		
 		if(filterOnOff)
 		{
-			
-			
-			
+
 			s.setVisibility(View.VISIBLE);
-			
+            d = Double.parseDouble(s.getSelectedItem().toString());
 			new GetMarkersByCategory().execute();
 			
 		}
@@ -404,13 +407,30 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			// TODO Auto-generated method stub
 			
 			refres = 0;
+
+            double R = 6371; //in km
+            double r= d/R; //d has to be in km
+
+            double lat_min = lat - r;
+            double lat_max = lat + r;
+
+            double delta_lot = Math.asin(Math.sin(r)/Math.cos(r));
+            double lng_min = lng - delta_lot;
+            double lng_max = lng + delta_lot;
+
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
 			params.add(new BasicNameValuePair("category_red", Integer.toString(flag_red)));
 	        params.add(new BasicNameValuePair("category_orange", Integer.toString(flag_orange)));
 	        params.add(new BasicNameValuePair("category_yellow", Integer.toString(flag_yellow)));
+
+
+            params.add(new BasicNameValuePair("lng_min",Double.toString(lng_min)));
+            params.add(new BasicNameValuePair("lng_max",Double.toString(lng_max)));
+            params.add(new BasicNameValuePair("lat_min",Double.toString(lat_min)));
+            params.add(new BasicNameValuePair("lat_max",Double.toString(lat_max)));
 			
-        	JSONObject json = jParser.makeHttpRequest(URL, "POST", params);
+        	JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
  
             try {
                 // Checking for SUCCESS TAG
@@ -477,7 +497,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
             }
             
             DrawMarkers();
-    		GetCurrentLocation();
+
            
         }
 	}
@@ -488,8 +508,8 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	{
 
 	    double[] d = getlocation();
-	    double lat = d[0];
-	    double lng = d[1];
+	    lat = d[0];
+	    lng = d[1];
 
 	    mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng), 15));
 	    mapa.setMyLocationEnabled(true);
