@@ -47,7 +47,8 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	int finishedTask = 0;
 	Spinner s;
 
-	
+	double lat;
+    double lng;
 	int flag_red = 1;
 	int flag_orange = 1;
 	int flag_yellow = 1;
@@ -95,15 +96,15 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		s = (Spinner) findViewById( R.id.radius_near_me );
 		s.setAdapter( adapter );
 				
-		GoogleMap googleMap;
-	    googleMap = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
-		googleMap.setOnMarkerClickListener(this);
+		//GoogleMap googleMap;
+	    mapa = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
+		mapa.setOnMarkerClickListener(this);
 			
 		finishedTask=0;
 		markers_in_radius = new ArrayList<Marker>();
 		s.setOnItemSelectedListener(this);
-		
 
+        GetCurrentLocation();
 		new GetMarkersByCategory().execute();
 		
 		service_intent = new Intent(this,NotificationService.class);
@@ -409,8 +410,12 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			params.add(new BasicNameValuePair("category_red", Integer.toString(flag_red)));
 	        params.add(new BasicNameValuePair("category_orange", Integer.toString(flag_orange)));
 	        params.add(new BasicNameValuePair("category_yellow", Integer.toString(flag_yellow)));
+
+
+            params.add(new BasicNameValuePair("lng",Double.toString(lng)));
+            params.add(new BasicNameValuePair("lat",Double.toString(lat)));
 			
-        	JSONObject json = jParser.makeHttpRequest(URL, "POST", params);
+        	JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
  
             try {
                 // Checking for SUCCESS TAG
@@ -477,7 +482,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
             }
             
             DrawMarkers();
-    		GetCurrentLocation();
+
            
         }
 	}
@@ -488,8 +493,8 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	{
 
 	    double[] d = getlocation();
-	    double lat = d[0];
-	    double lng = d[1];
+	    lat = d[0];
+	    lng = d[1];
 
 	    mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng), 15));
 	    mapa.setMyLocationEnabled(true);
