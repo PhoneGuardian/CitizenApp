@@ -1,19 +1,19 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         tools:context=".RegisterActivity"
         >
         <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:src="@drawable/bg_main"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription"
             />
         <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             >
 
             <LinearLayout
@@ -25,20 +25,19 @@
                 android:orientation="vertical"
                 android:background="@drawable/bg_white_oval_overlay"
                 >
+
                 <TextView
                     android:id="@+id/signup_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/app_name"
-                    style="@style/heading"
+                    style="@style/app_name_header"
                     />
-
-
 
                 <EditText
                     android:id="@+id/et_login_username"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_large"
                     android:hint="@string/username"
@@ -46,7 +45,7 @@
                     />
 
                 <RelativeLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_large"
                     >
@@ -61,7 +60,7 @@
 
                     <EditText
                         android:id="@id/et_register_phone_num"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/tv_register_mcc"
                         android:hint="@string/phone_num"
@@ -71,7 +70,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     >
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="home_text_base">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/font_huge</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>
