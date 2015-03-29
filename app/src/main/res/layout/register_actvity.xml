@@ -1,125 +1,110 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fillViewport="true"
-    tools:context=".RegisterActivity"
-    >
-    <ImageView
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:src="@drawable/bg_main"
-        android:scaleType="centerCrop"
-        tools:ignore="ContentDescription"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_above="@id/signup_form"
-        android:text="@string/app_name"
-        style="@style/heading"
-        />
-    
-    <LinearLayout
-        android:id="@+id/signup_form"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_huge"
-        android:layout_margin="@dimen/spacing_huge"
-        android:background="@drawable/bg_white_oval_overlay"
+        android:fillViewport="true"
+        tools:context=".RegisterActivity"
         >
-
-
-
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@drawable/bg_main"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription"
+            />
         <TextView
+            android:id="@+id/signup_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/username"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:fontFamily="sans-serif-light"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_name"
+            style="@style/heading"
             />
 
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-light"
-            android:id="@+id/et_login_username"
-            />
-
-        <TextView
-            android:paddingTop="20dp"
+        <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/phone_num"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:fontFamily="sans-serif-light"
-            />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:fontFamily="sans-serif"
-                android:id="@+id/tv_register_mcc"
-                />
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
-                android:id="@+id/et_register_phone_num"
-                android:inputType="phone"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:weightSum="1"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/signup_header"
+            android:layout_centerInParent="true"
             >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"/>
-
-            <Button
-                android:id="@+id/btn_signup"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:text="@string/sign_up"
-                style="@style/button_rounded"
-            />
+                android:layout_centerHorizontal="true"
+                android:minWidth="270dp"
+                android:padding="@dimen/spacing_large"
+                android:orientation="vertical"
+                android:background="@drawable/bg_white_oval_overlay"
+                >
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:paddingLeft="-20dp"
-                android:paddingRight="20dp"
-                android:visibility="invisible"
-                android:id="@+id/spinner_signup"
-                android:layout_weight=".5"
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    style="@style/signup_form_base"
+                    />
 
-        </LinearLayout>
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/et_login_username"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_large"
+                    style="@style/signup_form_base"
+                    />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/phone_num"
+                    style="@style/signup_form_base"
+                    />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_large"
+                    >
 
-</RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_register_mcc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/et_register_phone_num"
+                        style="@style/signup_form_base"
+                        />
+
+                    <EditText
+                        android:id="@id/et_register_phone_num"
+                        android:inputType="phone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/tv_register_mcc"
+                        style="@style/signup_form_base"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <Button
+                        android:id="@+id/btn_signup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/sign_up"
+                        style="@style/button_rounded"
+                        />
+
+                    <ProgressBar
+                        android:id="@+id/spinner_signup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/btn_signup"
+                        android:layout_marginLeft="@dimen/spacing_normal"
+                        android:layout_centerVertical="true"
+                        android:visibility="invisible"
+                        style="?android:attr/progressBarStyleSmall"/>
+                </RelativeLayout>
+            </LinearLayout>
+    </ScrollView>
+    </RelativeLayout>
