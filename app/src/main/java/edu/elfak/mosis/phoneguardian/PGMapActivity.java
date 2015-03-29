@@ -37,6 +37,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.lang.Math;
+
 public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener, OnItemSelectedListener 
 {
 	
@@ -47,6 +49,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	int finishedTask = 0;
 	Spinner s;
 
+    double d=1; // radius around our location where we want to find events, in km
 	double lat;
     double lng;
 	int flag_red = 1;
@@ -90,7 +93,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		setContentView(R.layout.pgmap_activity);
 		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				  this, R.array.spinner, android.R.layout.simple_spinner_item );
+				  this, R.array.radius_array, android.R.layout.simple_spinner_item );
 				adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 		
 		s = (Spinner) findViewById( R.id.radius_near_me );
@@ -107,7 +110,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
         GetCurrentLocation();
 		new GetMarkersByCategory().execute();
 		
-		service_intent = new Intent(this,NotificationService.class);
+		//service_intent = new Intent(this,NotificationService.class);
 		
 
 	}
@@ -146,14 +149,13 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	{
 		filterOnOff = ((ToggleButton) v).isChecked();
 		Spinner s = (Spinner) findViewById(R.id.radius_near_me);
+
 		
 		if(filterOnOff)
 		{
-			
-			
-			
+
 			s.setVisibility(View.VISIBLE);
-			
+            d = Double.parseDouble(s.getSelectedItem().toString());
 			new GetMarkersByCategory().execute();
 			
 		}
@@ -405,6 +407,17 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			// TODO Auto-generated method stub
 			
 			refres = 0;
+
+            double R = 6371; //in km
+            double r= d/R; //d has to be in km
+
+            double lat_min = lat - r;
+            double lat_max = lat + r;
+
+            double delta_lot = Math.asin(Math.sin(r)/Math.cos(r));
+            double lng_min = lng - delta_lot;
+            double lng_max = lng + delta_lot;
+
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
 			params.add(new BasicNameValuePair("category_red", Integer.toString(flag_red)));
@@ -412,8 +425,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	        params.add(new BasicNameValuePair("category_yellow", Integer.toString(flag_yellow)));
 
 
-            params.add(new BasicNameValuePair("lng",Double.toString(lng)));
-            params.add(new BasicNameValuePair("lat",Double.toString(lat)));
+            params.add(new BasicNameValuePair("lng_min",Double.toString(lng_min)));
+            params.add(new BasicNameValuePair("lng_max",Double.toString(lng_max)));
+            params.add(new BasicNameValuePair("lat_min",Double.toString(lat_min)));
+            params.add(new BasicNameValuePair("lat_max",Double.toString(lat_max)));
 			
         	JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
  
