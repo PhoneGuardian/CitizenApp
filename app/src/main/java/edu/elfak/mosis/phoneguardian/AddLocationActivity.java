@@ -124,7 +124,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
         BOUNDS_GREATER = new LatLngBounds(new LatLng(location.getLatitude()-0.5, location.getLongitude()-0.5),
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
 
-        mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,BOUNDS_GREATER, null);
+        mAdapter = new PlaceAutocompleteAdapter(this, R.layout.custom_item,BOUNDS_GREATER, null);
 
         mAutocompleteView.setAdapter(mAdapter);
 
