@@ -12,19 +12,18 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription"
         />
-    <TextView
-        android:id="@+id/home_screen_header"
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
+        android:layout_above="@+id/btn_report_event"
         android:layout_alignParentTop="true"
-        android:text="@string/app_name"
-        style="@style/app_name_header"
+        android:src="@drawable/title_header"
         />
 
     <Button
-        android:id="@+id/btn_report_event"
+        android:id="@id/btn_report_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_large"
@@ -32,10 +31,10 @@
         android:text="@string/report_event"
         android:drawableLeft="@drawable/alert_icon"
         style="@style/home_button_rounded_overlay_tall"
-
         />
 
     <Button
+        android:id="@+id/btn_browse_map"
         android:layout_below="@id/btn_report_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,9 +42,7 @@
         android:text="@string/browse_map"
         android:drawableLeft="@drawable/map_icon"
         style="@style/home_button_rounded_overlay_tall"
-
         />
-
 
 
 </RelativeLayout>

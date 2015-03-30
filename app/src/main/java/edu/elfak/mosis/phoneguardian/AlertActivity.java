@@ -16,10 +16,10 @@ public class AlertActivity extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.alert_activity);
 		
-		ImageButton map = (ImageButton) findViewById(R.id.btn_map);
+		Button map = (Button) findViewById(R.id.btn_browse_map);
 		map.setOnClickListener(this);
 		
-		ImageButton btnAlert = (ImageButton) findViewById(R.id.btn_alert);
+		Button btnAlert = (Button) findViewById(R.id.btn_report_event);
 		btnAlert.setOnClickListener(this);
 		
 		
@@ -30,11 +30,11 @@ public class AlertActivity extends Activity implements OnClickListener
 		// TODO Auto-generated method stub
 		switch(v.getId())
 		{
-			case R.id.btn_alert:
+			case R.id.btn_report_event:
 				Intent i2 = new Intent(this,AddLocationActivity.class);
 				startActivity(i2);
 				break;
-			case R.id.btn_map:
+			case R.id.btn_browse_map:
 				Intent i3 = new Intent(this,PGMapActivity.class);
 				startActivity(i3);
 				break;
