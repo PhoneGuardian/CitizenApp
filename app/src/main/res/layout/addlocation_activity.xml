@@ -150,7 +150,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:padding="10dp"
-            android:background="@drawable/border_white_oval_transparent"
+            android:background="@drawable/border_black_oval_transparent"
             android:text="@string/save" />
         
      </LinearLayout>   

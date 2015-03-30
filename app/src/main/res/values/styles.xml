@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="button_base">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/font_large</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:paddingLeft">@dimen/spacing_small</item>
@@ -12,8 +12,8 @@
         <item name="android:height">@dimen/button_height_normal</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:background">@drawable/btn_selector_oval_transparent</item>
+        <item name="android:textColor">@color/black</item>
     </style>
-
 
 
     <style name="app_name_header">
