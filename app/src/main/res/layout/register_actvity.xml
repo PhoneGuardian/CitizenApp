@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:text="@string/sign_up"
-                        style="@style/button_rounded"
+                        style="@style/button_rounded_transparent"
                         />
 
                     <ProgressBar
