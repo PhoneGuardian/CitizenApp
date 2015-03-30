@@ -398,7 +398,17 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	public void setMapa(GoogleMap mapa) {
 		this.mapa = mapa;
 	}
-	
+
+    private double  toRad(double val) {
+        /** Converts numeric degrees to radians */
+        return val * Math.PI / 180;
+    }
+
+    private double  toDeg(double val) {
+        /** Converts numeric degrees to radians */
+        return val * 180 / Math.PI;
+    }
+
 	class GetMarkersByCategory extends AsyncTask<Void, Void, Integer>
 	{
 
@@ -411,12 +421,20 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
             double R = 6371; //in km
             double r= d/R; //d has to be in km
 
-            double lat_min = lat - r;
-            double lat_max = lat + r;
+            double lat_rad = toRad(lat);
+            double lng_rad = toRad(lng);
+
+            double lat_min_rad = lat_rad - r;
+            double lat_max_rad = lat_rad + r;
 
             double delta_lot = Math.asin(Math.sin(r)/Math.cos(r));
-            double lng_min = lng - delta_lot;
-            double lng_max = lng + delta_lot;
+            double lng_min_rad = lng_rad - delta_lot;
+            double lng_max_rad = lng_rad + delta_lot;
+
+            double lat_min = toDeg(lat_min_rad);
+            double lat_max = toDeg(lat_max_rad);
+            double lng_min = toDeg(lng_min_rad);
+            double lng_max = toDeg(lng_max_rad);
 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
@@ -501,8 +519,8 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
            
         }
 	}
-	
-	
+
+
 
 	private void GetCurrentLocation()
 	{
