@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="home_text_base">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="home_button_rounded_overlay_tall" parent="button_base">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">300dp</item>
+        <item name="android:height">@dimen/button_height_tall</item>
+        <item name="android:background">@drawable/btn_selector_oval_overlay</item>
+        <item name="android:drawablePadding">-45sp</item>
+        <item name="android:paddingLeft">50sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">sans-serif-bold</item>
+        />
+    </style>
+</resources>

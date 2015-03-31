@@ -3,21 +3,20 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@color/black" >
+    android:background="@color/teal"
+    android:padding="20dp">
     
     <LinearLayout  android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/black"
-    android:padding="30dp">
+    android:padding="10dp">
         
     <TextView
         	android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="30sp"
             android:textSize="24.5sp"
-            android:text="@string/add_loication"
+            android:text="@string/add_location"
             android:textColor="@color/white"
         />
         
@@ -74,7 +73,8 @@
     
     <LinearLayout 
         android:layout_width="fill_parent"
-   		android:layout_height="wrap_content">
+   		android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
    		
         <TextView android:id="@+id/label_category"
         android:layout_width="0dp"
@@ -132,8 +132,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:background="@color/white"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 
 
     <CheckBox
@@ -143,16 +142,15 @@
         android:text="@string/anonymous"
         android:onClick="onCheckboxClicked"/>
 
-
         
         <Button
             android:id="@+id/btn_save_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:padding="10dp"
-            android:background="@color/white"
+            android:background="@drawable/border_black_oval_transparent"
             android:text="@string/save" />
         
      </LinearLayout>   

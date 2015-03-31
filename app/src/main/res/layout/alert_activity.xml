@@ -1,79 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background_color"
+    android:fillViewport="true"
+    tools:context=".RegisterActivity"
     >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:text="@string/app_name"
-        android:textSize="30sp"
-        android:fontFamily="sans-serif-thin"
-        android:textColor="@color/white"
-        android:paddingBottom="40sp"
-        android:paddingTop="20sp"
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_main"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription"
         />
 
-  <GridLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:columnCount="2"
-      android:rowCount="2"
-      android:layout_gravity="center"
-      android:layout_weight="5"
-      >
-    
-    <ImageButton
-        android:id="@+id/btn_alert"
-        android:layout_gravity="center"
+    <Button
+        android:id="@+id/btn_report_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/warning_icon"
-        android:layout_row="0"
-        android:layout_column="0"
-         />
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:text="@string/home_alert_btn_desc"
-          android:textSize="30sp"
-          android:paddingLeft="20sp"
-          android:layout_row="0"
-          android:layout_column="1"
-          android:textColor="@color/black"
-          android:fontFamily="sans-serif-light"
-          />
-    
-    <ImageButton
-	        android:id="@+id/btn_map"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center"
-	        android:background="@drawable/map_icon"
-            android:layout_row="1"
-            android:layout_column="0"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_centerInParent="true"
+        android:text="@string/report_event"
+        android:drawableLeft="@drawable/alert_icon"
+        style="@style/home_button_rounded_overlay_tall"
         />
 
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:text="@string/home_map_btn_desc"
-          android:textSize="30sp"
-          android:fontFamily="sans-serif-light"
-          android:paddingLeft="20sp"
-          android:layout_row="1"
-          android:layout_column="1"
-          android:textColor="@color/black"
-          />
 
+    <Button
+        android:id="@+id/btn_browse_map"
+        android:layout_below="@id/btn_report_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/browse_map"
+        android:drawableLeft="@drawable/map_icon"
+        style="@style/home_button_rounded_overlay_tall"
+        />
 
-  </GridLayout>
-</LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/btn_report_event"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/title_header"
+        />
+
+</RelativeLayout>

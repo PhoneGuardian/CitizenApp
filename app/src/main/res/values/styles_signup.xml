@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="signup_form_base">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="signup_form_hint">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColorHint">@color/blue_dark</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:minWidth">210dp</item>
+    </style>
+
+</resources>

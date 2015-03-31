@@ -1,13 +1,6 @@
 package edu.elfak.mosis.phoneguardian;
 
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -16,17 +9,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore.MediaColumns;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -34,7 +22,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -65,12 +54,12 @@ public class RegisterActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_actvity);
-        
-        Button btnFinish = (Button) findViewById(R.id.btn_finished);
+
+        Button btnFinish = (Button) findViewById(R.id.btn_signup);
         btnFinish.setOnClickListener(this);
         
-        EditText etPhone = (EditText) findViewById(R.id.et_register_phone_num);
-		etPhone.setText(this.GetCountryZipCode());
+        TextView tvPhoneCountryCode = (TextView) findViewById(R.id.tv_register_mcc);
+        tvPhoneCountryCode.setText(Cognalys.getCountryCode(this));
 
         context = this;
         if(credentialsAlreadySaved()){
@@ -121,7 +110,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		switch(v.getId())
 		{
 
-			case R.id.btn_finished:
+			case R.id.btn_signup:
 				EditText etUsername = (EditText) findViewById(R.id.et_login_username);
 				final String userNm =etUsername.getText().toString();
 				EditText etPhone = (EditText) findViewById(R.id.et_register_phone_num);
@@ -132,27 +121,42 @@ public class RegisterActivity extends Activity implements OnClickListener {
 					Toast.makeText(this, "Invalid input data!", LENGTH_LONG).show();
 				else
 					{
+                        disableSignUp();
                         Cognalys.verifyMobileNumber(context, "d11cf058b1991bada9be7114bbe471410d433454", "bd0f84a2509f4f0f92b89b5", phone, new VerificationListner() {
                             @Override
-                            public void onVerificationStarted() { }
+                            public void onVerificationStarted() {
+                            }
 
                             @Override
                             public void onVerificationSuccess() {
+                                enableSignUp();
                                 checkAndSaveUser(userNm, phone);
                             }
 
                             @Override
                             public void onVerificationFailed(ArrayList<String> errorList) {
+                                enableSignUp();
                                 Toast.makeText(RegisterActivity.this, "You have inserted an incorrect number", LENGTH_LONG).show();
                             }
                         });
-
 					}
-				
-				
 		}
 		
 	}
+    private void enableSignUp(){
+        ProgressBar spinner = (ProgressBar)findViewById(R.id.spinner_signup);
+        spinner.setVisibility(View.INVISIBLE);
+
+        Button signupBtn = (Button) findViewById(R.id.btn_signup);
+        signupBtn.setEnabled(true);
+    }
+    private void disableSignUp(){
+        ProgressBar spinner = (ProgressBar)findViewById(R.id.spinner_signup);
+        spinner.setVisibility(View.VISIBLE);
+
+        Button signupBtn = (Button) findViewById(R.id.btn_signup);
+        signupBtn.setEnabled(false);
+    }
 
     private void checkAndSaveUser(String userNm, String phone) {
         try
