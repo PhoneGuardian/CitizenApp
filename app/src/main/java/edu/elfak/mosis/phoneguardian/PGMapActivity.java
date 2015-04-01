@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -26,6 +27,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,8 +59,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	int flag_yellow = 1;
 	
 	int refres= 1;
-	
-	float radius=20;
+
 	
 	JSONParser jParser = new JSONParser();
 	
@@ -82,8 +83,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
     private static final String TAG_ID = "event_id";
 
     JSONArray markers_response = null;
-    
-    protected boolean filterOnOff = false;
+
+    private float previousZoomLevel = -1.0f;
+
+    private boolean isZooming = false;
 
 	
 	@Override
@@ -109,18 +112,38 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
         GetCurrentLocation();
 		new GetMarkersByCategory().execute();
-		
+
+
+        mapa.setOnCameraChangeListener(getCameraChangeListener());
+
 		//service_intent = new Intent(this,NotificationService.class);
-		
-
 	}
-	
 
+
+    public GoogleMap.OnCameraChangeListener getCameraChangeListener()
+    {
+        return new GoogleMap.OnCameraChangeListener()
+        {
+            @Override
+            public void onCameraChange(CameraPosition position)
+            {
+                Log.d("Zoom", "Zoom: " + position.zoom);
+
+                if(previousZoomLevel != position.zoom)
+                {
+                    isZooming = true;
+                }
+
+                previousZoomLevel = position.zoom;
+                isZooming = false;
+            }
+        };
+    }
 	
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position,long id) {
 		
-		if(filterOnOff && markers!=null)
+		if(markers!=null)
 		{
 			
 			/*if(flag_orange==0 && flag_red==0 && flag_yellow==0) 
@@ -128,12 +151,14 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	        else
 	        	onRestart();*/
 			
-			radius = Float.parseFloat(s.getSelectedItem().toString());
+			//radius = Float.parseFloat(s.getSelectedItem().toString());
+            d = Double.parseDouble(s.getSelectedItem().toString());
+            new GetMarkersByCategory().execute();
 		
-			stopService(new Intent(service_intent));
+			/*stopService(new Intent(service_intent));
 			service_intent.putExtra("markers", new DataWrapper(markers));
 			service_intent.putExtra("radius", radius);
-			startService(service_intent);
+			startService(service_intent);*/
 			
 		}
 		
@@ -144,30 +169,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		
 		//new GetMarkersByCategory().execute();
 	}
-	
-	public void onToggleClicked(View v)
-	{
-		filterOnOff = ((ToggleButton) v).isChecked();
-		Spinner s = (Spinner) findViewById(R.id.radius_near_me);
 
-		
-		if(filterOnOff)
-		{
-
-			s.setVisibility(View.VISIBLE);
-            d = Double.parseDouble(s.getSelectedItem().toString());
-			new GetMarkersByCategory().execute();
-			
-		}
-		else
-		{
-			
-			stopService(new Intent(service_intent));
-			s.setVisibility(View.INVISIBLE);
-			
-			
-		}
-	}
 	
 		@Override
 		public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
@@ -298,13 +300,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	            
 	       
 	    }
-	    
-	   
-	    
-	    if(filterOnOff)
-	    {
-	    	stopService(new Intent(service_intent));
-	    }
+
 	    onRestart();
 	    
 	}
@@ -507,12 +503,12 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		{
             
             	
-            if(filterOnOff && markers!=null)
+           /* if(filterOnOff && markers!=null)
             {
             	service_intent.putExtra("markers", new DataWrapper(markers));
     			service_intent.putExtra("radius", radius);
     			startService(service_intent);
-            }
+            }*/
             
             DrawMarkers();
 
@@ -525,12 +521,26 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	private void GetCurrentLocation()
 	{
 
-	    double[] d = getlocation();
-	    lat = d[0];
-	    lng = d[1];
+	    double[] a = getlocation();
+	    lat = a[0];
+	    lng = a[1];
 
-	    mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng), 15));
+        LatLng ll = new LatLng(lat,lng);
+
+	    mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));
 	    mapa.setMyLocationEnabled(true);
+
+        int strokeColor = 0xffff0000; //red outline
+        int shadeColor = 0x44ff0000;
+
+        CircleOptions circleOptions = new CircleOptions()
+                .center(ll)   //set center
+                .radius(d*1000)   //set radius in meters
+                .fillColor(shadeColor)  //default
+                .strokeColor(strokeColor)
+                .strokeWidth(5);
+
+        mapa.addCircle(circleOptions);
 
 	}
 

@@ -26,13 +26,7 @@
 		            android:text="@string/nearme"
 		            android:textColor="@color/white"/>
 
-            <ToggleButton
-                android:id="@+id/btn_offon_near_me"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onToggleClicked"
-                android:textOff="Off"
-                android:textOn="On" />            
+
                 
             <Spinner
                 android:id="@+id/radius_near_me"
