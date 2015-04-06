@@ -62,8 +62,6 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	String[] argss = new String[9];
 
 	TextView time;
-	TextView longitude;
-	TextView latitude;
 	TextView address;
 	EditText description;
     AutoCompleteTextView mAutocompleteView;
@@ -94,15 +92,12 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
         }
 
 		time = (TextView) findViewById(R.id.label_addingtime);
-		longitude = (TextView) findViewById(R.id.label_long);
-		latitude = (TextView) findViewById(R.id.label_lat);
 		address = (TextView) findViewById(R.id.label_address); // here will be the  current address
 		description = (EditText) findViewById(R.id.edit_text_descr);
         mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places); // here will be selected address if exists,
         // if we decide to pick location, not use current location
 
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
-
 
 
 
@@ -117,8 +112,6 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
 
 		Location location = getlocation();
-		latitude.setText(Double.toString(location.getLatitude()));
-		longitude.setText(Double.toString(location.getLongitude()));
         accuracy_of_location = location.getAccuracy();
 
         BOUNDS_GREATER = new LatLngBounds(new LatLng(location.getLatitude()-0.5, location.getLongitude()-0.5),
@@ -242,7 +235,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 		switch(v.getId())
 		{
 		case R.id.btn_save_location:
-			
+
 			if(type_of_event!="" && description.getText().toString()!="")
 			{
 
@@ -260,8 +253,8 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                 else
                 {
                     argss[1] = address.getText().toString();
-                    argss[5] = longitude.getText().toString();
-                    argss[6] = latitude.getText().toString();
+                    argss[5] = Double.toString(getlocation().getLongitude());
+                    argss[6] = Double.toString(getlocation().getLatitude());
                 }
                 argss[7] = Float.toString(accuracy_of_location);
 				argss[8] = Integer.toString(anonymous);
@@ -417,6 +410,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 			protected void onPostExecute(String addr) {
 
 			    address.setText(addr);
+                ((AutoCompleteTextView)findViewById(R.id.autocomplete_places)).setHint(addr);
 			}
 
 		}
@@ -481,5 +475,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	        }
 	 
 	    }
+
+
 	
 }
