@@ -1,6 +1,7 @@
 package edu.elfak.mosis.phoneguardian;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,11 +25,9 @@ import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -80,7 +79,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
     boolean pick_location=false;
     float accuracy_of_location;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Calendar cal = Calendar.getInstance();
 
 	@Override
@@ -112,7 +111,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
 		btnSave.setOnClickListener(this);
 
-		Calendar cal = Calendar.getInstance();
+
 		time.setText(dateFormat.format(cal.getTime()));
 
 

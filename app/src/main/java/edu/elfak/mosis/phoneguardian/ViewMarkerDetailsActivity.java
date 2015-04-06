@@ -10,11 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -23,8 +20,7 @@ public class ViewMarkerDetailsActivity extends Activity {
 
 	String username;
 	double avg_rate;
-	
-	static final int REQUEST_IMAGE_CAPTURE = 1;
+
 	final String TAG_SUCCESS = "success";
 	
 	final String TAG_MARKER_ID = "id_marker";
@@ -35,7 +31,7 @@ public class ViewMarkerDetailsActivity extends Activity {
 	
 	
 	String id_marker = "";
-	RatingBar t5;
+	RatingBar t6;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,36 +41,45 @@ public class ViewMarkerDetailsActivity extends Activity {
 		
 		username = getIntent().getStringExtra("USERNAME");
 		Marker m = (Marker) getIntent().getSerializableExtra("marker");
+
+        String type_of_event = m.getType_of_event();
 		
 		id_marker = m.id;
 		
-		TextView t =(TextView) findViewById(R.id.username_marker);
-		t.setText(m.getUser_phone());
-		TextView t1 =(TextView) findViewById(R.id.address_marker);
+		TextView t =(TextView) findViewById(R.id.event_time);
+		t.setText(m.getEvent_time());
+		TextView t1 =(TextView) findViewById(R.id.event_address);
 		t1.setText(m.getAddress());
-		TextView t2 =(TextView) findViewById(R.id.date_marker);
-		t2.setText(m.getEvent_time());
-		TextView t3 =(TextView) findViewById(R.id.description_marker);
+        TextView t2 =(TextView) findViewById(R.id.type_of_event);
+
+		switch (type_of_event)
+        {
+            case "E":
+                t2.setText("Emergency");
+                break;
+            case "F":
+                t2.setText("Fire");
+                break;
+            case "P":
+                t2.setText("Police");
+                break;
+        }
+
+		TextView t3 =(TextView) findViewById(R.id.description_of_event);
 		t3.setText(m.getDescription());
-		TextView t4 =(TextView) findViewById(R.id.category_marker);
-		t4.setText(m.getType_of_event());
+		TextView t4 =(TextView) findViewById(R.id.event_acc);
+		t4.setText(Float.toString(m.getLocation_acc()));
+        TextView t5 =(TextView) findViewById(R.id.anonymous);
+        if(m.getAnonymous() == 1)
+            t5.setText("YES");
+        else
+            t5.setText("NO");
 		
-		t5 =(RatingBar) findViewById(R.id.avg_rating_marker);
+		t6 =(RatingBar) findViewById(R.id.avg_rating_marker);
 		new GetAvgRate().execute();
 		//t5.setText(m.getCategory()); PRIBAVI REJTINGE SVIH KOMENTARA TOG MARKERA I DA SE IZRACUNA PROSEK
-		
-		ImageView photo = (ImageView) findViewById(R.id.img_marker_picture);
-		
-		 try
-        {
-			 URL url = new URL("http://nikolamilica10.site90.com/photos_of_markers/"+m.id+".jpg");
-			 Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-			 photo.setImageBitmap(bmp);
-        }
-        catch(Exception e)
-        {
-       	 
-        };
+
+
 	}
 	
 	@Override
@@ -101,10 +106,8 @@ public class ViewMarkerDetailsActivity extends Activity {
         protected String doInBackground(String... argss) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            //FOTOGRAFIJA NIJE DODATA!!! TO NAKNADNO!!!!!!
-	            params.add(new BasicNameValuePair("id_marker", id_marker));
-	            
-            // getting JSON string from URL
+	        params.add(new BasicNameValuePair("id_marker", id_marker));
+
             JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
 
             try 
@@ -128,7 +131,7 @@ public class ViewMarkerDetailsActivity extends Activity {
         protected void onPostExecute(String file_url) {
         	
         	
-    		t5.setRating((float)avg_rate);
+    		t6.setRating((float)avg_rate);
         	
         }
  

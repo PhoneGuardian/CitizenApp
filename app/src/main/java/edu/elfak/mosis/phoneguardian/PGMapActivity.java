@@ -15,13 +15,11 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -135,16 +133,18 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			Intent i = new Intent(PGMapActivity.this,MarkerActivity.class);
 			Marker m = new Marker();
 			
-			String[] niz = new String[5];
+			String[] niz = new String[7];
 			String snip = marker.getSnippet();
 			niz = snip.split("&");
 			
-			m.id = niz[4];
+			m.id = niz[6];
 			m.setType_of_event(marker.getTitle());
 			m.setUser_phone(niz[0]);
 			m.setAddress(niz[1]);
 			m.setEvent_time(niz[2]);
-			m.setDescription(niz[3]);
+            m.setAnonymous(Integer.parseInt(niz[3]));
+            m.setLocation_acc(Float.parseFloat(niz[4]));
+			m.setDescription(niz[5]);
 			m.setLat(marker.getPosition().latitude);
 			m.setLng(marker.getPosition().longitude);
 
@@ -277,13 +277,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
                         +markers[i].anonymous+"&"
                         +markers[i].location_acc+"&"
 						+markers[i].description+"&"+markers[i].id;
-				CircleOptions circleOptions = new CircleOptions()
-		        .center(new LatLng(markers[i].lat,markers[i].lng))
-		        .radius(100)
-		        .strokeColor(Color.alpha(255))
-		        ;
-				
-				
+
 				if(markers[i].type_of_event.equals("F"))
 				{
 
