@@ -1,59 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/teal"
-    android:padding="20dp">
-    
+    android:fillViewport="true"
+    android:padding="20dp"
+    tools:context=".AddLocationActivity">
+
     <LinearLayout  android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp">
-        
-    <TextView
-        	android:layout_width="wrap_content"
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="24.5sp"
-            android:text="@string/add_location"
-            android:textColor="@color/white"
-        />
-        
+            android:text="@string/report_event"
+            style="@style/app_name_header"
+            />
 
-    <TextView android:id="@+id/label_addingtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:text="DATE:"
-        />
-    <TextView android:id="@+id/label_long"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:text="LNG:"
-        />
-    <TextView android:id="@+id/label_lat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:text="LAT:"
-        />
-    <TextView android:id="@+id/label_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:text="Address:"
+        <TextView
+            android:id="@+id/label_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            />
 
-        />
+
 
         <CheckBox
             android:id="@+id/cb_pick_location"
@@ -63,71 +44,78 @@
             android:onClick="onCheckboxClicked"/>
 
      <AutoCompleteTextView
-            android:layout_width="match_parent"
+         android:id="@+id/autocomplete_places"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:dropDownVerticalOffset="5dp"
+         android:dropDownWidth="wrap_content"
+         android:hint="@string/autocomplete_hint"
+         android:enabled="false"
+         android:inputType="textAutoComplete|textAutoCorrect"
+
+         style="@style/app_text_normal"
+         />
+        <TextView android:id="@+id/label_addingtime"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/autocomplete_hint"
-            android:id="@+id/autocomplete_places"
-            android:textColor="@android:color/black"
-            android:layout_gravity="center_horizontal"
-            android:enabled="false"/>
-    
-    <LinearLayout 
+            android:textSize="20sp"
+            android:text="24/98/89"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:layout_marginTop="@dimen/spacing_large"
+            style="@style/app_text_normal"
+            />
+    <LinearLayout
         android:layout_width="fill_parent"
    		android:layout_height="wrap_content"
         android:layout_marginBottom="50dp">
-   		
+
         <TextView android:id="@+id/label_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/category"
         android:textSize="20sp"
-        android:textColor="@color/white"
         />
-        
+
         <RadioGroup android:id="@+id/rg_category"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content">
-            
+
             <RadioButton android:id="@+id/rb_fire"
                 android:text="Fire"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textSize="20sp"
-        		android:textColor="@color/white"
         		android:checked="true"
         		android:onClick="onRadioButtonClicked"
                   />
-            
+
             <RadioButton android:id="@+id/rb_emergency"
                 android:text="Emergency"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textSize="20sp"
-        		android:textColor="@color/white"
         		android:onClick="onRadioButtonClicked"/>
-            
+
             <RadioButton android:id="@+id/rb_police"
                 android:text="Police"
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-        		android:textColor="@color/white"
         		android:onClick="onRadioButtonClicked"/>
-            
+
         </RadioGroup>
     </LinearLayout>
-    
+
     <TextView android:id="@+id/label_descr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/description"
         android:textSize="20sp"
-        android:textColor="@color/white"
         />
-    
+
     <EditText android:id="@+id/edit_text_descr"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -142,7 +130,7 @@
         android:text="@string/anonymous"
         android:onClick="onCheckboxClicked"/>
 
-        
+
         <Button
             android:id="@+id/btn_save_location"
             android:layout_width="wrap_content"
@@ -152,7 +140,8 @@
             android:padding="10dp"
             android:background="@drawable/border_black_oval_transparent"
             android:text="@string/save" />
-        
-     </LinearLayout>   
+
+     </LinearLayout>
 
 </ScrollView>
+</RelativeLayout>

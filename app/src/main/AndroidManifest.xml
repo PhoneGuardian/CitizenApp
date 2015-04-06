@@ -49,35 +49,26 @@
             android:value="@integer/google_play_services_version"/>
 
 
-        
         <activity
             android:name="edu.elfak.mosis.phoneguardian.RegisterActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppThemeNoActionBar">
-            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        
-        <activity android:name="edu.elfak.mosis.phoneguardian.PGMapActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
-            
         </activity>
 
         
         <activity
             android:name="edu.elfak.mosis.phoneguardian.AlertActivity"
-            android:theme="@android:style/Theme.Black" >
+            android:theme="@style/AppThemeNoActionBar" >
         </activity>
 
         
         <activity
             android:name="edu.elfak.mosis.phoneguardian.AddLocationActivity"
-            android:theme="@android:style/Theme.Black"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter >
                 <action android:name="android.media.action.IMAGE_CAPTURE"/>
@@ -85,32 +76,7 @@
             </intent-filter>
         </activity>
         
-        <activity
-            android:name="edu.elfak.mosis.phoneguardian.FilterActivity"
-            android:theme="@android:style/Theme.Black" >
-        </activity>
-        
-        <activity
-            android:name="edu.elfak.mosis.phoneguardian.MarkerActivity"
-            android:theme="@android:style/Theme.Black" >
-        </activity>
-        
-        <activity
-            android:name="edu.elfak.mosis.phoneguardian.AddCommentActivity"
-            android:theme="@android:style/Theme.Black" >
-        </activity>
-        <activity
-            android:name="edu.elfak.mosis.phoneguardian.ViewCommentsActivity"
-            android:theme="@android:style/Theme.Black" >
-        </activity>
-        <activity
-            android:name="edu.elfak.mosis.phoneguardian.ViewMarkerDetailsActivity"
-            android:theme="@android:style/Theme.Black" >
-        </activity>
-        <activity
-            android:name="edu.elfak.mosis.phoneguardian.ListFilterActivity"
-            android:theme="@android:style/Theme.Black" >
-        </activity>
+
         
         <service android:name = "edu.elfak.mosis.phoneguardian.NotificationService" />
     </application>
