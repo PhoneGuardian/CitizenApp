@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
 <item android:state_checked="true"
-	android:drawable="@drawable/orange_checked" />
+	android:drawable="@drawable/blue_checked" />
 
-<item android:drawable="@drawable/orange_unchecked" />
+<item android:drawable="@drawable/blue_unchecked" />
 
 </selector>
