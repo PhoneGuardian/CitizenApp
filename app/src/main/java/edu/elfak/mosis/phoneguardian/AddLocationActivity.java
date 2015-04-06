@@ -51,7 +51,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class AddLocationActivity extends FragmentActivity implements OnClickListener
         ,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks
 {
-	
+	EventLocation eventLocation = new EventLocation();
+
 	String type_of_event = "F";
 
 	final String TAG_SUCCESS = "success";
@@ -62,7 +63,6 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	String[] argss = new String[9];
 
 	TextView time;
-	TextView address;
 	EditText description;
     AutoCompleteTextView mAutocompleteView;
 
@@ -72,11 +72,9 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
     LatLngBounds BOUNDS_GREATER;
 
-    LatLng picked_location_coordinates;
 
     int anonymous=0; //1 anonymous message is sent, 0 message is not sent anonymously, default state not checked
-    boolean pick_location=false;
-    float accuracy_of_location;
+
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	Calendar cal = Calendar.getInstance();
@@ -92,15 +90,11 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
         }
 
 		time = (TextView) findViewById(R.id.label_addingtime);
-		address = (TextView) findViewById(R.id.label_address); // here will be the  current address
 		description = (EditText) findViewById(R.id.edit_text_descr);
         mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places); // here will be selected address if exists,
         // if we decide to pick location, not use current location
 
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
-
-
-
 
 
 		Button btnSave = (Button) findViewById(R.id.btn_save_location);
@@ -112,7 +106,9 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
 
 		Location location = getlocation();
-        accuracy_of_location = location.getAccuracy();
+        eventLocation.setLatitude(location.getLatitude());
+        eventLocation.setLongitude(location.getLongitude());
+        eventLocation.setAccuracy(location.getAccuracy());
 
         BOUNDS_GREATER = new LatLngBounds(new LatLng(location.getLatitude()-0.5, location.getLongitude()-0.5),
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
@@ -167,8 +163,10 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
             // Format details of the place for display and show it in a TextView.
             mAutocompleteView.setText(place.getAddress());
-            picked_location_coordinates = place.getLatLng();
-
+            eventLocation.setAddress(place.getAddress().toString());
+            eventLocation.setLatitude(place.getLatLng().latitude);
+            eventLocation.setLongitude(place.getLatLng().longitude);
+            eventLocation.setAccuracy(10);
         }
     };
 
@@ -235,8 +233,9 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 		switch(v.getId())
 		{
 		case R.id.btn_save_location:
+            String inputAddr = ((AutoCompleteTextView) findViewById(R.id.autocomplete_places)).getText().toString();
 
-			if(type_of_event!="" && description.getText().toString()!="")
+			if(type_of_event!="" && description.getText().toString().length()!=0 && eventLocation.isValid() && inputAddr.equals(eventLocation.getAddress()))
 			{
 
                 argss[0] = User.getInstance().getPhone();
@@ -244,24 +243,16 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 				argss[3] = description.getText().toString();
 				argss[4] = time.getText().toString();
 
-                if(pick_location)
-                {
-                    argss[1] = mAutocompleteView.getText().toString();
-                    argss[5]= Double.toString(picked_location_coordinates.longitude);
-                    argss[6] = Double.toString(picked_location_coordinates.latitude);
-                }
-                else
-                {
-                    argss[1] = address.getText().toString();
-                    argss[5] = Double.toString(getlocation().getLongitude());
-                    argss[6] = Double.toString(getlocation().getLatitude());
-                }
-                argss[7] = Float.toString(accuracy_of_location);
+                argss[1] = eventLocation.getAddress();
+                argss[5]= Double.toString(eventLocation.getLongitude());
+                argss[6] = Double.toString(eventLocation.getLatitude());
+
+                argss[7] = Float.toString(eventLocation.getAccuracy());
 				argss[8] = Integer.toString(anonymous);
                 new AddLocation().execute(argss);
 			}
 			else
-				Toast.makeText(AddLocationActivity.this, "Some fields are empty!", Toast.LENGTH_LONG).show();
+				Toast.makeText(AddLocationActivity.this, "Some fields are empty or invalid!", Toast.LENGTH_LONG).show();
 			break;
 			
 			
@@ -282,20 +273,6 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                     anonymous = 0;
             }
             break;
-            case R.id.cb_pick_location:
-            {
-                checked = ((CheckBox) view).isChecked();
-                if(checked) {
-                    pick_location = true;
-                    mAutocompleteView.setEnabled(true);
-                }
-                else
-                {
-                    pick_location = false;
-                    mAutocompleteView.setEnabled(false);
-
-                }
-            }
 
 
         }
@@ -362,6 +339,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	                 */
 	                addresses = geocoder.getFromLocation(loc.getLatitude(),
 	                        loc.getLongitude(), 1);
+
 	            }
 	            catch (IOException e1)
 	            {
@@ -408,10 +386,12 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	
 			@Override
 			protected void onPostExecute(String addr) {
+                eventLocation.setAddress(addr);
+                mAutocompleteView.setAdapter(null);
+                ((AutoCompleteTextView)findViewById(R.id.autocomplete_places)).setText(addr);
+                mAutocompleteView.setAdapter(mAdapter);
 
-			    address.setText(addr);
-                ((AutoCompleteTextView)findViewById(R.id.autocomplete_places)).setHint(addr);
-			}
+            }
 
 		}
 		

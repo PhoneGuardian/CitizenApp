@@ -27,21 +27,6 @@
             style="@style/app_name_header"
             />
 
-        <TextView
-            android:id="@+id/label_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Address"
-            />
-
-
-
-        <CheckBox
-            android:id="@+id/cb_pick_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Use different location"
-            android:onClick="onCheckboxClicked"/>
 
      <AutoCompleteTextView
          android:id="@+id/autocomplete_places"
@@ -50,11 +35,10 @@
          android:dropDownVerticalOffset="5dp"
          android:dropDownWidth="wrap_content"
          android:hint="@string/autocomplete_hint"
-         android:enabled="false"
          android:inputType="textAutoComplete|textAutoCorrect"
-
          style="@style/app_text_normal"
          />
+
         <TextView android:id="@+id/label_addingtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +48,7 @@
             android:layout_marginTop="@dimen/spacing_large"
             style="@style/app_text_normal"
             />
+
     <LinearLayout
         android:layout_width="fill_parent"
    		android:layout_height="wrap_content"

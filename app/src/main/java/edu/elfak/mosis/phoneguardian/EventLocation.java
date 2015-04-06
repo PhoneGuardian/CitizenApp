@@ -3,19 +3,19 @@ package edu.elfak.mosis.phoneguardian;
 /**
  * Created by Mirjamsk on 6.4.2015..
  */
-public class Location {
+public class EventLocation {
         private Double latitude;
         private Double longitude;
         private String address;
-        private float accuracy;
-        private boolean isValid;
+        private float accuracy = -1;
 
-    public Location(Double latitude, Double longitude, String address, boolean isValid, float accuracy) {
+    public EventLocation() {    }
+
+    public EventLocation(Double latitude, Double longitude, String address, float accuracy) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
         this.accuracy = accuracy;
-        this.isValid = isValid;
     }
 
 
@@ -53,10 +53,8 @@ public class Location {
 
 
     public boolean isValid() {
-        return isValid;
+
+        return latitude != null && longitude != null && address != null && accuracy != -1;
     }
 
-    public void setValid(boolean isValid) {
-        this.isValid = isValid;
-    }
 }
