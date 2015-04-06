@@ -15,55 +15,51 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ToggleButton;
+
 
 import java.lang.Math;
 
-public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener, OnItemSelectedListener 
+public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener
 {
 	
 	public GoogleMap mapa;
+    private SeekBar seekBar;
 	MarkerOptions markerOptions;
 	Marker markers[];
-	ArrayList<Marker> markers_in_radius;
 	int finishedTask = 0;
 	Spinner s;
 
     double d=1; // radius around our location where we want to find events, in km
 	double lat;
     double lng;
-	int flag_red = 1;
-	int flag_orange = 1;
-	int flag_yellow = 1;
+
+	int flag_fire = 1;
+	int flag_emergency = 1;
+	int flag_police = 1;
 	
-	int refres= 1;
+	int refresh= 1;
 
 	
 	JSONParser jParser = new JSONParser();
 	
-	Intent service_intent;
+
 	
     private static String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
  
@@ -86,7 +82,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
     private float previousZoomLevel = -1.0f;
 
-    private boolean isZooming = false;
+
 
 	
 	@Override
@@ -95,104 +91,65 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		super.onCreate(savedInstanceBundle);
 		setContentView(R.layout.pgmap_activity);
 		
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				  this, R.array.radius_array, android.R.layout.simple_spinner_item );
-				adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-		
-		s = (Spinner) findViewById( R.id.radius_near_me );
-		s.setAdapter( adapter );
-				
-		//GoogleMap googleMap;
+
 	    mapa = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
 		mapa.setOnMarkerClickListener(this);
 			
 		finishedTask=0;
-		markers_in_radius = new ArrayList<Marker>();
-		s.setOnItemSelectedListener(this);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
 
         GetCurrentLocation();
 		new GetMarkersByCategory().execute();
 
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 1;
 
-        mapa.setOnCameraChangeListener(getCameraChangeListener());
-
-		//service_intent = new Intent(this,NotificationService.class);
-	}
-
-
-    public GoogleMap.OnCameraChangeListener getCameraChangeListener()
-    {
-        return new GoogleMap.OnCameraChangeListener()
-        {
             @Override
-            public void onCameraChange(CameraPosition position)
-            {
-                Log.d("Zoom", "Zoom: " + position.zoom);
 
-                if(previousZoomLevel != position.zoom)
-                {
-                    isZooming = true;
-                }
-
-                previousZoomLevel = position.zoom;
-                isZooming = false;
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
             }
-        };
-    }
-	
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position,long id) {
-		
-		if(markers!=null)
-		{
-			
-			/*if(flag_orange==0 && flag_red==0 && flag_yellow==0) 
-	        	Toast.makeText(PGMapActivity.this, "No category selected!", Toast.LENGTH_LONG).show();
-	        else
-	        	onRestart();*/
-			
-			//radius = Float.parseFloat(s.getSelectedItem().toString());
-            d = Double.parseDouble(s.getSelectedItem().toString());
-            new GetMarkersByCategory().execute();
-		
-			/*stopService(new Intent(service_intent));
-			service_intent.putExtra("markers", new DataWrapper(markers));
-			service_intent.putExtra("radius", radius);
-			startService(service_intent);*/
-			
-		}
-		
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                d = seekBar.getProgress();
+                new GetMarkersByCategory().execute();
+                /*if(d>10)
+                getMapa().animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );*/
+            }
+        });
+
+
 	}
 
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
-		
-		//new GetMarkersByCategory().execute();
-	}
-
-	
 		@Override
 		public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
 			
 			Intent i = new Intent(PGMapActivity.this,MarkerActivity.class);
 			Marker m = new Marker();
 			
-			String[] niz = new String[5];
+			String[] niz = new String[7];
 			String snip = marker.getSnippet();
 			niz = snip.split("&");
 			
-			m.id = niz[4];
+			m.id = niz[6];
 			m.setType_of_event(marker.getTitle());
 			m.setUser_phone(niz[0]);
 			m.setAddress(niz[1]);
 			m.setEvent_time(niz[2]);
-			m.setDescription(niz[3]);
+            m.setAnonymous(Integer.parseInt(niz[3]));
+            m.setLocation_acc(Float.parseFloat(niz[4]));
+			m.setDescription(niz[5]);
 			m.setLat(marker.getPosition().latitude);
 			m.setLng(marker.getPosition().longitude);
 
 			i.putExtra("marker", m);
 			startActivity(i);
-			// TODO Auto-generated method stub
 			return true;// vraca true da bi se ukinulo defaultno ponasanje markera... da se ne bi prikazao info prozor markera
 		}
 	
@@ -200,14 +157,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	protected void onRestart()
 	{
 		super.onRestart();
-		if(refres==1)
+		if(refresh==1)
 		{
 			new GetMarkersByCategory().execute();
 		}
-		
-		
-		
-		
 	}
 	
 	
@@ -225,16 +178,16 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		switch(item.getItemId())
 		{
 			case 1:
-				refres=1;
-				flag_red = 1;
-				flag_orange = 1;
-				flag_yellow = 1;
-				CheckBox cb_red = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_redzone);
-				cb_red.setChecked(true);
-				CheckBox cb_orange = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_orangezone);
-				cb_orange.setChecked(true);
-				CheckBox cb_yellow = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_yellowzone);
-				cb_yellow.setChecked(true);
+				refresh=1;
+				flag_fire = 1;
+				flag_police = 1;
+				flag_emergency = 1;
+				CheckBox cb_fire = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_fire);
+				cb_fire.setChecked(true);
+				CheckBox cb_police = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_police);
+				cb_police.setChecked(true);
+				CheckBox cb_emergency = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_emergency);
+                cb_emergency.setChecked(true);
 				onRestart();
 				break;
 			case 2:
@@ -251,9 +204,8 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode==RESULT_OK)
 		{
-			refres=0;
+			refresh=0;
 			DataWrapper dw = (DataWrapper) data.getSerializableExtra("markers");
-			
 	        markers = dw.getMarkers();
 	        //onResume();
 		}
@@ -267,37 +219,35 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	{
 		// TODO Auto-generated method stub
 		super.onResume();
-		
-		
+
 	}
 
 
 	public void onCheckboxClicked(View v) {
 	    // Is the view now checked?
 	    boolean checked = ((CheckBox) v).isChecked();
-	    refres=1;
+	    refresh=1;
 	    // Check which checkbox was clicked
 	    switch(v.getId()) {
-	        case R.id.cb_redzone:
+	        case R.id.cb_fire:
 	            if (checked)
-	                flag_red=1;
+	                flag_fire=1;
 	            else
-	            	flag_red=0;
+	            	flag_fire=0;
 	            break;
-	        case R.id.cb_orangezone:
+	        case R.id.cb_police:
 	            if (checked)
-	                flag_orange=1;
+	                flag_police=1;
 	            else
-	            	flag_orange=0;
+                    flag_police=0;
 	            break;
-	        case R.id.cb_yellowzone:
+	        case R.id.cb_emergency:
 	        	if (checked)
-	                flag_yellow=1;
+	                flag_emergency=1;
 	            else
-	            	flag_yellow=0;
+                    flag_emergency=0;
 	            break;
-	        // TODO: Veggie sandwich
-	            
+
 	       
 	    }
 
@@ -306,8 +256,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	}
 
 	private void DrawMarkers() {
-		// TODO Auto-generated method stub
-		
+
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapf); 
 		setMapa(mapFragment.getMap());
 		if (getMapa()== null)
@@ -317,7 +266,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	    }
 		
 		mapa.clear();
-		
 		if(markers!=null)
 		{
 			for(int i=0;i<markers.length;i++)
@@ -329,16 +277,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
                         +markers[i].anonymous+"&"
                         +markers[i].location_acc+"&"
 						+markers[i].description+"&"+markers[i].id;
-				CircleOptions circleOptions = new CircleOptions()
-		        .center(new LatLng(markers[i].lat,markers[i].lng))
-		        .radius(100)
-		        .strokeColor(Color.alpha(255))
-		        ;
-				
-				
+
 				if(markers[i].type_of_event.equals("F"))
 				{
-					//circleOptions.fillColor(Color.argb(128, 255, 0, 0));
+
 					
 					com.google.android.gms.maps.model.Marker m = mapa
 			        .addMarker(new MarkerOptions()
@@ -354,7 +296,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 				else
 					if(markers[i].type_of_event.equals("E"))
 					{
-						//circleOptions.fillColor(Color.argb(128, 255, 165, 0));
+
 						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
@@ -367,7 +309,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 					}
 					else
 					{
-						//circleOptions.fillColor(Color.argb(128, 255, 255, 0));
+
 						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
@@ -379,10 +321,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 						m.hideInfoWindow();
 					}
 				
-				//mapa.addCircle(circleOptions);
+
 			}
 		}
-		 // In meters
+
 		 
 	    
 	}
@@ -412,7 +354,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		protected Integer doInBackground(Void... paramss) {
 			// TODO Auto-generated method stub
 			
-			refres = 0;
+			refresh = 0;
 
             double R = 6371; //in km
             double r= d/R; //d has to be in km
@@ -434,9 +376,9 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
-			params.add(new BasicNameValuePair("category_red", Integer.toString(flag_red)));
-	        params.add(new BasicNameValuePair("category_orange", Integer.toString(flag_orange)));
-	        params.add(new BasicNameValuePair("category_yellow", Integer.toString(flag_yellow)));
+			params.add(new BasicNameValuePair("category_fire", Integer.toString(flag_fire)));
+	        params.add(new BasicNameValuePair("category_police", Integer.toString(flag_police)));
+	        params.add(new BasicNameValuePair("category_emergency", Integer.toString(flag_emergency)));
 
 
             params.add(new BasicNameValuePair("lng_min",Double.toString(lng_min)));
@@ -460,29 +402,26 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	                	else
 	                	{
 	                		markers = null;
-	                		
 	                		markers = new Marker[markers_response.length()];
-	 
-	                    // looping through All Products
-	                    for (int i = 0; i < markers_response.length(); i++)
-	                    {
-	                        JSONObject c = markers_response.getJSONObject(i);
-	 
-	                        markers[i] = new Marker();
-	                        // Storing each json item in variable
-	                        markers[i].id = c.getString(TAG_ID);
-	                        markers[i].setAddress(c.getString(TAG_ADDRESS));
-	                        markers[i].setUser_phone(c.getString(TAG_USER_PHONE));
-	                        markers[i].setType_of_event( c.getString(TAG_TYPE_OF_EVENT));
-	                        markers[i].setDescription(c.getString(TAG_DESC));
-	                        markers[i].setEvent_time(c.getString(TAG_EVENT_TIME));
-	                        markers[i].setLng(c.getDouble(TAG_LONG));
-	                        markers[i].setLat(c.getDouble(TAG_LAT));
-                            markers[i].setAnonymous(c.getInt(TAG_ANONYMOUS));
-                            markers[i].setLocation_acc(c.getLong(TAG_ACCURACY));
-	 
-	                   
-	                    }
+
+                            for (int i = 0; i < markers_response.length(); i++)
+                            {
+                                JSONObject c = markers_response.getJSONObject(i);
+
+                                markers[i] = new Marker();
+                                markers[i].id = c.getString(TAG_ID);
+                                markers[i].setAddress(c.getString(TAG_ADDRESS));
+                                markers[i].setUser_phone(c.getString(TAG_USER_PHONE));
+                                markers[i].setType_of_event( c.getString(TAG_TYPE_OF_EVENT));
+                                markers[i].setDescription(c.getString(TAG_DESC));
+                                markers[i].setEvent_time(c.getString(TAG_EVENT_TIME));
+                                markers[i].setLng(c.getDouble(TAG_LONG));
+                                markers[i].setLat(c.getDouble(TAG_LAT));
+                                markers[i].setAnonymous(c.getInt(TAG_ANONYMOUS));
+                                markers[i].setLocation_acc(c.getLong(TAG_ACCURACY));
+
+
+                            }
 	                	}
 	                }
 	                else
@@ -501,18 +440,9 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		@Override
 		protected void onPostExecute(Integer result)
 		{
-            
-            	
-           /* if(filterOnOff && markers!=null)
-            {
-            	service_intent.putExtra("markers", new DataWrapper(markers));
-    			service_intent.putExtra("radius", radius);
-    			startService(service_intent);
-            }*/
-            
+
             DrawMarkers();
 
-           
         }
 	}
 
@@ -521,7 +451,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	private void GetCurrentLocation()
 	{
 
-	    double[] a = getlocation();
+	    double[] a = getLocation();
 	    lat = a[0];
 	    lng = a[1];
 
@@ -530,21 +460,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	    mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));
 	    mapa.setMyLocationEnabled(true);
 
-        int strokeColor = 0xffff0000; //red outline
-        int shadeColor = 0x44ff0000;
-
-        CircleOptions circleOptions = new CircleOptions()
-                .center(ll)   //set center
-                .radius(d*1000)   //set radius in meters
-                .fillColor(shadeColor)  //default
-                .strokeColor(strokeColor)
-                .strokeWidth(5);
-
-        mapa.addCircle(circleOptions);
 
 	}
 
-	public double[] getlocation()
+	public double[] getLocation()
 	{
 	    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 	    List<String> providers = lm.getProviders(true);

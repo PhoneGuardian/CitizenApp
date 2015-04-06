@@ -41,34 +41,13 @@
         android:layout_marginBottom="10sp"
         >
 
-    <ImageView
-        android:id="@+id/img_marker_picture"
-        android:layout_width="118dp"
-        android:layout_height="160dp"
-        android:layout_marginRight="30dp" />
+
 
      <LinearLayout
          android:layout_width="match_parent"
          android:layout_height="fill_parent"
          android:orientation="vertical" >
-        
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/username"
-        android:textColor="@color/white"
-        android:textSize="20sp" 
-        />
-    
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/username_marker"
-        android:textColor="@color/white"
-        android:textSize="20sp" 
-        android:layout_gravity="center"
-        android:layout_marginBottom="10sp"
-        />
+
     
     <TextView
             android:layout_width="wrap_content"
@@ -81,7 +60,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/date_marker"
+        android:id="@+id/event_time"
         android:layout_gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp" 
@@ -102,7 +81,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/address_marker"
+            android:id="@+id/event_address"
             android:layout_gravity="center"
             android:textSize="20sp"
             android:textColor="@color/white"
@@ -111,7 +90,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/category"
+            android:text="Type of event:"
             android:textSize="20sp"
             android:textColor="@color/white"
             />
@@ -119,7 +98,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/category_marker"
+            android:id="@+id/type_of_event"
             android:layout_gravity="center"
             android:textSize="20sp"
             android:textColor="@color/white"
@@ -136,7 +115,41 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/description_marker"
+            android:id="@+id/description_of_event"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location Accuracy:"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/event_acc"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anonymous tip:"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/anonymous"
             android:layout_gravity="center"
             android:textSize="20sp"
             android:textColor="@color/white"
