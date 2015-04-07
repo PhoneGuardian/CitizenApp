@@ -46,12 +46,6 @@ public class MarkerActivity extends TabActivity {
         
         
     }
-	
-	@Override
-	  public void onBackPressed() {
-	    Intent i = new Intent(MarkerActivity.this,PGMapActivity.class);
-	    i.putExtra("USERNAME", username);
-	    startActivity(i);
-	  }
+
 	
 }

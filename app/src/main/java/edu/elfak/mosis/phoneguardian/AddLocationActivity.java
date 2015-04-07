@@ -454,7 +454,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	         * **/
 	        protected void onPostExecute(String file_url) {
 
-                Toast.makeText(AddLocationActivity.this, "Location added!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(AddLocationActivity.this, "Location added!", Toast.LENGTH_LONG).show();
 	        }
 	 
 	    }

@@ -9,17 +9,16 @@ public class Comment implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 		String id;
-		String id_marker;
-		String username_comment;
-		String time;
-		String rate;
-		String comment;
+		String id_event;
+		String username;
+		String comment_date;
+		String comment_text;
 		
 		
 	    @Override
 	    public String toString()
 	    { 
-	      return "Marker [id="+id+", id_marker=" + id_marker + ", username_comment=" + username_comment + ", time=" + time +", rate=" + rate +", comment=" + comment +"]";
+	      return "Marker [id="+id+", id_event=" + id_event + ", username=" + username + ", comment_date=" + comment_date +", comment_text=" + comment_text +"]";
 	    }
 
 }
