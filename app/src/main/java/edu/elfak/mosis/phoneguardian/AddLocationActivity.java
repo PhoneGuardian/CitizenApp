@@ -22,7 +22,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -62,7 +65,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
 	TextView time;
 	EditText description;
-    AutoCompleteTextView mAutocompleteView;
+    ClearableAutoCompleteTextView mAutocompleteView;
 
     protected GoogleApiClient mGoogleApiClient;
 
@@ -89,19 +92,15 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
 		time = (TextView) findViewById(R.id.label_addingtime);
 		description = (EditText) findViewById(R.id.edit_text_descr);
-        mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places); // here will be selected address if exists,
+        mAutocompleteView = (ClearableAutoCompleteTextView) findViewById(R.id.autocomplete_places); // here will be selected address if exists,
         // if we decide to pick location, not use current location
 
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
-
 		Button btnSave = (Button) findViewById(R.id.btn_save_location);
-
 		btnSave.setOnClickListener(this);
 
-
 		time.setText(dateFormat.format(cal.getTime()));
-
 
 		Location location = getlocation();
         currentLocation.setLatitude(location.getLatitude());
@@ -112,13 +111,12 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
 
         mAdapter = new PlaceAutocompleteAdapter(this, R.layout.custom_item,BOUNDS_GREATER, null);
-
         mAutocompleteView.setAdapter(mAdapter);
 
 		(new GetAddressTask(this)).execute(location);
 
-
 	}
+
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener
             = new AdapterView.OnItemClickListener() {
@@ -132,7 +130,6 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
             final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
 
-
             /*
              Issue a request to the Places Geo Data API to retrieve a Place object with additional
               details about the place.
@@ -143,7 +140,6 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
             Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
                     Toast.LENGTH_SHORT).show();
-
         }
     };
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback

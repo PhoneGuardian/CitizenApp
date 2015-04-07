@@ -28,7 +28,7 @@
             />
 
 
-     <AutoCompleteTextView
+     <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
          android:id="@+id/autocomplete_places"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"

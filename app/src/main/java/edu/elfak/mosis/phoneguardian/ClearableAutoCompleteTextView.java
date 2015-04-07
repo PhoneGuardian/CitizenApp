@@ -5,18 +5,14 @@ package edu.elfak.mosis.phoneguardian;
  */
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 
-/**
- * sub class of {@link android.widget.AutoCompleteTextView} that includes a clear (dismiss / close) button with
- * a OnClearListener to handle the event of clicking the button
- * based on code from {@link http://www.gubed.net/clearableautocompletetextview}
- * @author Michael Derazon
- *
- */
+
 public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
     // was the text just cleared?
     boolean justCleared = false;
@@ -29,6 +25,7 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
         public void onClear() {
             ClearableAutoCompleteTextView et = ClearableAutoCompleteTextView.this;
             et.setText("");
+            hideClearButton();
         }
     };
 
@@ -36,7 +33,7 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
 
     // The image we defined for the clear button
     public Drawable imgClearButton = getResources().getDrawable(
-            R.drawable.map_icon);
+           R.drawable.cross);
 
     public interface OnClearListener {
         void onClear();
@@ -61,9 +58,6 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
     }
 
     void init() {
-        // Set the bounds of the button
-        this.setCompoundDrawablesWithIntrinsicBounds(null, null,
-                imgClearButton, null);
 
         // if the clear button is pressed, fire up the handler. Otherwise do nothing
         this.setOnTouchListener(new OnTouchListener() {
@@ -84,6 +78,20 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
                 }
                 return false;
             }
+
+        });
+
+        this.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                showClearButton();
+                justCleared = false;
+            }
+            @Override
+            public void afterTextChanged(Editable arg0) { }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
         });
     }
 
