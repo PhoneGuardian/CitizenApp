@@ -23,14 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AddCommentActivity extends Activity implements android.view.View.OnClickListener {
-	
-
-	int i = 0;
 
     final String TAG_SUCCESS = "success";
     final String TAG_MESSAGE = "message";
     final String TAG_ID = "id";
-
 
     final JSONParser jParser = new JSONParser();
 
@@ -125,11 +121,9 @@ public class AddCommentActivity extends Activity implements android.view.View.On
 	        params.add(new BasicNameValuePair("comment_text", argss[3]));
 
             JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
-
  
             try 
             {
-              
                 success = json.getInt(TAG_SUCCESS);
                 msg = json.getString(TAG_MESSAGE);
                 id_comment = json.getString(TAG_ID);
@@ -142,28 +136,12 @@ public class AddCommentActivity extends Activity implements android.view.View.On
             return null;
         }
  
-        /**
-         * After completing background task Dismiss the progress dialog
-         * **/
-        protected void onPostExecute(String file_url) {
-            
-        	runOnUiThread(new Runnable() {
-                public void run() {
-                    /**
-                     * Updating parsed JSON data into ListView
-                     * */
-                	if( success == 0 ) 
-                		Toast.makeText(AddCommentActivity.this, "GRESKA - asinhroni task!" , Toast.LENGTH_LONG).show();
-                	else
-                		Toast.makeText(AddCommentActivity.this, "Proslo je - addlocation activity asinhroni task" , Toast.LENGTH_LONG).show();
-                	
-                }
-            });
-        	
 
-        	
+        protected void onPostExecute(String file_url)
+        {
+            Toast.makeText(AddCommentActivity.this,msg,Toast.LENGTH_SHORT).show();
         }
- 
+
     }
 
 

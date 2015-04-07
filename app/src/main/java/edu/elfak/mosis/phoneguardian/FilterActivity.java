@@ -420,10 +420,10 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 		
 	}
 	
-	@Override
+	/*@Override
 	  public void onBackPressed() {
 	    this.getParent().onBackPressed();   
-	  }
+	  }*/
 	
 	
 	class GetMarkersBySearch extends AsyncTask<Void, Void, Integer>
