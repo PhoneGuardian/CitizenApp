@@ -60,6 +60,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="edu.elfak.mosis.phoneguardian.PGMapActivity"
+            android:theme="@style/AppTheme">
+        </activity>
         
         <activity
             android:name="edu.elfak.mosis.phoneguardian.AlertActivity"
@@ -75,7 +78,31 @@
   				<category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        
+
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.FilterActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.MarkerActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.AddCommentActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.ViewCommentsActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.ViewMarkerDetailsActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="edu.elfak.mosis.phoneguardian.ListFilterActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
 
         
         <service android:name = "edu.elfak.mosis.phoneguardian.NotificationService" />
