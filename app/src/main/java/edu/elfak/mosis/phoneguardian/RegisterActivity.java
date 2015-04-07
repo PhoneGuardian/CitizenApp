@@ -18,11 +18,14 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ import android.widget.Toast;
 import com.matesnetwork.callverification.Cognalys;
 import com.matesnetwork.interfaces.VerificationListner;
 
+import static android.view.View.OnTouchListener;
 import static android.widget.Toast.LENGTH_LONG;
 
 public class RegisterActivity extends Activity implements OnClickListener {
@@ -46,7 +50,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
     String args[] = new String[2];
     Credentials myCredentials = new Credentials();
     protected Context context;
-    
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +79,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
             Log.d("RegisterAcitivity - creating file credentials with content {}: ","proceed to registration");
         }
+
+        // hide keyboard on oudside press
+        ((RelativeLayout) findViewById(R.id.layout_register)).setOnTouchListener(hideKeyboardlistener);
 
     }
     
@@ -371,5 +379,17 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
  
     }
+    private OnTouchListener hideKeyboardlistener = new OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent ev) {
+            hideKeyboard(view);
+            return false;
+        }
+        protected void hideKeyboard(View view)
+        {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    };
 
 }
