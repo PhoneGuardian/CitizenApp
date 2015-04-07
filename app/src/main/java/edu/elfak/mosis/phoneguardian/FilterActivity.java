@@ -36,35 +36,40 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	
 	Marker markers[];
 	int finishedTask = 0;
-	boolean show_markers_in_list = false;
+	boolean show_events_in_list = false;
 	boolean radius_checked = false;
 	 
-	ArrayList<Marker> markers_in_radius;
+	ArrayList<Marker> events_in_radius;
 	Geocoder geoCoder ;
-	
+
+    String msg;
 	
 	JSONParser jParser = new JSONParser();
     
-    private static String URL = "http://nikolamilica10.site90.com/get_markers_by_search.php";
+    private static String URL = "http://nemanjastolic.co.nf/guardian/get_events_by_filter.php";
  
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MARKERS = "markers";
+    private static final String TAG_EVENTS = "events";
     
     private static final String TAG_ADDRESS = "address";
-    private static final String TAG_USERNAME = "username";
-    private static final String TAG_CATEGORY = "category";
+    private static final String TAG_USER_PHONE = "user_phone";
+    private static final String TAG_TYPE_OF_EVENT = "type_of_event";
     private static final String TAG_DESC = "description";
     
-    private static final String TAG_TIME = "time";
-    private static final String TAG_LAT = "latitude";
-    private static final String TAG_LONG = "longitude";
+    private static final String TAG_EVENT_TIME = "event_time";
+    private static final String TAG_LAT = "lat";
+    private static final String TAG_LNG = "lng";
+
+    private static final String TAG_EVENT_ID = "event_id";
+    private static final String TAG_LOCATION_ACC= "location_acc";
+    private static final String TAG_ANONYMOUS = "anonymous";
     
     
    
  
     // products JSONArray
-    JSONArray markers_response = null;
+    JSONArray events_response = null;
 	
 	protected boolean filterOnOff = false;
 	
@@ -73,16 +78,13 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	
 	EditText et_address;
 	EditText et_description;
-	EditText et_username;
-	EditText et_comment;
-	EditText et_comment_user;
 	EditText loaction_address_for_radius;
 	
 	RadioGroup rg_category;
 	
-	RadioButton rb_red;
-	RadioButton rb_orange;
-	RadioButton rb_yellow;
+	RadioButton rb_fire;
+	RadioButton rb_emergency;
+	RadioButton rb_police;
 	
 	Spinner s;
 	
@@ -91,11 +93,7 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	
 	String address="";
 	String description="";
-	String username="";
-	String comment="";
-	String comment_user="";
-	String category="";
-	
+	String type_of_event="";
 	String location="";
 	 
 	double latitude;
@@ -117,16 +115,16 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 		
 		et_address = (EditText)findViewById(R.id.et_address_filter);
 		et_description = (EditText)findViewById(R.id.et_desc_filter);
-		et_username = (EditText)findViewById(R.id.et_user_filter);
-		et_comment = (EditText)findViewById(R.id.et_comment_filter);
-		et_comment_user = (EditText)findViewById(R.id.et_comment_user_filter);
+
 		
 		loaction_address_for_radius = (EditText)findViewById(R.id.et_loaction_address_for_radius);
 		
 		rg_category = (RadioGroup)findViewById(R.id.rg_category);
-		rb_orange = (RadioButton)findViewById(R.id.rb_orangezone_filter);
-		rb_red = (RadioButton)findViewById(R.id.rb_redzone_filter);
-		rb_yellow = (RadioButton)findViewById(R.id.rb_yellowzone_filter);
+
+		rb_fire = (RadioButton)findViewById(R.id.rb_fire_filter);
+		rb_emergency = (RadioButton)findViewById(R.id.rb_emergency_filter);
+		rb_police = (RadioButton)findViewById(R.id.rb_police_filter);
+
 		dt_begin = (DatePicker) findViewById(R.id.datepicker_from);
 		dt_end = (DatePicker) findViewById(R.id.datepicker_to);
 		
@@ -140,7 +138,7 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	    s = (Spinner) findViewById( R.id.radius_near_me );
 	    s.setAdapter( adapter );
 	     
-	    markers_in_radius = new ArrayList<Marker>();
+	    events_in_radius = new ArrayList<Marker>();
 	    geoCoder = new Geocoder(FilterActivity.this);
 	}
 	
@@ -179,20 +177,20 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	        case R.id.cb_category_filter:
 	            if (checked)
 	            	{
-	            		if(rb_red.isChecked()) this.category = "Red zone!";
-	            		if(rb_orange.isChecked()) this.category = "Orange zone!";
-	            		if(rb_yellow.isChecked()) this.category = "Yellow zone!";
-	            		
-	            		rb_red.setEnabled(true);
-	            		rb_orange.setEnabled(true);
-	            		rb_yellow.setEnabled(true);
+	            		if(rb_fire.isChecked()) this.type_of_event = "F";
+	            		if(rb_emergency.isChecked()) this.type_of_event = "E";
+	            		if(rb_police.isChecked()) this.type_of_event = "P";
+
+                        rb_fire.setEnabled(true);
+                        rb_emergency.setEnabled(true);
+                        rb_police.setEnabled(true);
 	            	}
 	            else
 		            {
-		            	rb_red.setEnabled(false);
-		            	rb_orange.setEnabled(false);
-		            	rb_yellow.setEnabled(false);
-		            	this.category = "";
+                        rb_fire.setEnabled(false);
+                        rb_emergency.setEnabled(false);
+                        rb_police.setEnabled(false);
+		            	this.type_of_event = "";
 		            }
 	            break;
 	        case R.id.cb_desc_filter:
@@ -204,39 +202,6 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	            {
 	            	et_description.setEnabled(false);
 	            	this.description = "";
-	            }
-	            break;
-	        case R.id.cb_user_filter:
-	            if (checked)
-	            {
-	            	et_username.setEnabled(true);
-	            }
-	            else
-	            {
-	            	et_username.setEnabled(false);
-	            	this.username = "";
-	            }
-	            break;
-	        case R.id.cb_comment_filter:
-	            if (checked)
-	            {
-	            	et_comment.setEnabled(true);
-	            }
-	            else
-	            {
-	            	et_comment.setEnabled(false);
-	            	this.comment = "";
-	            }
-	            break;
-	        case R.id.cb_comment_username_filter:
-	            if (checked)
-	            {
-	            	et_comment_user.setEnabled(true);
-	            }
-	            else
-	            {
-	            	et_comment_user.setEnabled(false);
-	            	this.comment_user = "";
 	            }
 	            break;
 	        case R.id.cb_radius:
@@ -287,19 +252,19 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	    
 	    // Check which radio button was clicked
 	    switch(view.getId()) {
-	        case R.id.rb_redzone_filter:
+	        case R.id.rb_fire_filter:
 	            if (checked)
-	                category="Red zone!";
+                    type_of_event="F";
 	
 	            break;
-	        case R.id.rb_orangezone_filter:
+	        case R.id.rb_emergency_filter:
 	            if (checked)
-	            	category="Orange zone!";
+                    type_of_event="E";
 
 	            break;
-	        case R.id.rb_yellowzone_filter:
+	        case R.id.rb_police_filter:
 	            if (checked)
-	            	category="Yellow zone!";
+                    type_of_event="P";
 	           
 	            break;
 	        case R.id.rb_current_location:
@@ -364,19 +329,7 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
     	if(cb.isChecked())
     		this.description = et_description.getText().toString();
     	
-    	cb = (CheckBox)findViewById(R.id.cb_user_filter);
-    	if(cb.isChecked())
-    		this.username = et_username.getText().toString();
-    	
-    	
-    	cb = (CheckBox)findViewById(R.id.cb_comment_filter);
-    	if(cb.isChecked())
-    		this.comment = et_comment.getText().toString();
-    	
-    	
-    	cb = (CheckBox)findViewById(R.id.cb_comment_username_filter);
-    	if(cb.isChecked())
-    		this.comment_user = et_comment_user.getText().toString();
+
     	
     	cb = (CheckBox)findViewById(R.id.cb_radius);
         if(cb.isChecked())
@@ -388,12 +341,12 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
         switch(v.getId())
         {
          
-         case R.id.btn_show_filltered_markers_on_map:
-          show_markers_in_list=false;
-          break;
-                  case R.id.btn_show_filltered_markers:
-                   show_markers_in_list = true;
-                   break;
+         case R.id.btn_show_filtered_events_on_map:
+            show_events_in_list=false;
+            break;
+         case R.id.btn_show_filtered_events:
+            show_events_in_list = true;
+            break;
 
         }
         
@@ -435,24 +388,15 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
 			params.add(new BasicNameValuePair("address", address));
-	        params.add(new BasicNameValuePair("category", category));
+	        params.add(new BasicNameValuePair("type_of_event", type_of_event));
 	        params.add(new BasicNameValuePair("description", description));
-	        params.add(new BasicNameValuePair("username", username));
-	        params.add(new BasicNameValuePair("comment", comment));
-	        params.add(new BasicNameValuePair("username_comment", comment_user));
 	       
 	        
 	        CheckBox cb = (CheckBox) findViewById(R.id.cb_date_filter);
 	         
 	        if(cb.isChecked()) params.add(new BasicNameValuePair("date_checked", "1"));
 	        else params.add(new BasicNameValuePair("date_checked", "0"));
-	        
-	        CheckBox cb1 = (CheckBox) findViewById(R.id.cb_comment_filter);
-	        CheckBox cb2 = (CheckBox) findViewById(R.id.cb_comment_username_filter);
-	        
-	        if(cb1.isChecked() || cb2.isChecked()) params.add(new BasicNameValuePair("comment_checked", "1"));
-	        else params.add(new BasicNameValuePair("comment_checked", "0"));
-	        
+
         	String begin_day, end_day;
  	        
  	        if(dt_begin.getDayOfMonth()>0 && dt_begin.getDayOfMonth()<9)
@@ -474,8 +418,8 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	        else end_month = Integer.toString(dt_end.getMonth()+1);
 	        
 	        
-	        params.add(new BasicNameValuePair("begintime", dt_begin.getYear()+"/"+begin_month+"/"+begin_day));
-	        params.add(new BasicNameValuePair("endtime",dt_end.getYear()+"/"+end_month+"/"+end_day));
+	        params.add(new BasicNameValuePair("begin_time", dt_begin.getYear()+"/"+begin_month+"/"+begin_day));
+	        params.add(new BasicNameValuePair("end_time",dt_end.getYear()+"/"+end_month+"/"+end_day));
         
 	       
         	JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
@@ -486,42 +430,44 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	 
 	                if (success == 1)
 	                {
-	                    // products found
-	                    // Getting Array of Products
-	                	markers_response = json.getJSONArray(TAG_MARKERS);
-	                	if(markers_response==null)
-	                		Toast.makeText(FilterActivity.this, "No markers found!", Toast.LENGTH_LONG).show();
+
+	                	events_response = json.getJSONArray(TAG_EVENTS);
+	                	if(events_response==null)
+	                		msg =  "No markers found!";
 	                	else
 	                	{
-	                		markers = new Marker[markers_response.length()];
+	                		markers = new Marker[events_response.length()];
 	 
-	                    // looping through All Products
-	                    for (int i = 0; i < markers_response.length(); i++)
-	                    {
-	                        JSONObject c = markers_response.getJSONObject(i);
-	 
-	                        markers[i] = new Marker();
-	                        // Storing each json item in variable
-	                        markers[i].setAddress(c.getString(TAG_ADDRESS));
-	                        markers[i].setUser_phone(c.getString(TAG_USERNAME));
-	                        markers[i].setType_of_event( c.getString(TAG_CATEGORY));
-	                        markers[i].setDescription(c.getString(TAG_DESC));
-	                        markers[i].setEvent_time(c.getString(TAG_TIME));
-	                        markers[i].setLng(c.getDouble(TAG_LONG));
-	                        markers[i].setLat(c.getDouble(TAG_LAT));
-	 
-	                   
-	                    }
+
+                            for (int i = 0; i < events_response.length(); i++)
+                            {
+                                JSONObject c = events_response.getJSONObject(i);
+
+                                markers[i] = new Marker();
+                                // Storing each json item in variable
+                                markers[i].setAddress(c.getString(TAG_ADDRESS));
+                                markers[i].setUser_phone(c.getString(TAG_USER_PHONE));
+                                markers[i].setType_of_event( c.getString(TAG_TYPE_OF_EVENT));
+                                markers[i].setDescription(c.getString(TAG_DESC));
+                                markers[i].setEvent_time(c.getString(TAG_EVENT_TIME));
+                                markers[i].setLng(c.getDouble(TAG_LNG));
+                                markers[i].setLat(c.getDouble(TAG_LAT));
+                                markers[i].id = c.getString(TAG_EVENT_ID);
+                                markers[i].setLocation_acc(Float.parseFloat(c.getString(TAG_LOCATION_ACC)));
+                                markers[i].setAnonymous(c.getInt(TAG_ANONYMOUS));
+
+
+                            }
 	                	}
 	                }
 	                else
 	                {
-	                	Toast.makeText(FilterActivity.this, "No markers found!", Toast.LENGTH_LONG).show();
+	                	msg = "No markers found!";
 	                }
             	}
             	catch (JSONException e)
             	{
-            		Toast.makeText(FilterActivity.this, "GRESKA JSON", Toast.LENGTH_LONG).show();
+            		msg = "GRESKA JSON";
             	}
             finishedTask=1;
             return finishedTask;
@@ -548,20 +494,20 @@ public class FilterActivity extends Activity implements android.view.View.OnClic
 	    
 	                  if (distance[0] <= radius)
 	                  {
-	                    markers_in_radius.add(markers[i]);
+	                    events_in_radius.add(markers[i]);
 	                  }
                  }
                  
                  markers=null;
-                 markers=new Marker[markers_in_radius.size()];
+                 markers=new Marker[events_in_radius.size()];
                  for( int i=0 ; i < markers.length; i++ )
                  {
 	                  markers[i] = new Marker();
-	                  markers[i]=markers_in_radius.get(i);
+	                  markers[i]=events_in_radius.get(i);
                  }
                  
                 }
-            	if(show_markers_in_list == true)
+            	if(show_events_in_list == true)
                 {
                 
                  Intent i = new Intent(FilterActivity.this,ListFilterActivity.class);

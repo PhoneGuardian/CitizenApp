@@ -24,8 +24,6 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment>{
     inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
   }
 
-  
-
 @Override
   public View getView(int position, View convertView, ViewGroup parent)
 {

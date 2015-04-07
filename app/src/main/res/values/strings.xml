@@ -32,9 +32,9 @@
 	<string name="add_location">Add location</string>
     <string name="autocomplete_hint">Enter place name or address</string>
 
-	<string name="red">Red</string>
-	<string name="orange">Orange</string>
-	<string name="yellow">Yellow</string>
+	<string name="fire">Fire</string>
+	<string name="emergency">Emergency</string>
+	<string name="police">Police</string>
 	
 	<string name="category">Category:</string>
 	<string name="description">Description:</string>
@@ -47,7 +47,7 @@
 	<string name="username_comment">Comment username:</string>
 	<string name="comment">Comment:</string>
 	
-	<string name="show_markers_on_map">Show on mao</string>
+	<string name="show_markers_on_map">Show on map</string>
 	<string name="show_list">Show in list</string>
 	<string name="add_comment">Add comment</string>
 	<string name="view_details">Marker details</string>
