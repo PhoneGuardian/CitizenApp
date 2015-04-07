@@ -123,11 +123,10 @@ public class ViewCommentsActivity extends ListActivity {
 	                        comments[i] = new Comment();
 	                        // Storing each json item in variable
 	                        comments[i].id = c.getString(TAG_ID);
-	                        comments[i].id_marker = c.getString(TAG_MARKER_ID);
-	                        comments[i].username_comment = c.getString(TAG_USERNAME_COMMENT);
-	                        comments[i].time = c.getString(TAG_TIME);
-	                        comments[i].rate = c.getString(TAG_RATE);
-	                        comments[i].comment = c.getString(TAG_COMMENT);
+	                        comments[i].id_event = c.getString(TAG_MARKER_ID);
+	                        comments[i].username = c.getString(TAG_USERNAME_COMMENT);
+	                        comments[i].comment_date = c.getString(TAG_TIME);
+	                        comments[i].comment_text = c.getString(TAG_COMMENT);
 	                   
 	                    }
 	                	}

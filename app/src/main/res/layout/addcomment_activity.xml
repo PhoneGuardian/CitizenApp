@@ -24,15 +24,7 @@
         android:textColor="@color/white"
         />
     
-    	<RatingBar 
-    	    android:id="@+id/rating_bar"
-    	    android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-    	    android:layout_gravity="center"
-    	    android:numStars="5"
-    	    android:rating="3"
-    	    android:stepSize="1.0"
-    	    android:isIndicator="false"/>
+
     	
     	<TextView 
     	    android:layout_width="wrap_content"
@@ -59,25 +51,9 @@
        		android:layout_margin="20dp"
         	android:layout_gravity="center">
             
-            <ImageView 
-            android:id = "@+id/img_comment_picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="30dp"
-            />
-        
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/btn_comment_picture"
-            android:text="@string/select_picture"
-            android:background="@color/white"
-            android:layout_marginTop="10sp"
-            android:padding="10dp"
 
-            />
+        
+
         </LinearLayout>
         
     	 <Button
