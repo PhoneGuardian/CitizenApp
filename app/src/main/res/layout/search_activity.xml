@@ -320,7 +320,7 @@
 			            android:layout_height="wrap_content">
 		            
 				            <RadioButton android:id="@+id/rb_current_location"
-				                android:text="@string/current_location"
+				                android:text="@string/my_location"
 				                android:textSize="20sp"
 				        		android:textColor="@color/white"
 				        		android:checked="true"

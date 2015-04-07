@@ -1,7 +1,6 @@
 package edu.elfak.mosis.phoneguardian;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,7 +12,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -50,7 +48,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class AddLocationActivity extends FragmentActivity implements OnClickListener
         ,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks
 {
-	EventLocation eventLocation = new EventLocation();
+    EventLocation inputLocation = new EventLocation();
+    EventLocation currentLocation = new EventLocation();
 
 	String type_of_event = "F";
 
@@ -105,9 +104,9 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
 
 		Location location = getlocation();
-        eventLocation.setLatitude(location.getLatitude());
-        eventLocation.setLongitude(location.getLongitude());
-        eventLocation.setAccuracy(location.getAccuracy());
+        currentLocation.setLatitude(location.getLatitude());
+        currentLocation.setLongitude(location.getLongitude());
+        currentLocation.setAccuracy(location.getAccuracy());
 
         BOUNDS_GREATER = new LatLngBounds(new LatLng(location.getLatitude()-0.5, location.getLongitude()-0.5),
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
@@ -162,10 +161,10 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
             // Format details of the place for display and show it in a TextView.
             mAutocompleteView.setText(place.getAddress());
-            eventLocation.setAddress(place.getAddress().toString());
-            eventLocation.setLatitude(place.getLatLng().latitude);
-            eventLocation.setLongitude(place.getLatLng().longitude);
-            eventLocation.setAccuracy(10);
+            inputLocation.setAddress(place.getAddress().toString());
+            inputLocation.setLatitude(place.getLatLng().latitude);
+            inputLocation.setLongitude(place.getLatLng().longitude);
+            inputLocation.setAccuracy(10);
         }
     };
 
@@ -234,7 +233,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 		case R.id.btn_save_location:
             String inputAddr = ((AutoCompleteTextView) findViewById(R.id.autocomplete_places)).getText().toString();
 
-			if(type_of_event!="" && description.getText().toString().length()!=0 && eventLocation.isValid() && inputAddr.equals(eventLocation.getAddress()))
+			if(type_of_event!="" && description.getText().toString().length()!=0)
 			{
 
                 argss[0] = User.getInstance().getPhone();
@@ -242,16 +241,29 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 				argss[3] = description.getText().toString();
 				argss[4] = time.getText().toString();
 
-                argss[1] = eventLocation.getAddress();
-                argss[5]= Double.toString(eventLocation.getLongitude());
-                argss[6] = Double.toString(eventLocation.getLatitude());
+                if ( inputAddr.length() == 0 ){
+                    argss[1] = currentLocation.getAddress();
+                    argss[5]= Double.toString(currentLocation.getLongitude());
+                    argss[6] = Double.toString(currentLocation.getLatitude());
+                    argss[7] = Float.toString(currentLocation.getAccuracy());
+                    argss[8] = Integer.toString(anonymous);
+                    new AddLocation().execute(argss);
 
-                argss[7] = Float.toString(eventLocation.getAccuracy());
-				argss[8] = Integer.toString(anonymous);
-                new AddLocation().execute(argss);
+                }else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress()) ){
+                    argss[1] = inputLocation.getAddress();
+                    argss[5]= Double.toString(inputLocation.getLongitude());
+                    argss[6] = Double.toString(inputLocation.getLatitude());
+                    argss[7] = Float.toString(inputLocation.getAccuracy());
+                    argss[8] = Integer.toString(anonymous);
+                    new AddLocation().execute(argss);
+
+                }else{
+                    Toast.makeText(AddLocationActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+
+                }
 			}
 			else
-				Toast.makeText(AddLocationActivity.this, "Some fields are empty or invalid!", Toast.LENGTH_LONG).show();
+				Toast.makeText(AddLocationActivity.this, "Some fields are empty", Toast.LENGTH_LONG).show();
 			break;
 			
 			
@@ -385,11 +397,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	
 			@Override
 			protected void onPostExecute(String addr) {
-                eventLocation.setAddress(addr);
-                mAutocompleteView.setAdapter(null);
-                ((AutoCompleteTextView)findViewById(R.id.autocomplete_places)).setText(addr);
-                mAutocompleteView.setAdapter(mAdapter);
-
+                currentLocation.setAddress(addr);
             }
 
 		}

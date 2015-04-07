@@ -6,6 +6,7 @@
     <string name="map">Map</string>
     <string name="report_event">Report event</string>
     <string name="browse_map">Browse map</string>
+    <string name="current_location">Current location</string>
 
     <string name="anonymous">Anonymous message</string>
     <string name="sign_up">Sign Up</string>
@@ -54,7 +55,7 @@
 	
 	<string name="radius">Radius</string>
 	<string name="location">Location</string>
-	<string name="current_location">My Location</string>
+	<string name="my_location">My Location</string>
 	<string name="location_from_address">Address</string>
 	<string name="from">From:</string>
 	<string name="to">To:</string>
