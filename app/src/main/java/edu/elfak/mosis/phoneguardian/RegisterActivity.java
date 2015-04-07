@@ -34,9 +34,6 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class RegisterActivity extends Activity implements OnClickListener {
 
-
-	int serverResponseCode = 0;
-
 	int pom = 0;
 
 	final JSONParser jParser = new JSONParser();
@@ -46,7 +43,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     final String TAG_SUCCESS = "success";
     User u;
     public int success=0;
-    String argss[] = new String[2];
+    String args[] = new String[2];
     Credentials myCredentials = new Credentials();
     protected Context context;
     
@@ -64,11 +61,11 @@ public class RegisterActivity extends Activity implements OnClickListener {
         context = this;
         if(credentialsAlreadySaved()){
             myCredentials = ReadFromCredentialsFile();
-            argss[1] = myCredentials.getUsername();
-            argss[0] = myCredentials.getPhoneNumber();
+            args[1] = myCredentials.getUsername();
+            args[0] = myCredentials.getPhoneNumber();
             u = User.getInstance();
-            u.setPhone(argss[0]);
-            u.setUsername(argss[1]);
+            u.setPhone(args[0]);
+            u.setUsername(args[1]);
 
             Intent i = new Intent(getApplicationContext(),AlertActivity.class );
             startActivity(i);
@@ -82,7 +79,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     
 
     
-    String GetCountryZipCode()
+   /* String GetCountryZipCode()
     {
 
         String CountryID="";
@@ -101,7 +98,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
               }
         }
         return CountryZipCode;
-    }
+    }*/
     
 
 	@Override
@@ -162,7 +159,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     private void checkAndSaveUser(String userNm, String phone) {
         try
         {
-            argss[0]= phone;
+            args[0]= phone;
 
             new CheckUser().execute().get();//on the top of the class success is initialized to 0 when thread is executed
         } catch (InterruptedException e)
@@ -177,7 +174,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
         if( success==1 )//if the thread returned 1 we will start it once more to execute adding of user
         {
-            argss[1]=userNm;
+            args[1]=userNm;
 
             try
             {
@@ -274,7 +271,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     //citanje  starih kredencijala
                     cred.setUsername(jObj.getString("Username"));
                     cred.setPhoneNumber(jObj.getString("PhoneNumber"));
-                    Toast.makeText(context, "Credentials already existed.", LENGTH_LONG).show();
+                    //Toast.makeText(context, "Credentials already existed.", LENGTH_LONG).show();
                     return cred;
                 } else {
                     Toast.makeText(context, "File exists, but couldn't parse.", LENGTH_LONG).show();
@@ -311,14 +308,14 @@ public class RegisterActivity extends Activity implements OnClickListener {
             if(success==1)
             {
 
-	            params.add(new BasicNameValuePair("username", argss[1]));
-                params.add(new BasicNameValuePair("phone_number", argss[0]));
+	            params.add(new BasicNameValuePair("username", args[1]));
+                params.add(new BasicNameValuePair("phone_number", args[0]));
                 json = jParser.makeHttpRequest(url_add_user, "GET", params);
 	            pom=1;
 
             }
             else {//so when the thread start success will be 0, and we need to check if the user already exists in db
-                params.add(new BasicNameValuePair("phone_number", argss[0]));
+                params.add(new BasicNameValuePair("phone_number", args[0]));
                 json = jParser.makeHttpRequest(url_check_user, "POST", params);//here we send user's phone and check if he is in the database.
                                                                                 // php will return 1 if he doesn't exist, 0 otherwise
             }
@@ -353,11 +350,11 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     else
                     {
                         Toast.makeText(RegisterActivity.this, "User created!" , LENGTH_LONG).show();
-                        myCredentials.setUsername(argss[1]);
-                        myCredentials.setPhoneNumber(argss[0]);
+                        myCredentials.setUsername(args[1]);
+                        myCredentials.setPhoneNumber(args[0]);
                         u = User.getInstance();
-                        u.setPhone(argss[0]);
-                        u.setUsername(argss[1]);
+                        u.setPhone(args[0]);
+                        u.setUsername(args[1]);
 
                         CreateCredentialsFile(myCredentials.getUsername(), myCredentials.getPhoneNumber());
 
