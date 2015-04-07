@@ -10,21 +10,20 @@ import android.widget.TabHost.TabSpec;
 @SuppressWarnings("deprecation")
 public class MarkerActivity extends TabActivity {
 
-	String username;
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.marker_activity);
          
         TabHost tabHost = getTabHost();
-        username = getIntent().getStringExtra("USERNAME");
         Marker m = (Marker) getIntent().getSerializableExtra("marker");
        
         TabSpec details = tabHost.newTabSpec("View details");
         details.setIndicator("View details");
         Intent i1 = new Intent(this, ViewMarkerDetailsActivity.class);
         i1.putExtra("marker", m);
-        i1.putExtra("USERNAME", username);
+
         details.setContent(i1);
          
         TabSpec comments = tabHost.newTabSpec("View comments");
@@ -36,7 +35,6 @@ public class MarkerActivity extends TabActivity {
         TabSpec add_comment = tabHost.newTabSpec("Add comment");
         add_comment.setIndicator("Add comment");
         Intent i3 = new Intent(this, AddCommentActivity.class);
-        i3.putExtra("USERNAME", username);
         i3.putExtra("marker", m);
         add_comment.setContent(i3);
          
