@@ -21,7 +21,7 @@ public class ListFilterActivity extends ListActivity {
         
         for(int i=0 ; i<markers.length; i++)
         {
-         niz[i] = "address: "+markers[i].getAddress()+"\ncategory: "+markers[i].getType_of_event();
+         niz[i] = "address: "+markers[i].getAddress()+"\nType of event: "+markers[i].getType_of_event();
         }
         
         

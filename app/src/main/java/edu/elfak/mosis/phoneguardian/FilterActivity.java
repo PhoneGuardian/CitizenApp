@@ -22,6 +22,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,7 +49,7 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-public class FilterActivity extends FragmentActivity implements android.view.View.OnClickListener,,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+public class FilterActivity extends FragmentActivity implements android.view.View.OnClickListener,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
 
     EventLocation inputLocation = new EventLocation();
@@ -62,9 +63,12 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
 
     Marker markers[];
-	int finishedTask = 0;
+
 	boolean show_events_in_list = false;
-	boolean radius_checked = false;
+	int radius_checked = 0;
+    int description_checked = 0;
+    int type_of_event_checked = 0;
+    int date_checked = 0;
 	 
 	ArrayList<Marker> events_in_radius;
 	Geocoder geoCoder ;
@@ -73,12 +77,13 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	
 	JSONParser jParser = new JSONParser();
     
-    private static String URL = "http://nemanjastolic.co.nf/guardian/get_events_by_filter.php";
- 
+    private static String URL = "http://nemanjastolic.co.nf/wordpress/guardian/get_events_by_filter.php";
+
     // JSON Node names
     Tags t;
 
     JSONArray events_response = null;
+    JSONArray message_response = null;
 
 	DatePicker dt_begin;
 	DatePicker dt_end;
@@ -89,6 +94,8 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	RadioButton rb_fire;
 	RadioButton rb_emergency;
 	RadioButton rb_police;
+    DatePicker date_from;
+    DatePicker date_to;
 	
 	Spinner spinner_radius;
 
@@ -102,6 +109,10 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	 
 	double latitude;
 	double longitude;
+    double lat_min;
+    double lat_max;
+    double lng_min;
+    double lng_max;
 	float radius;
 	
 	
@@ -136,9 +147,12 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 		
 		btn_filtered_events = (Button) findViewById(R.id.btn_show_filtered_events);
 		btn_filtered_events.setOnClickListener(this);
-		
 
 		et_description = (EditText)findViewById(R.id.et_desc_filter);
+        date_from = (DatePicker) findViewById(R.id.datepicker_from);
+        date_from.setSpinnersShown(false);
+        date_to = (DatePicker) findViewById(R.id.datepicker_to);
+        date_to.setSpinnersShown(false);
 		
 		rg_type_of_event = (RadioGroup)findViewById(R.id.rg_type_of_event);
 
@@ -150,7 +164,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 		dt_end = (DatePicker) findViewById(R.id.datepicker_to);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-		         this, R.array.spinner, android.R.layout.simple_spinner_item );
+		         this, R.array.radius_array, android.R.layout.simple_spinner_item );
 		       adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 		     
 	    spinner_radius = (Spinner) findViewById( R.id.radius_filter );
@@ -364,7 +378,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	            		/*if(rb_fire.isChecked()) this.type_of_event = "F";
 	            		if(rb_emergency.isChecked()) this.type_of_event = "E";
 	            		if(rb_police.isChecked()) this.type_of_event = "P";*/
-
+                        type_of_event_checked = 1;
                         rb_fire.setEnabled(true);
                         rb_emergency.setEnabled(true);
                         rb_police.setEnabled(true);
@@ -374,33 +388,50 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                         rb_fire.setEnabled(false);
                         rb_emergency.setEnabled(false);
                         rb_police.setEnabled(false);
-		            	this.type_of_event = "";
+                        type_of_event_checked = 0;
 		            }
 	            break;
 	        case R.id.cb_desc_filter:
 	            if (checked)
 	            {
+                    description_checked = 1;
 	            	et_description.setEnabled(true);
 	            }
 	            else
 	            {
 	            	et_description.setEnabled(false);
-	            	this.description = "";
+	            	description_checked = 0;
 	            }
 	            break;
 	        case R.id.cb_radius:
 	             if (checked)
 	             {
 	              spinner_radius.setEnabled(true);
-	              radius_checked = true;
+	              radius_checked = 1;
 	             }
 	             else
 	             {
 	              spinner_radius.setEnabled(false);
-	              radius_checked = false;
+	              radius_checked = 0;
 	   
 	             }
 	             break;
+            case R.id.cb_date_filter:
+                if (checked)
+                {
+                    date_from.setSpinnersShown(true);
+                    date_to.setSpinnersShown(true);
+                    date_checked = 1;
+                }
+                else
+                {
+                    date_from.setSpinnersShown(false);
+                    date_to.setSpinnersShown(false);
+                    spinner_radius.setEnabled(false);
+                    date_checked = 0;
+
+                }
+                break;
 
 	    }
 	}
@@ -430,43 +461,90 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		CheckBox cb;
 
-    	this.address = mAutocompleteView.getText().toString();
-    	
-    	cb = (CheckBox)findViewById(R.id.cb_desc_filter);
-    	if(cb.isChecked())
-    		this.description = et_description.getText().toString();
 
-    	cb = (CheckBox)findViewById(R.id.cb_radius);
-        if(cb.isChecked())
-        	this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
-        
+
 
         switch(v.getId())
         {
          
          case R.id.btn_show_filtered_events_on_map:
-            show_events_in_list=false;
+             show_events_in_list=false;
+             String inputAddr = mAutocompleteView.getText().toString();
+             if(inputAddr.length() == 0)
+             {
+                 this.address = currentLocation.getAddress();
+                 this.latitude = currentLocation.getLatitude();
+                 this.longitude = currentLocation.getLongitude();
+             }
+             else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress()) )
+             {
+                 this.address = inputLocation.getAddress();
+                 this.latitude = currentLocation.getLatitude();
+                 this.longitude = currentLocation.getLongitude();
+
+             }
+             else
+             {
+                 Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+             }
+
+
+             if(description_checked==1)
+                 this.description = et_description.getText().toString();
+             if(radius_checked==1)
+                 this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
+
+             new GetMarkersBySearch().execute();
             break;
          case R.id.btn_show_filtered_events:
             show_events_in_list = true;
+             if(mAutocompleteView.getText().toString().length() == 0)
+             {
+                 this.address = currentLocation.getAddress();
+                 this.latitude = currentLocation.getLatitude();
+                 this.longitude = currentLocation.getLongitude();
+             }
+             else if (inputLocation.isValid() && mAutocompleteView.equals(inputLocation.getAddress()) )
+             {
+                 this.address = inputLocation.getAddress();
+                 this.latitude = currentLocation.getLatitude();
+                 this.longitude = currentLocation.getLongitude();
+
+             }
+             else
+             {
+                 Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+             }
+
+
+             if(description_checked==1)
+                 this.description = et_description.getText().toString();
+             if(radius_checked==1)
+                 this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
+
+             new GetMarkersBySearch().execute();
             break;
 
         }
         
         
-         new GetMarkersBySearch().execute();
+
           
          
 		
 	}
 	
-	/*@Override
-	  public void onBackPressed() {
-	    this.getParent().onBackPressed();   
-	  }*/
-	
+
+    private double  toRad(double val) {
+        /** Converts numeric degrees to radians */
+        return val * Math.PI / 180;
+    }
+
+    private double  toDeg(double val) {
+        /** Converts numeric degrees to radians */
+        return val * 180 / Math.PI;
+    }
 	
 	class GetMarkersBySearch extends AsyncTask<Void, Void, Integer>
 	{
@@ -474,17 +552,46 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 		@Override
 		protected Integer doInBackground(Void... paramss) {
 			// TODO Auto-generated method stub
-			List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            if(radius_checked==1)
+            {
+                double R = 6371; //in km
+                double r = radius / R; //d has to be in km
+
+                double lat_rad = toRad(latitude);
+                double lng_rad = toRad(longitude);
+
+                double lat_min_rad = lat_rad - r;
+                double lat_max_rad = lat_rad + r;
+
+                double delta_lot = Math.asin(Math.sin(r) / Math.cos(r));
+                double lng_min_rad = lng_rad - delta_lot;
+                double lng_max_rad = lng_rad + delta_lot;
+
+                lat_min = toDeg(lat_min_rad);
+                lat_max = toDeg(lat_max_rad);
+                lng_min = toDeg(lng_min_rad);
+                lng_max = toDeg(lng_max_rad);
+
+                params.add(new BasicNameValuePair("lng_min",Double.toString(lng_min)));
+                params.add(new BasicNameValuePair("lng_max",Double.toString(lng_max)));
+                params.add(new BasicNameValuePair("lat_min",Double.toString(lat_min)));
+                params.add(new BasicNameValuePair("lat_max",Double.toString(lat_max)));
+            }
+
+
 			
 			params.add(new BasicNameValuePair("address", address));
 	        params.add(new BasicNameValuePair("type_of_event", type_of_event));
 	        params.add(new BasicNameValuePair("description", description));
-	       
+
+            params.add(new BasicNameValuePair("radius_checked",Integer.toString(radius_checked)));
+            params.add(new BasicNameValuePair("description_checked",Integer.toString(description_checked)));
+            params.add(new BasicNameValuePair("type_of_event_checked",Integer.toString(type_of_event_checked)));
+            params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
 	        
-	        CheckBox cb = (CheckBox) findViewById(R.id.cb_date_filter);
-	         
-	        if(cb.isChecked()) params.add(new BasicNameValuePair("date_checked", "1"));
-	        else params.add(new BasicNameValuePair("date_checked", "0"));
 
         	String begin_day, end_day;
  	        
@@ -507,8 +614,8 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	        else end_month = Integer.toString(dt_end.getMonth()+1);
 	        
 	        
-	        params.add(new BasicNameValuePair("begin_time", dt_begin.getYear()+"/"+begin_month+"/"+begin_day));
-	        params.add(new BasicNameValuePair("end_time",dt_end.getYear()+"/"+end_month+"/"+end_day));
+	        params.add(new BasicNameValuePair("begin_time", dt_begin.getYear()+"-"+begin_month+"-"+begin_day+" 00:00:00"));
+	        params.add(new BasicNameValuePair("end_time",dt_end.getYear()+"-"+end_month+"-"+end_day+" 23:59:59"));
         
 	       
         	JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
@@ -521,6 +628,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	                {
 
 	                	events_response = json.getJSONArray(t.TAG_EVENTS);
+
 	                	if(events_response==null)
 	                		msg =  "No markers found!";
 	                	else
@@ -558,44 +666,13 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             	{
             		msg = "GRESKA JSON";
             	}
-            finishedTask=1;
-            return finishedTask;
+
+            return 0;
 		}
 		@Override
 		protected void onPostExecute(Integer result)
 		{
-           /* if(result==1)
-            {
-            	if(radius_checked)
-                {
-                 
-                 if(rb_location_from_address.isChecked()) 
-                  convertAddress();
-                  
-                 
-                 float distance[] = new float[2];
-                 
-                 for( int i=0 ; i < markers.length; i++ )
-                 {
-	                  Location.distanceBetween(markers[i].lat,
-	                    markers[i].lng, latitude,
-	                             longitude, distance);
-	    
-	                  if (distance[0] <= radius)
-	                  {
-	                    events_in_radius.add(markers[i]);
-	                  }
-                 }
-                 
-                 markers=null;
-                 markers=new Marker[events_in_radius.size()];
-                 for( int i=0 ; i < markers.length; i++ )
-                 {
-	                  markers[i] = new Marker();
-	                  markers[i]=events_in_radius.get(i);
-                 }
-                 
-                }
+
             	if(show_events_in_list == true)
                 {
                 
@@ -612,15 +689,12 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                   Toast.makeText(FilterActivity.this,"USPEH",Toast.LENGTH_LONG).show();
                 }
             	
-            }
-            else
-            	Toast.makeText(FilterActivity.this,"finishedTask is 0",
-	                    Toast.LENGTH_LONG).show();
+
             
           
             FilterActivity.this.finish();
              
-            */
+
         }
 		
 	}
