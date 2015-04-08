@@ -29,4 +29,10 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="app_text_normal_light_gray">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textColor">@color/gray_dark</item>
+    </style>
+
 </resources>

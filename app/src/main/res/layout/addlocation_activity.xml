@@ -33,13 +33,9 @@
          android:id="@+id/autocomplete_places"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:dropDownVerticalOffset="2dp"
-         android:drawableLeft="@drawable/location_pin_gray_13x16"
-android:drawablePadding="@dimen/spacing_small"
-         android:dropDownWidth="wrap_content"
          android:hint="@string/current_location"
-         android:inputType="textAutoComplete|textAutoCorrect"
-         style="@style/app_text_normal"
+         android:drawableLeft="@drawable/location_pin_gray_13x16"
+         style="@style/addlocation_ClearableAutoCompleteTextView"
          />
 
         <TextView android:id="@+id/label_addingtime"
