@@ -18,14 +18,11 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,24 +30,23 @@ import android.widget.Toast;
 import com.matesnetwork.callverification.Cognalys;
 import com.matesnetwork.interfaces.VerificationListner;
 
-import static android.view.View.OnTouchListener;
 import static android.widget.Toast.LENGTH_LONG;
 
 public class RegisterActivity extends Activity implements OnClickListener {
 
-	int pom = 0;
 
-	final JSONParser jParser = new JSONParser();
-	private String url_check_user = "http://nemanjastolic.co.nf/guardian/check_user.php";
+    int pom = 0;
+
+    final JSONParser jParser = new JSONParser();
+    private String url_check_user = "http://nemanjastolic.co.nf/guardian/check_user.php";
     private String url_add_user = "http://nemanjastolic.co.nf/guardian/add_user.php";
 
     final String TAG_SUCCESS = "success";
     User u;
     public int success=0;
-    String args[] = new String[2];
+    String argss[] = new String[2];
     Credentials myCredentials = new Credentials();
     protected Context context;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,18 +55,18 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
         Button btnFinish = (Button) findViewById(R.id.btn_signup);
         btnFinish.setOnClickListener(this);
-        
+
         TextView tvPhoneCountryCode = (TextView) findViewById(R.id.tv_register_mcc);
         tvPhoneCountryCode.setText(Cognalys.getCountryCode(this));
 
         context = this;
         if(credentialsAlreadySaved()){
             myCredentials = ReadFromCredentialsFile();
-            args[1] = myCredentials.getUsername();
-            args[0] = myCredentials.getPhoneNumber();
+            argss[1] = myCredentials.getUsername();
+            argss[0] = myCredentials.getPhoneNumber();
             u = User.getInstance();
-            u.setPhone(args[0]);
-            u.setUsername(args[1]);
+            u.setPhone(argss[0]);
+            u.setUsername(argss[1]);
 
             Intent i = new Intent(getApplicationContext(),AlertActivity.class );
             startActivity(i);
@@ -80,14 +76,11 @@ public class RegisterActivity extends Activity implements OnClickListener {
             Log.d("RegisterAcitivity - creating file credentials with content {}: ","proceed to registration");
         }
 
-        // hide keyboard on oudside press
-        ((RelativeLayout) findViewById(R.id.layout_register)).setOnTouchListener(hideKeyboardlistener);
-
     }
-    
 
-    
-   /* String GetCountryZipCode()
+
+
+    String GetCountryZipCode()
     {
 
         String CountryID="";
@@ -98,57 +91,57 @@ public class RegisterActivity extends Activity implements OnClickListener {
         String[] rl=this.getResources().getStringArray(R.array.CountryCodes);
         for(int i=0;i<rl.length;i++)
         {
-              String[] g=rl[i].split(",");
-              if(g[1].trim().equals(CountryID.trim()))
-              {
-                    CountryZipCode+=g[0];
-                    break;
-              }
+            String[] g=rl[i].split(",");
+            if(g[1].trim().equals(CountryID.trim()))
+            {
+                CountryZipCode+=g[0];
+                break;
+            }
         }
         return CountryZipCode;
-    }*/
-    
+    }
 
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		switch(v.getId())
-		{
 
-			case R.id.btn_signup:
-				EditText etUsername = (EditText) findViewById(R.id.et_login_username);
-				final String userNm =etUsername.getText().toString();
-				EditText etPhone = (EditText) findViewById(R.id.et_register_phone_num);
-				final String phone =etPhone.getText().toString();
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch(v.getId())
+        {
 
-				
-				if(userNm.compareTo("")==0 ||  phone.compareTo("")==0)
-					Toast.makeText(this, "Invalid input data!", LENGTH_LONG).show();
-				else
-					{
-                        disableSignUp();
-                        Cognalys.verifyMobileNumber(context, "d11cf058b1991bada9be7114bbe471410d433454", "bd0f84a2509f4f0f92b89b5", phone, new VerificationListner() {
-                            @Override
-                            public void onVerificationStarted() {
-                            }
+            case R.id.btn_signup:
+                EditText etUsername = (EditText) findViewById(R.id.et_login_username);
+                final String userNm =etUsername.getText().toString();
+                EditText etPhone = (EditText) findViewById(R.id.et_register_phone_num);
+                final String phone =etPhone.getText().toString();
 
-                            @Override
-                            public void onVerificationSuccess() {
-                                enableSignUp();
-                                checkAndSaveUser(userNm, Cognalys.getCountryCode(RegisterActivity.this)+ phone);
 
-                            }
+                if(userNm.compareTo("")==0 ||  phone.compareTo("")==0)
+                    Toast.makeText(this, "Invalid input data!", LENGTH_LONG).show();
+                else
+                {
+                    disableSignUp();
+                    Cognalys.verifyMobileNumber(context, "d11cf058b1991bada9be7114bbe471410d433454", "bd0f84a2509f4f0f92b89b5", phone, new VerificationListner() {
+                        @Override
+                        public void onVerificationStarted() {
+                        }
 
-                            @Override
-                            public void onVerificationFailed(ArrayList<String> errorList) {
-                                enableSignUp();
-                                Toast.makeText(RegisterActivity.this, "You have inserted an incorrect number", LENGTH_LONG).show();
-                            }
-                        });
-					}
-		}
-		
-	}
+                        @Override
+                        public void onVerificationSuccess() {
+                            enableSignUp();
+                            checkAndSaveUser(userNm, Cognalys.getCountryCode(RegisterActivity.this)+ phone);
+
+                        }
+
+                        @Override
+                        public void onVerificationFailed(ArrayList<String> errorList) {
+                            enableSignUp();
+                            Toast.makeText(RegisterActivity.this, "You have inserted an incorrect number", LENGTH_LONG).show();
+                        }
+                    });
+                }
+        }
+
+    }
     private void enableSignUp(){
         ProgressBar spinner = (ProgressBar)findViewById(R.id.spinner_signup);
         spinner.setVisibility(View.INVISIBLE);
@@ -167,7 +160,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     private void checkAndSaveUser(String userNm, String phone) {
         try
         {
-            args[0]= phone;
+            argss[0]= phone;
 
             new CheckUser().execute().get();//on the top of the class success is initialized to 0 when thread is executed
         } catch (InterruptedException e)
@@ -182,7 +175,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
         if( success==1 )//if the thread returned 1 we will start it once more to execute adding of user
         {
-            args[1]=userNm;
+            argss[1]=userNm;
 
             try
             {
@@ -279,7 +272,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     //citanje  starih kredencijala
                     cred.setUsername(jObj.getString("Username"));
                     cred.setPhoneNumber(jObj.getString("PhoneNumber"));
-                    //Toast.makeText(context, "Credentials already existed.", LENGTH_LONG).show();
+                    Toast.makeText(context, "Credentials already existed.", LENGTH_LONG).show();
                     return cred;
                 } else {
                     Toast.makeText(context, "File exists, but couldn't parse.", LENGTH_LONG).show();
@@ -294,9 +287,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
         return null;
     }
 
-	class CheckUser extends AsyncTask<String, String, String>
-	{
-	   	 
+    class CheckUser extends AsyncTask<String, String, String>
+    {
+
         /**
          * Before starting background thread Show Progress Dialog
          * */
@@ -305,7 +298,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             super.onPreExecute();
 
         }
- 
+
         /**
          * getting All users from url
          * */
@@ -316,19 +309,19 @@ public class RegisterActivity extends Activity implements OnClickListener {
             if(success==1)
             {
 
-	            params.add(new BasicNameValuePair("username", args[1]));
-                params.add(new BasicNameValuePair("phone_number", args[0]));
+                params.add(new BasicNameValuePair("username", argss[1]));
+                params.add(new BasicNameValuePair("phone_number", argss[0]));
                 json = jParser.makeHttpRequest(url_add_user, "GET", params);
-	            pom=1;
+                pom=1;
 
             }
             else {//so when the thread start success will be 0, and we need to check if the user already exists in db
-                params.add(new BasicNameValuePair("phone_number", args[0]));
+                params.add(new BasicNameValuePair("phone_number", argss[0]));
                 json = jParser.makeHttpRequest(url_check_user, "POST", params);//here we send user's phone and check if he is in the database.
-                                                                                // php will return 1 if he doesn't exist, 0 otherwise
+                // php will return 1 if he doesn't exist, 0 otherwise
             }
 
-            try 
+            try
             {
                 success = json.getInt(TAG_SUCCESS); //1 if he doesn't exist, 0 otherwise
                 //now return to  the line 127
@@ -340,29 +333,29 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
             return null;
         }
- 
+
         /**
          * After completing background task Dismiss the progress dialog
          * **/
         @Override
         protected void onPostExecute(String file_url) {
-        	
-        	
-        	runOnUiThread(new Runnable() {
+
+
+            runOnUiThread(new Runnable() {
                 public void run() {
                     /**
                      * Updating parsed JSON data into ListView
                      * */
-                	if( success == 0 ) 
-                		Toast.makeText(RegisterActivity.this, "Phone number already exists in our system!" , LENGTH_LONG).show();
+                    if( success == 0 )
+                        Toast.makeText(RegisterActivity.this, "Phone number already exists in our system!" , LENGTH_LONG).show();
                     else
                     {
                         Toast.makeText(RegisterActivity.this, "User created!" , LENGTH_LONG).show();
-                        myCredentials.setUsername(args[1]);
-                        myCredentials.setPhoneNumber(args[0]);
+                        myCredentials.setUsername(argss[1]);
+                        myCredentials.setPhoneNumber(argss[0]);
                         u = User.getInstance();
-                        u.setPhone(args[0]);
-                        u.setUsername(args[1]);
+                        u.setPhone(argss[0]);
+                        u.setUsername(argss[1]);
 
                         CreateCredentialsFile(myCredentials.getUsername(), myCredentials.getPhoneNumber());
 
@@ -370,26 +363,14 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         startActivity(i);
                     }
 
-                	
-                	
+
+
                 }
             });
-        	
+
         }
 
- 
+
     }
-    private OnTouchListener hideKeyboardlistener = new OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent ev) {
-            hideKeyboard(view);
-            return false;
-        }
-        protected void hideKeyboard(View view)
-        {
-            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    };
 
 }

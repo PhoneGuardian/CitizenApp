@@ -56,8 +56,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
 	String type_of_event = "F";
 
-	final String TAG_SUCCESS = "success";
-	final String TAG_MESSAGE = "message";
+	Tags t;
 
 	final JSONParser jParser = new JSONParser();
 	String URL = "";
@@ -437,8 +436,8 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	            try 
 	            {
 	                // Checking for SUCCESS TAG
-	                success = json.getInt(TAG_SUCCESS);
-	                msg = json.getString(TAG_MESSAGE);
+	                success = json.getInt(t.TAG_SUCCESS);
+	                msg = json.getString(t.TAG_MESSAGE);
 	 
 	            }
 	            catch (JSONException e)

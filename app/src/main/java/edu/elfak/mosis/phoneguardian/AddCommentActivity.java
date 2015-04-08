@@ -24,9 +24,7 @@ import android.widget.Toast;
 
 public class AddCommentActivity extends Activity implements android.view.View.OnClickListener {
 
-    final String TAG_SUCCESS = "success";
-    final String TAG_MESSAGE = "message";
-    final String TAG_ID = "id";
+    Tags t;
 
     final JSONParser jParser = new JSONParser();
 
@@ -124,9 +122,9 @@ public class AddCommentActivity extends Activity implements android.view.View.On
  
             try 
             {
-                success = json.getInt(TAG_SUCCESS);
-                msg = json.getString(TAG_MESSAGE);
-                id_comment = json.getString(TAG_ID);
+                success = json.getInt(t.TAG_SUCCESS);
+                msg = json.getString(t.TAG_MESSAGE);
+                id_comment = json.getString(t.TAG_ID);
             }
             catch (JSONException e)
             {

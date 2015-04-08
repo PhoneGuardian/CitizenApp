@@ -56,33 +56,15 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	
 	int refresh= 1;
 
-	
 	JSONParser jParser = new JSONParser();
-	
-
 	
     private static String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
  
-    
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_EVENTS = "events";
-    
-    private static final String TAG_ADDRESS = "address";
-    private static final String TAG_USER_PHONE = "user_phone";
-    private static final String TAG_TYPE_OF_EVENT = "type_of_event";
-    private static final String TAG_DESC = "description";
-    private static final String TAG_EVENT_TIME = "event_time";
-    private static final String TAG_LAT = "lat";
-    private static final String TAG_LONG = "lng";
-    private static final String TAG_ACCURACY = "location_acc";
-    private static final String TAG_ANONYMOUS = "anonymous";
-    private static final String TAG_ID = "event_id";
+    Tags t;
 
     JSONArray markers_response = null;
 
     private float previousZoomLevel = -1.0f;
-
-
 
 	
 	@Override
@@ -390,13 +372,13 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
  
             try {
                 // Checking for SUCCESS TAG
-	                int success = json.getInt(TAG_SUCCESS);
+	                int success = json.getInt(t.TAG_SUCCESS);
 	 
 	                if (success == 1)
 	                {
 	                    // products found
 	                    // Getting Array of Products
-	                	markers_response = json.getJSONArray(TAG_EVENTS);
+	                	markers_response = json.getJSONArray(t.TAG_EVENTS);
 	                	if(markers_response==null)
 	                		Toast.makeText(PGMapActivity.this, "No markers found!", Toast.LENGTH_LONG).show();
 	                	else
@@ -409,16 +391,16 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
                                 JSONObject c = markers_response.getJSONObject(i);
 
                                 markers[i] = new Marker();
-                                markers[i].id = c.getString(TAG_ID);
-                                markers[i].setAddress(c.getString(TAG_ADDRESS));
-                                markers[i].setUser_phone(c.getString(TAG_USER_PHONE));
-                                markers[i].setType_of_event( c.getString(TAG_TYPE_OF_EVENT));
-                                markers[i].setDescription(c.getString(TAG_DESC));
-                                markers[i].setEvent_time(c.getString(TAG_EVENT_TIME));
-                                markers[i].setLng(c.getDouble(TAG_LONG));
-                                markers[i].setLat(c.getDouble(TAG_LAT));
-                                markers[i].setAnonymous(c.getInt(TAG_ANONYMOUS));
-                                markers[i].setLocation_acc(c.getLong(TAG_ACCURACY));
+                                markers[i].id = c.getString(t.TAG_EVENT_ID);
+                                markers[i].setAddress(c.getString(t.TAG_ADDRESS));
+                                markers[i].setUser_phone(c.getString(t.TAG_USER_PHONE));
+                                markers[i].setType_of_event( c.getString(t.TAG_TYPE_OF_EVENT));
+                                markers[i].setDescription(c.getString(t.TAG_DESC));
+                                markers[i].setEvent_time(c.getString(t.TAG_EVENT_TIME));
+                                markers[i].setLng(c.getDouble(t.TAG_LNG));
+                                markers[i].setLat(c.getDouble(t.TAG_LAT));
+                                markers[i].setAnonymous(c.getInt(t.TAG_ANONYMOUS));
+                                markers[i].setLocation_acc(c.getLong(t.TAG_LOCATION_ACC));
 
 
                             }
