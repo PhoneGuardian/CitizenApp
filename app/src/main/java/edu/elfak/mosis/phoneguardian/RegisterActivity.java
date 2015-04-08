@@ -18,11 +18,14 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +33,13 @@ import android.widget.Toast;
 import com.matesnetwork.callverification.Cognalys;
 import com.matesnetwork.interfaces.VerificationListner;
 
+import static android.view.View.OnTouchListener;
 import static android.widget.Toast.LENGTH_LONG;
 
 public class RegisterActivity extends Activity implements OnClickListener {
 
+
+    int serverResponseCode = 0;
 
     int pom = 0;
 
@@ -69,13 +75,18 @@ public class RegisterActivity extends Activity implements OnClickListener {
             u.setUsername(argss[1]);
 
             Intent i = new Intent(getApplicationContext(),AlertActivity.class );
-            startActivity(i);
+            i.addCategory(Intent.CATEGORY_HOME);
+            i.setFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i); // Launch the AlertActivity
+            finish();         // Close down the RegistersActivity
         }
         else {
 
             Log.d("RegisterAcitivity - creating file credentials with content {}: ","proceed to registration");
         }
 
+        // hide keyboard on oudside press
+        ((RelativeLayout) findViewById(R.id.layout_register)).setOnTouchListener(hideKeyboardlistener);
     }
 
 
@@ -161,6 +172,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
         try
         {
             argss[0]= phone;
+            argss[1]= userNm;
 
             new CheckUser().execute().get();//on the top of the class success is initialized to 0 when thread is executed
         } catch (InterruptedException e)
@@ -317,6 +329,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             }
             else {//so when the thread start success will be 0, and we need to check if the user already exists in db
                 params.add(new BasicNameValuePair("phone_number", argss[0]));
+                params.add(new BasicNameValuePair("username", argss[1]));
                 json = jParser.makeHttpRequest(url_check_user, "POST", params);//here we send user's phone and check if he is in the database.
                 // php will return 1 if he doesn't exist, 0 otherwise
             }
@@ -347,7 +360,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                      * Updating parsed JSON data into ListView
                      * */
                     if( success == 0 )
-                        Toast.makeText(RegisterActivity.this, "Phone number already exists in our system!" , LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, "Phone number/username combination already exist in our system!" , LENGTH_LONG).show();
                     else
                     {
                         Toast.makeText(RegisterActivity.this, "User created!" , LENGTH_LONG).show();
@@ -360,9 +373,12 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         CreateCredentialsFile(myCredentials.getUsername(), myCredentials.getPhoneNumber());
 
                         Intent i = new Intent(getApplicationContext(),AlertActivity.class );
-                        startActivity(i);
-                    }
+                        i.addCategory(Intent.CATEGORY_HOME);
+                        i.setFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i); // Launch the AlertActivity
+                        finish();         // Close down the RegistersActivity
 
+                    }
 
 
                 }
@@ -370,7 +386,19 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
         }
 
-
     }
+    private OnTouchListener hideKeyboardlistener = new OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent ev) {
+            hideKeyboard(view);
+            return false;
+        }
+        protected void hideKeyboard(View view)
+        {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+    };
 
 }
