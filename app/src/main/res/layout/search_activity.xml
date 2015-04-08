@@ -121,7 +121,7 @@
 			            android:text="@string/date"
                         android:textColor="@color/black"
 			            android:onClick="onCheckboxClicked"/>
-	
+
 
 			    <TextView
 					    android:layout_width="wrap_content"
@@ -136,7 +136,9 @@
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:endYear="2050"
-			        	android:startYear="1950"/>
+			        	android:startYear="1950"
+                        android:spinnersShown="false"
+                        />
 
 							    
 			    <TextView
@@ -152,7 +154,9 @@
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:endYear="2050"
-			        	android:startYear="1950"/>
+			        	android:startYear="1950"
+                        android:spinnersShown="false"/>
+
 
 	       </LinearLayout>
 	        
