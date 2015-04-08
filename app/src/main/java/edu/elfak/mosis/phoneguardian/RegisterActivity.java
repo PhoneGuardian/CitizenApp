@@ -75,7 +75,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
             u.setUsername(argss[1]);
 
             Intent i = new Intent(getApplicationContext(),AlertActivity.class );
-            startActivity(i);
+            i.addCategory(Intent.CATEGORY_HOME);
+            i.setFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i); // Launch the AlertActivity
+            finish();         // Close down the RegistersActivity
         }
         else {
 
@@ -370,9 +373,12 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         CreateCredentialsFile(myCredentials.getUsername(), myCredentials.getPhoneNumber());
 
                         Intent i = new Intent(getApplicationContext(),AlertActivity.class );
-                        startActivity(i);
-                    }
+                        i.addCategory(Intent.CATEGORY_HOME);
+                        i.setFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i); // Launch the AlertActivity
+                        finish();         // Close down the RegistersActivity
 
+                    }
 
 
                 }

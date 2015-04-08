@@ -42,9 +42,4 @@ public class AlertActivity extends Activity implements OnClickListener
 		}
 	}
 
-    @Override
-    public void onBackPressed()
-    {
-
-    }
 }
