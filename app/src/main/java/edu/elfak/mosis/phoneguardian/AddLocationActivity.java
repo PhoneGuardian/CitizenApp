@@ -28,13 +28,17 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,8 +117,10 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
         mAutocompleteView.setAdapter(mAdapter);
 
 		(new GetAddressTask(this)).execute(location);
+        findViewById(R.id.layout_add_location).setOnTouchListener(hideKeyboardlistener);
 
-	}
+
+    }
 
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -457,6 +463,19 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	        }
 	 
 	    }
+    private View.OnTouchListener hideKeyboardlistener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent ev) {
+            hideKeyboard(view);
+            return false;
+        }
+        protected void hideKeyboard(View view)
+        {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+    };
 
 
 	
