@@ -83,7 +83,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     Tags t;
 
     JSONArray events_response = null;
-    JSONArray message_response = null;
 
 	DatePicker dt_begin;
 	DatePicker dt_end;
@@ -375,9 +374,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	        case R.id.cb_type_of_event_filter:
 	            if (checked)
 	            	{
-	            		/*if(rb_fire.isChecked()) this.type_of_event = "F";
-	            		if(rb_emergency.isChecked()) this.type_of_event = "E";
-	            		if(rb_police.isChecked()) this.type_of_event = "P";*/
+
                         type_of_event_checked = 1;
                         rb_fire.setEnabled(true);
                         rb_emergency.setEnabled(true);
