@@ -3,5 +3,13 @@
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@android:id/text1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"/>
+        android:layout_height="fill_parent"
+        android:textColor="@color/gray_dark"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
+        android:drawableLeft="@drawable/location_pin_gray_13x16"
+        android:drawablePadding="@dimen/spacing_tiny"
+        android:paddingRight="@dimen/spacing_small"
+        android:paddingLeft="@dimen/spacing_small"
+        android:fontFamily="sans-serif-light"
+    />

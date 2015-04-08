@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -250,6 +251,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                     argss[8] = Integer.toString(anonymous);
                     new AddLocation().execute(argss);
 
+
                 }else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress()) ){
                     argss[1] = inputLocation.getAddress();
                     argss[5]= Double.toString(inputLocation.getLongitude());
@@ -444,8 +446,9 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	                // Checking for SUCCESS TAG
 	                success = json.getInt(t.TAG_SUCCESS);
 	                msg = json.getString(t.TAG_MESSAGE);
-	 
-	            }
+
+
+                }
 	            catch (JSONException e)
 	            {
 	                e.printStackTrace();
@@ -459,10 +462,12 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	         * **/
 	        protected void onPostExecute(String file_url) {
 
-                //Toast.makeText(AddLocationActivity.this, "Location added!", Toast.LENGTH_LONG).show();
+                Toast.makeText(AddLocationActivity.this, msg, Toast.LENGTH_LONG).show();
 	        }
 	 
 	    }
+
+
     private View.OnTouchListener hideKeyboardlistener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent ev) {
