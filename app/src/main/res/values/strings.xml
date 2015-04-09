@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="map">Map</string>
     <string name="report_event">Report event</string>
+    <string name="event_report">Event report</string>
     <string name="browse_map">Browse map</string>
     <string name="current_location">Current location</string>
 

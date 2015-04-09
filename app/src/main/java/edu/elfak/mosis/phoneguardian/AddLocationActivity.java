@@ -62,7 +62,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	String[] argss = new String[9];
 
 	TextView time;
-	EditText description;
+	LineEditText description;
     ClearableAutoCompleteTextView mAutocompleteView;
 
     protected GoogleApiClient mGoogleApiClient;
@@ -89,7 +89,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
         }
 
 		time = (TextView) findViewById(R.id.label_addingtime);
-		description = (EditText) findViewById(R.id.edit_text_descr);
+		description = (LineEditText) findViewById(R.id.edit_text_descr);
         mAutocompleteView = (ClearableAutoCompleteTextView) findViewById(R.id.autocomplete_places); // here will be selected address if exists,
         // if we decide to pick location, not use current location
 
@@ -98,7 +98,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 		Button btnSave = (Button) findViewById(R.id.btn_save_location);
 		btnSave.setOnClickListener(this);
 
-		time.setText(dateFormat.format(cal.getTime()));
+		time.setText( new SimpleDateFormat("HH:mm dd/MM/yyyy").format(cal.getTime()));
 
 		Location location = getlocation();
         currentLocation.setLatitude(location.getLatitude());
@@ -236,7 +236,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                 argss[0] = User.getInstance().getPhone();
 				argss[2] = type_of_event;
 				argss[3] = description.getText().toString();
-				argss[4] = time.getText().toString();
+				argss[4] = dateFormat.format(cal.getTime()).toString();
 
                 if ( inputAddr.length() == 0 ){
                     argss[1] = currentLocation.getAddress();

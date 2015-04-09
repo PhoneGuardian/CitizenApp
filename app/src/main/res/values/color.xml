@@ -16,4 +16,7 @@
     <!-- other -->
     <color name="teal">#1A6D6D</color>
     <color name="blue_dark">#191F34</color>
+
+    <color name="transparent">#00000000</color>
+
 </resources>

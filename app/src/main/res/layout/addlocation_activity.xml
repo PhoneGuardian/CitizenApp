@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/spacing_large"
+    tools:context=".AddLocationActivity"
   >
 
 <ScrollView
@@ -10,101 +13,118 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fillViewport="true"
-    android:padding="20dp"
-    tools:context=".AddLocationActivity">
+    >
 
     <LinearLayout
         android:id="@+id/layout_add_location"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/report_event"
-            style="@style/app_name_header"
+            android:text="@string/event_report"
+            android:textAllCaps="true"
+            style="@style/app_text_normal"
             />
 
+       <View
+           android:layout_marginBottom="@dimen/spacing_huge"
+           style="@style/divider_black"
+           />
 
-     <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
-         android:id="@+id/autocomplete_places"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:hint="@string/current_location"
-         android:drawableLeft="@drawable/location_pin_gray_13x16"
-         style="@style/addlocation_ClearableAutoCompleteTextView"
-         />
+       <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
+             android:id="@+id/autocomplete_places"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:hint="@string/current_location"
+           android:textColor="@color/black"
+             android:drawableLeft="@drawable/location_pin_gray_13x16"
+             style="@style/addlocation_ClearableAutoCompleteTextView"
+             />
 
         <TextView android:id="@+id/label_addingtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="24/98/89"
-            android:layout_marginBottom="@dimen/spacing_large"
+            android:text="12:00 01/01/2015"
+            android:layout_marginBottom="@dimen/spacing_tiny"
             android:layout_marginTop="@dimen/spacing_large"
-            style="@style/app_text_normal"
+            android:drawableLeft="@drawable/clock_gray_16x16"
+            style="@style/addlocation_date"
             />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp">
+        <View
+            android:layout_marginBottom="@dimen/spacing_large"
+            style="@style/divider_gray"
+            />
 
-        <TextView android:id="@+id/label_category"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/category"
-        android:textSize="20sp"
-        />
+
+
+
+
 
         <RadioGroup android:id="@+id/rg_category"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:weightSum="3"
+            >
 
             <RadioButton android:id="@+id/rb_fire"
                 android:text="Fire"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="20sp"
         		android:checked="true"
-        		android:onClick="onRadioButtonClicked"
-                  />
+android:layout_weight="1"
+                android:paddingLeft="@dimen/spacing_tiny"
+
+                android:onClick="onRadioButtonClicked"
+                android:button="@drawable/radio_button_custom_selector"
+                style="@style/app_text_large_light"
+
+                />
 
             <RadioButton android:id="@+id/rb_emergency"
                 android:text="Emergency"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="20sp"
-        		android:onClick="onRadioButtonClicked"/>
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/spacing_tiny"
+        		android:onClick="onRadioButtonClicked"
+                android:button="@drawable/radio_button_custom_selector"
+                style="@style/app_text_large_light"
+
+                />
 
             <RadioButton android:id="@+id/rb_police"
                 android:text="Police"
-                android:textSize="20sp"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/spacing_tiny"
+
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-        		android:onClick="onRadioButtonClicked"/>
+        		android:onClick="onRadioButtonClicked"
+                android:button="@drawable/radio_button_custom_selector"
+                style="@style/app_text_large_light"
+
+                />
 
         </RadioGroup>
-    </LinearLayout>
 
-    <TextView android:id="@+id/label_descr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:textSize="20sp"
-        />
 
-    <EditText android:id="@+id/edit_text_descr"
+
+    <edu.elfak.mosis.phoneguardian.LineEditText android:id="@+id/edit_text_descr"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/white" />
+        android:hint="Description..."
+        android:minLines="3"
+        android:inputType="textMultiLine"
+        android:background="@color/transparent"
+        style="@style/app_text_normal_light"
+     />
 
 
     <CheckBox
