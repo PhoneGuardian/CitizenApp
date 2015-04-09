@@ -18,13 +18,7 @@ import android.widget.Toast;
 
 public class ViewCommentsActivity extends ListActivity {
 
-	final String TAG_SUCCESS = "success";
-	final String TAG_EVENT_ID = "id_event";
-	final String TAG_ID = "id";
-	final String TAG_USERNAME = "username";
-	final String TAG_COMMENT_DATE = "comment_date";
-	final String TAG_COMMENT_TEXT = "comment_text";
-	final String TAG_COMMENTS = "comments";
+	Tags tg = new Tags();
 
 	final JSONParser jParser = new JSONParser();
 	String URL = "http://nemanjastolic.co.nf/guardian/get_all_comments_for_event.php";
@@ -56,11 +50,22 @@ public class ViewCommentsActivity extends ListActivity {
 		t= (TextView) findViewById(R.id.tv_empty);
 	    t.setVisibility(View.GONE);
 	   
-	    new GetAllComments().execute();
+
 
 	}
 
-	class GetAllComments extends AsyncTask<String, String, String> {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new GetAllComments().execute();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    class GetAllComments extends AsyncTask<String, String, String> {
 
 
         @Override
@@ -80,12 +85,12 @@ public class ViewCommentsActivity extends ListActivity {
 
             try {
                 // Checking for SUCCESS TAG
-	                success = json.getInt(TAG_SUCCESS);
+	                success = json.getInt(tg.TAG_SUCCESS);
 	 
 	                if (success == 1)
 	                {
 
-	                	comments_response = json.getJSONArray(TAG_COMMENTS);
+	                	comments_response = json.getJSONArray(tg.TAG_COMMENTS);
 	                	if(comments_response==null)
 	                		Toast.makeText(ViewCommentsActivity.this, "No comments found!", Toast.LENGTH_LONG).show();
 	                	else
@@ -97,11 +102,11 @@ public class ViewCommentsActivity extends ListActivity {
                                 JSONObject c = comments_response.getJSONObject(i);
 
                                 comments[i] = new Comment();
-                                comments[i].id = c.getString(TAG_ID);
-                                comments[i].id_event = c.getString(TAG_EVENT_ID);
-                                comments[i].username = c.getString(TAG_USERNAME);
-                                comments[i].comment_date = c.getString(TAG_COMMENT_DATE);
-                                comments[i].comment_text = c.getString(TAG_COMMENT_TEXT);
+                                comments[i].id = c.getString(tg.TAG_ID);
+                                comments[i].id_event = c.getString(tg.TAG_ID_EVENT);
+                                comments[i].username = c.getString(tg.TAG_USERNAME);
+                                comments[i].comment_date = c.getString(tg.TAG_COMMENT_DATE);
+                                comments[i].comment_text = c.getString(tg.TAG_COMMENT_TEXT);
 
                             }
 	                	}
