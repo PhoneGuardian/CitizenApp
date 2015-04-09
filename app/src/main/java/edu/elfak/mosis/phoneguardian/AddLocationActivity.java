@@ -109,6 +109,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
 
         mAdapter = new PlaceAutocompleteAdapter(this, R.layout.single_location_search_item,BOUNDS_GREATER, null);
+        mAdapter.setGoogleApiClient(mGoogleApiClient);
         mAutocompleteView.setAdapter(mAdapter);
 
 		(new GetAddressTask(this)).execute(location);
