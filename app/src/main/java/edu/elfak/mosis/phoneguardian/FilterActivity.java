@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -77,7 +78,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	
 	JSONParser jParser = new JSONParser();
     
-    private static String URL = "http://nemanjastolic.co.nf/wordpress/guardian/get_events_by_filter.php";
+
 
     // JSON Node names
     Tags t;
@@ -492,8 +493,14 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
              if(radius_checked==1)
                  this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
 
-             new GetMarkersBySearch().execute();
-            break;
+             try {
+                 new GetMarkersBySearch().execute().get();
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             } catch (ExecutionException e) {
+                 e.printStackTrace();
+             }
+             break;
          case R.id.btn_show_filtered_events:
             show_events_in_list = true;
              if(mAutocompleteView.getText().toString().length() == 0)
@@ -520,8 +527,14 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
              if(radius_checked==1)
                  this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
 
-             new GetMarkersBySearch().execute();
-            break;
+             try {
+                 new GetMarkersBySearch().execute().get();
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             } catch (ExecutionException e) {
+                 e.printStackTrace();
+             }
+             break;
 
         }
         
@@ -551,7 +564,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 			// TODO Auto-generated method stub
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-
+            String URL1 = "http://nemanjastolic.co.nf/wordpress/guardian/get_events_by_filter.php";
             if(radius_checked==1)
             {
                 double R = 6371; //in km
@@ -615,7 +628,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	        params.add(new BasicNameValuePair("end_time",dt_end.getYear()+"-"+end_month+"-"+end_day+" 23:59:59"));
         
 	       
-        	JSONObject json = jParser.makeHttpRequest(URL, "GET", params);
+        	JSONObject json = jParser.makeHttpRequest(URL1, "GET", params);
  
             try {
                 // Checking for SUCCESS TAG

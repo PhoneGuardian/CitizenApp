@@ -58,7 +58,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 	JSONParser jParser = new JSONParser();
 	
-    private static String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
+    private String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
  
     Tags t;
 
