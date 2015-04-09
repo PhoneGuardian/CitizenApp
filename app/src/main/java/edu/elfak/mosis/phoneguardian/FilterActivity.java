@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -31,14 +30,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -137,7 +133,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         BOUNDS_GREATER = new LatLngBounds(new LatLng(location.getLatitude()-0.5, location.getLongitude()-0.5),
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
 
-        mAdapter = new PlaceAutocompleteAdapter(this, R.layout.custom_item,BOUNDS_GREATER, null);
+        mAdapter = new PlaceAutocompleteAdapter(this, R.layout.single_location_search_item,BOUNDS_GREATER, null);
         mAutocompleteView.setAdapter(mAdapter);
 
         (new GetAddressTask(this)).execute(location);

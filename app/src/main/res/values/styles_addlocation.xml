@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="addlocation_single_search_item" parent="app_text_normal_light_gray">
+        <item name="android:drawablePadding">@dimen/spacing_tiny</item>
+        <item name="android:paddingLeft">@dimen/spacing_small</item>
+        <item name="android:paddingRight">@dimen/spacing_small</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
+        <item name="android:paddingBottom">@dimen/spacing_normal</item>
+    </style>
+
+    <style name="addlocation_ClearableAutoCompleteTextView" parent="app_text_normal">
+        <item name="android:drawablePadding">@dimen/spacing_small</item>
+        <item name="android:dropDownVerticalOffset">@dimen/spacing_tiny</item>
+    </style>
+
+</resources>

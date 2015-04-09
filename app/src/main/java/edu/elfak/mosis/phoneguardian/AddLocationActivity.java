@@ -22,12 +22,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -109,12 +108,15 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
         BOUNDS_GREATER = new LatLngBounds(new LatLng(location.getLatitude()-0.5, location.getLongitude()-0.5),
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
 
-        mAdapter = new PlaceAutocompleteAdapter(this, R.layout.custom_item,BOUNDS_GREATER, null);
+        mAdapter = new PlaceAutocompleteAdapter(this, R.layout.single_location_search_item,BOUNDS_GREATER, null);
+        mAdapter.setGoogleApiClient(mGoogleApiClient);
         mAutocompleteView.setAdapter(mAdapter);
 
 		(new GetAddressTask(this)).execute(location);
+        findViewById(R.id.layout_add_location).setOnTouchListener(hideKeyboardlistener);
 
-	}
+
+    }
 
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -243,6 +245,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                     argss[7] = Float.toString(currentLocation.getAccuracy());
                     argss[8] = Integer.toString(anonymous);
                     new AddLocation().execute(argss);
+
 
                 }else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress()) ){
                     argss[1] = inputLocation.getAddress();
@@ -438,8 +441,9 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	                // Checking for SUCCESS TAG
 	                success = json.getInt(t.TAG_SUCCESS);
 	                msg = json.getString(t.TAG_MESSAGE);
-	 
-	            }
+
+
+                }
 	            catch (JSONException e)
 	            {
 	                e.printStackTrace();
@@ -453,10 +457,25 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	         * **/
 	        protected void onPostExecute(String file_url) {
 
-                //Toast.makeText(AddLocationActivity.this, "Location added!", Toast.LENGTH_LONG).show();
+                Toast.makeText(AddLocationActivity.this, msg, Toast.LENGTH_LONG).show();
 	        }
 	 
 	    }
+
+
+    private View.OnTouchListener hideKeyboardlistener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent ev) {
+            hideKeyboard(view);
+            return false;
+        }
+        protected void hideKeyboard(View view)
+        {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+    };
 
 
 	

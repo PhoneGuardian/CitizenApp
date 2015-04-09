@@ -32,8 +32,9 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
     private OnClearListener onClearListener = defaultClearListener;
 
     // The image we defined for the clear button
-    public Drawable imgClearButton = getResources().getDrawable(
-           R.drawable.cross);
+    public Drawable imgClearButton = getResources().getDrawable( R.drawable.cross);
+    public Drawable imgLocationPinBlack= getResources().getDrawable( R.drawable.location_pin_black_13x16);
+    public Drawable imgLocationPinGray= getResources().getDrawable( R.drawable.location_pin_gray_13x16);
 
     public interface OnClearListener {
         void onClear();
@@ -104,11 +105,11 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
     }
 
     public void hideClearButton() {
-        this.setCompoundDrawables(null, null, null, null);
+        this.setCompoundDrawablesWithIntrinsicBounds(imgLocationPinGray, null, null, null);
     }
 
     public void showClearButton() {
-        this.setCompoundDrawablesWithIntrinsicBounds(null, null, imgClearButton, null);
+        this.setCompoundDrawablesWithIntrinsicBounds(imgLocationPinBlack, null, imgClearButton, null);
     }
 
 }

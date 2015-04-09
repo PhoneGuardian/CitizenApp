@@ -376,7 +376,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         i.addCategory(Intent.CATEGORY_HOME);
                         i.setFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i); // Launch the AlertActivity
-                        finish();         // Close down the RegistersActivity
+                        finish();         // Close down the RegisterActivity
 
                     }
 
