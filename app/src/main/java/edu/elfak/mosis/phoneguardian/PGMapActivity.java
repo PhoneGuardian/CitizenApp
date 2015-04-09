@@ -58,9 +58,9 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 	JSONParser jParser = new JSONParser();
 	
-    private String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
+
  
-    Tags t;
+    Tags t = new Tags();
 
     JSONArray markers_response = null;
 
@@ -189,7 +189,8 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			refresh=0;
 			DataWrapper dw = (DataWrapper) data.getSerializableExtra("markers");
 	        markers = dw.getMarkers();
-	        //onResume();
+            DrawMarkers();
+
 		}
 	}
 	
@@ -335,7 +336,8 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		@Override
 		protected Integer doInBackground(Void... paramss) {
 			// TODO Auto-generated method stub
-			
+
+            String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
 			refresh = 0;
 
             double R = 6371; //in km

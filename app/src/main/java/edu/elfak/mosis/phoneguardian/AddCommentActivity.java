@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class AddCommentActivity extends Activity implements android.view.View.OnClickListener {
 
-    Tags t;
+    Tags t = new Tags();
 
     final JSONParser jParser = new JSONParser();
 

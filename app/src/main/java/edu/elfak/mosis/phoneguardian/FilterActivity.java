@@ -77,7 +77,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
 
     // JSON Node names
-    Tags t;
+    Tags t = new Tags();
 
     JSONArray events_response = null;
 
@@ -456,7 +456,28 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 
+        String inputAddr = mAutocompleteView.getText().toString();
+        if(inputAddr.length() == 0)
+        {
+            this.address = currentLocation.getAddress();
+            this.latitude = currentLocation.getLatitude();
+            this.longitude = currentLocation.getLongitude();
+        }
+        else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress()) )
+        {
+            this.address = inputLocation.getAddress();
+            this.latitude = inputLocation.getLatitude();
+            this.longitude = inputLocation.getLongitude();
 
+        }
+        else
+        {
+            Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+        }
+        if(description_checked==1)
+            this.description = et_description.getText().toString();
+        if(radius_checked==1)
+            this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
 
 
         switch(v.getId())
@@ -464,80 +485,20 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
          
          case R.id.btn_show_filtered_events_on_map:
              show_events_in_list=false;
-             String inputAddr = mAutocompleteView.getText().toString();
-             if(inputAddr.length() == 0)
-             {
-                 this.address = currentLocation.getAddress();
-                 this.latitude = currentLocation.getLatitude();
-                 this.longitude = currentLocation.getLongitude();
-             }
-             else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress()) )
-             {
-                 this.address = inputLocation.getAddress();
-                 this.latitude = currentLocation.getLatitude();
-                 this.longitude = currentLocation.getLongitude();
-
-             }
+             if(radius_checked==0 && description_checked==0 && type_of_event_checked==0 && date_checked==0)
+                Toast.makeText(this,"Filter not choosed!",Toast.LENGTH_SHORT).show();
              else
-             {
-                 Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
-             }
-
-
-             if(description_checked==1)
-                 this.description = et_description.getText().toString();
-             if(radius_checked==1)
-                 this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
-
-             try {
-                 new GetMarkersBySearch().execute().get();
-             } catch (InterruptedException e) {
-                 e.printStackTrace();
-             } catch (ExecutionException e) {
-                 e.printStackTrace();
-             }
+                new GetMarkersBySearch().execute();
              break;
          case R.id.btn_show_filtered_events:
             show_events_in_list = true;
-             if(mAutocompleteView.getText().toString().length() == 0)
-             {
-                 this.address = currentLocation.getAddress();
-                 this.latitude = currentLocation.getLatitude();
-                 this.longitude = currentLocation.getLongitude();
-             }
-             else if (inputLocation.isValid() && mAutocompleteView.equals(inputLocation.getAddress()) )
-             {
-                 this.address = inputLocation.getAddress();
-                 this.latitude = currentLocation.getLatitude();
-                 this.longitude = currentLocation.getLongitude();
-
-             }
-             else
-             {
-                 Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
-             }
-
-
-             if(description_checked==1)
-                 this.description = et_description.getText().toString();
-             if(radius_checked==1)
-                 this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
-
-             try {
-                 new GetMarkersBySearch().execute().get();
-             } catch (InterruptedException e) {
-                 e.printStackTrace();
-             } catch (ExecutionException e) {
-                 e.printStackTrace();
-             }
-             break;
+            if(radius_checked==0 && description_checked==0 && type_of_event_checked==0 && date_checked==0)
+                Toast.makeText(this,"Filter not choosed!",Toast.LENGTH_SHORT).show();
+            else
+                new GetMarkersBySearch().execute();
+            break;
 
         }
-        
-        
-
-          
-         
 		
 	}
 	
@@ -560,7 +521,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 			// TODO Auto-generated method stub
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            String URL1 = "http://nemanjastolic.co.nf/wordpress/guardian/get_events_by_filter.php";
+            String URL1 = "http://nemanjastolic.co.nf/guardian/get_events_by_filter.php";
             if(radius_checked==1)
             {
                 double R = 6371; //in km
@@ -587,9 +548,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 params.add(new BasicNameValuePair("lat_max",Double.toString(lat_max)));
             }
 
-
-			
-			params.add(new BasicNameValuePair("address", address));
 	        params.add(new BasicNameValuePair("type_of_event", type_of_event));
 	        params.add(new BasicNameValuePair("description", description));
 

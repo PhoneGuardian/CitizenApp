@@ -55,7 +55,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
 	String type_of_event = "F";
 
-	Tags t;
+	Tags t = new Tags();
 
 	final JSONParser jParser = new JSONParser();
 	String URL = "";

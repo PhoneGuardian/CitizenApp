@@ -20,4 +20,7 @@ public class Tags
     public static final String TAG_EVENT_ID = "event_id";
     public static final String TAG_LOCATION_ACC= "location_acc";
     public static final String TAG_ANONYMOUS = "anonymous";
+
+    public Tags()
+    {}
 }
