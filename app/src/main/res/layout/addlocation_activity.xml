@@ -82,7 +82,7 @@ android:layout_weight="1"
                 android:paddingLeft="@dimen/spacing_tiny"
 
                 android:onClick="onRadioButtonClicked"
-                android:button="@drawable/radio_button_custom_selector"
+                android:button="@drawable/checkbox_custom_selector"
                 style="@style/app_text_large_light"
 
                 />
@@ -94,7 +94,7 @@ android:layout_weight="1"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/spacing_tiny"
         		android:onClick="onRadioButtonClicked"
-                android:button="@drawable/radio_button_custom_selector"
+                android:button="@drawable/checkbox_custom_selector"
                 style="@style/app_text_large_light"
 
                 />
@@ -103,11 +103,11 @@ android:layout_weight="1"
                 android:text="Police"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/spacing_tiny"
-
+android:gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
         		android:onClick="onRadioButtonClicked"
-                android:button="@drawable/radio_button_custom_selector"
+                android:button="@drawable/checkbox_custom_selector"
                 style="@style/app_text_large_light"
 
                 />
@@ -120,7 +120,8 @@ android:layout_weight="1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="Description..."
-        android:minLines="3"
+        android:minLines="4"
+        android:lines="4"
         android:inputType="textMultiLine"
         android:background="@color/transparent"
         style="@style/app_text_normal_light"
@@ -128,11 +129,17 @@ android:layout_weight="1"
 
 
     <CheckBox
+        android:layout_marginTop="@dimen/spacing_normal"
         android:id="@+id/cb_anonymous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/anonymous"
-        android:onClick="onCheckboxClicked"/>
+        android:onClick="onCheckboxClicked"
+        style="@style/app_text_large_light"
+        android:button="@drawable/checkbox_custom_selector"
+
+        android:checked="true"
+        />
 
 
         <Button
