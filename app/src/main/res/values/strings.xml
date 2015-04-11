@@ -8,8 +8,9 @@
     <string name="event_report">Event report</string>
     <string name="browse_map">Browse map</string>
     <string name="current_location">Current location</string>
+    <string name="description_dotdotdot">Description...</string>
 
-    <string name="anonymous">Anonymous message</string>
+    <string name="anonymous_message">Anonymous message</string>
     <string name="sign_up">Sign Up</string>
     <string name="username">username</string>
     <string name="password">Password:</string>

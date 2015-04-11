@@ -9,6 +9,7 @@
     </style>
 
     <style name="addlocation_ClearableAutoCompleteTextView" parent="app_text_normal_light">
+        <item name="android:textColor">@color/black</item>
         <item name="android:drawablePadding">@dimen/spacing_small</item>
         <item name="android:dropDownVerticalOffset">@dimen/spacing_tiny</item>
     </style>
@@ -16,7 +17,16 @@
     <style name="addlocation_date" parent="app_text_normal_light_gray">
         <item name="android:drawablePadding">@dimen/spacing_small</item>
         <item name="android:paddingLeft">@dimen/spacing_small</item>
+    </style>
 
+    <style name="addlocation_checkbox" parent="app_text_large_light">
+        <item name="android:paddingLeft">@dimen/spacing_tiny</item>
+        <item name="android:button">@drawable/checkbox_custom_selector</item>
+    </style>
+
+    <style name="addlocation_LineEditText" parent="app_text_normal_light">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:button">@drawable/checkbox_custom_selector</item>
     </style>
 
 </resources>

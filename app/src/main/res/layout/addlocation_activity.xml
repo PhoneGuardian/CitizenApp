@@ -22,7 +22,7 @@
         android:orientation="vertical"
         >
 
-        <TextView
+       <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/event_report"
@@ -30,22 +30,20 @@
             style="@style/app_text_normal"
             />
 
-       <View
+       <View style="@style/divider_black"
            android:layout_marginBottom="@dimen/spacing_huge"
-           style="@style/divider_black"
            />
 
        <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
-             android:id="@+id/autocomplete_places"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:hint="@string/current_location"
-           android:textColor="@color/black"
-             android:drawableLeft="@drawable/location_pin_gray_13x16"
-             style="@style/addlocation_ClearableAutoCompleteTextView"
-             />
+           android:id="@+id/autocomplete_places"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="@string/current_location"
+           android:drawableLeft="@drawable/location_pin_gray_13x16"
+           style="@style/addlocation_ClearableAutoCompleteTextView"
+           />
 
-        <TextView android:id="@+id/label_addingtime"
+       <TextView android:id="@+id/label_addingtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12:00 01/01/2015"
@@ -55,104 +53,95 @@
             style="@style/addlocation_date"
             />
 
-        <View
+       <View style="@style/divider_gray"
             android:layout_marginBottom="@dimen/spacing_large"
-            style="@style/divider_gray"
             />
 
-
-
-
-
-
-        <RadioGroup android:id="@+id/rg_category"
+       <RadioGroup android:id="@+id/rg_category"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_normal"
             android:weightSum="3"
             >
 
-            <RadioButton android:id="@+id/rb_fire"
-                android:text="Fire"
+            <RadioButton
+                android:id="@+id/rb_fire"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-        		android:checked="true"
-android:layout_weight="1"
-                android:paddingLeft="@dimen/spacing_tiny"
-
+                android:layout_weight="1"
                 android:onClick="onRadioButtonClicked"
-                android:button="@drawable/checkbox_custom_selector"
-                style="@style/app_text_large_light"
-
+                android:checked="true"
+                android:text="Fire"
+                style="@style/addlocation_checkbox"
                 />
 
-            <RadioButton android:id="@+id/rb_emergency"
+            <RadioButton
+                android:id="@+id/rb_emergency"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
                 android:text="Emergency"
+                style="@style/addlocation_checkbox"
+                />
+
+            <RadioButton
+                android:id="@+id/rb_police"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/spacing_tiny"
-        		android:onClick="onRadioButtonClicked"
-                android:button="@drawable/checkbox_custom_selector"
-                style="@style/app_text_large_light"
-
-                />
-
-            <RadioButton android:id="@+id/rb_police"
+                android:onClick="onRadioButtonClicked"
                 android:text="Police"
-                android:layout_weight="1"
-                android:paddingLeft="@dimen/spacing_tiny"
-android:gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-        		android:onClick="onRadioButtonClicked"
-                android:button="@drawable/checkbox_custom_selector"
-                style="@style/app_text_large_light"
-
+                style="@style/addlocation_checkbox"
                 />
-
-        </RadioGroup>
-
-
+       </RadioGroup>
 
     <edu.elfak.mosis.phoneguardian.LineEditText android:id="@+id/edit_text_descr"
-        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Description..."
-        android:minLines="4"
-        android:lines="4"
+        android:layout_width="fill_parent"
         android:inputType="textMultiLine"
-        android:background="@color/transparent"
-        style="@style/app_text_normal_light"
+        android:hint="@string/description_dotdotdot"
+        android:minLines="5"
+        style="@style/addlocation_LineEditText"
      />
 
 
     <CheckBox
-        android:layout_marginTop="@dimen/spacing_normal"
         android:id="@+id/cb_anonymous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/anonymous"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:onClick="onCheckboxClicked"
-        style="@style/app_text_large_light"
-        android:button="@drawable/checkbox_custom_selector"
-
-        android:checked="true"
+        android:text="@string/anonymous_message"
+        style="@style/addlocation_checkbox"
         />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        >
 
         <Button
-            android:id="@+id/btn_save_location"
+            android:id="@+id/btn_report_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:padding="10dp"
-            android:background="@drawable/border_black_oval_transparent"
-            android:text="@string/save" />
+            android:layout_centerHorizontal="true"
+            android:text="@string/save"
+            style="@style/button_rounded_transparent_thin"
+            />
+        <ProgressBar
+            android:id="@+id/spinner_report_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_toRightOf="@id/btn_report_event"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            style="?android:attr/progressBarStyleSmallInverse"
+            />
+    </RelativeLayout>
 
-     </LinearLayout>
-
+    </LinearLayout>
 </ScrollView>
 </RelativeLayout>

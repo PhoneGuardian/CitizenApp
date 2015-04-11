@@ -31,8 +31,8 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,7 +95,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
 
-		Button btnSave = (Button) findViewById(R.id.btn_save_location);
+		Button btnSave = (Button) findViewById(R.id.btn_report_event);
 		btnSave.setOnClickListener(this);
 
 		time.setText( new SimpleDateFormat("HH:mm dd/MM/yyyy").format(cal.getTime()));
@@ -227,7 +227,8 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 		// TODO Auto-generated method stub
 		switch(v.getId())
 		{
-		case R.id.btn_save_location:
+		case R.id.btn_report_event:
+            disableReportEvent();
             String inputAddr = ((AutoCompleteTextView) findViewById(R.id.autocomplete_places)).getText().toString();
 
 			if(type_of_event!="" && description.getText().toString().length()!=0)
@@ -240,7 +241,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
                 if ( inputAddr.length() == 0 ){
                     argss[1] = currentLocation.getAddress();
-                    argss[5]= Double.toString(currentLocation.getLongitude());
+                    argss[5] = Double.toString(currentLocation.getLongitude());
                     argss[6] = Double.toString(currentLocation.getLatitude());
                     argss[7] = Float.toString(currentLocation.getAccuracy());
                     argss[8] = Integer.toString(anonymous);
@@ -249,7 +250,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
                 }else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress()) ){
                     argss[1] = inputLocation.getAddress();
-                    argss[5]= Double.toString(inputLocation.getLongitude());
+                    argss[5] = Double.toString(inputLocation.getLongitude());
                     argss[6] = Double.toString(inputLocation.getLatitude());
                     argss[7] = Float.toString(inputLocation.getAccuracy());
                     argss[8] = Integer.toString(anonymous);
@@ -257,11 +258,11 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
                 }else{
                     Toast.makeText(AddLocationActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
-
                 }
 			}
 			else
 				Toast.makeText(AddLocationActivity.this, "Some fields are empty", Toast.LENGTH_LONG).show();
+            enableReportEvent();
 			break;
 			
 			
@@ -282,8 +283,6 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                     anonymous = 0;
             }
             break;
-
-
         }
     }
 
@@ -461,6 +460,21 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	        }
 	 
 	    }
+
+    private void enableReportEvent(){
+        ProgressBar spinner = (ProgressBar)findViewById(R.id.spinner_report_event);
+        spinner.setVisibility(View.INVISIBLE);
+
+        Button signupBtn = (Button) findViewById(R.id.btn_report_event);
+        signupBtn.setEnabled(true);
+    }
+    private void disableReportEvent(){
+        ProgressBar spinner = (ProgressBar)findViewById(R.id.spinner_report_event);
+        spinner.setVisibility(View.VISIBLE);
+
+        Button signupBtn = (Button) findViewById(R.id.btn_report_event);
+        signupBtn.setEnabled(false);
+    }
 
 
     private View.OnTouchListener hideKeyboardlistener = new View.OnTouchListener() {
