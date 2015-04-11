@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -457,6 +458,10 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                 enableReportEvent();
                 if(success == 1) { // case event successfully created
                     Toast.makeText(AddLocationActivity.this, msg, Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getApplicationContext(), PGMapActivity.class );
+                    i.setFlags(i.FLAG_ACTIVITY_NEW_TASK );
+                    startActivity(i); // Launch the PGMapActivity
+                    finish();         // Close down the AddLocationActivity
                 }else {
                     Toast.makeText(AddLocationActivity.this, "Oops! Looks like something went wrong" , Toast.LENGTH_LONG).show();
                 }
