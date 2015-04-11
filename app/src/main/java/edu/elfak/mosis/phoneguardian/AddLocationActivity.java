@@ -139,8 +139,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
 
-            Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
-                    Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(), "Clicked: " + item.description, Toast.LENGTH_SHORT).show();
         }
     };
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback

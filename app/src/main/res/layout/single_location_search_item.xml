@@ -5,6 +5,6 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:drawableLeft="@drawable/location_pin_gray_13x16"
+    android:drawableLeft="@drawable/location_pin_gray_15x18"
     style="@style/addlocation_single_search_item"
  />
