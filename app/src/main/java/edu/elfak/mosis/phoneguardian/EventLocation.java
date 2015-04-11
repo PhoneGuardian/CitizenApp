@@ -3,7 +3,8 @@ package edu.elfak.mosis.phoneguardian;
 /**
  * Created by Mirjamsk on 6.4.2015..
  */
-public class EventLocation {
+public class
+        EventLocation {
         private Double latitude;
         private Double longitude;
         private String address;
@@ -54,7 +55,7 @@ public class EventLocation {
 
     public boolean isValid() {
 
-        return latitude != null && longitude != null && address != null && accuracy != -1;
+        return  address != null && !address.equals("IO Exception trying to get address") && latitude != null && longitude != null && accuracy != -1;
     }
 
 }

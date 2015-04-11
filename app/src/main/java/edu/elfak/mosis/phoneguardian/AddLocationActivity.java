@@ -227,18 +227,18 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 		switch(v.getId())
 		{
 		case R.id.btn_report_event:
-            disableReportEvent();
+
             String inputAddr = ((AutoCompleteTextView) findViewById(R.id.autocomplete_places)).getText().toString();
 
 			if(type_of_event!="" && description.getText().toString().length()!=0)
 			{
-
+                disableReportEvent();
                 argss[0] = User.getInstance().getPhone();
 				argss[2] = type_of_event;
 				argss[3] = description.getText().toString();
 				argss[4] = dateFormat.format(cal.getTime()).toString();
 
-                if ( inputAddr.length() == 0 ){
+                if ( inputAddr.length() == 0 && currentLocation.isValid()){
                     argss[1] = currentLocation.getAddress();
                     argss[5] = Double.toString(currentLocation.getLongitude());
                     argss[6] = Double.toString(currentLocation.getLatitude());
@@ -257,11 +257,11 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 
                 }else{
                     Toast.makeText(AddLocationActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+                    enableReportEvent();
                 }
 			}
 			else
 				Toast.makeText(AddLocationActivity.this, "Some fields are empty", Toast.LENGTH_LONG).show();
-            enableReportEvent();
 			break;
 			
 			
@@ -454,8 +454,13 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	         * After completing background task Dismiss the progress dialog
 	         * **/
 	        protected void onPostExecute(String file_url) {
+                enableReportEvent();
+                if(success == 1) { // case event successfully created
+                    Toast.makeText(AddLocationActivity.this, msg, Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(AddLocationActivity.this, "Oops! Looks like something went wrong" , Toast.LENGTH_LONG).show();
+                }
 
-                Toast.makeText(AddLocationActivity.this, msg, Toast.LENGTH_LONG).show();
 	        }
 	 
 	    }
