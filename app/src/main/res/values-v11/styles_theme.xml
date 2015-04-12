@@ -8,10 +8,13 @@
         <!-- API 11 theme customizations can go here. -->
     </style>
 
-    <style name="AppTheme"  parent="@android:style/Theme.Holo.Light">
+    <style name="AppTheme"  parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    <style name="AppThemeNoActionBar"  parent="@android:style/Theme.Holo.Light.NoActionBar">
+
+    <style name="AppThemeNoActionBar"  parent="AppBaseTheme">
     <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-</style>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

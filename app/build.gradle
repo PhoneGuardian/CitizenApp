@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "edu.elfak.mosis.phoneguardian"
-        minSdkVersion 9
+        minSdkVersion 10
         targetSdkVersion 21
     }
 
@@ -21,5 +21,6 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:21.0.2'
     compile 'com.google.android.gms:play-services:+'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile files ('libs/cognalys.jar')
 }
