@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--
+    Base application theme for API 13+. This theme completely replaces
+    AppBaseTheme from res/values/styles_theme.xml on API 13+ devices.
+-->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+    </style>
+
+    <style name="AppTheme"  parent="AppBaseTheme">
+    </style>
+
+    <style name="AppThemeNoActionBar"  parent="android:Theme.Holo.Light.NoActionBar">
+    </style>
+</resources>
