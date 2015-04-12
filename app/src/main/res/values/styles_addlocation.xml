@@ -20,7 +20,9 @@
     </style>
 
     <style name="addlocation_checkbox" parent="app_text_large_light">
-        <item name="android:paddingLeft">@dimen/spacing_tiny</item>
+        <item name="android:paddingLeft">@dimen/checkbox_padding_left</item>
+        <item name="android:drawablePadding">@dimen/spacing_large</item>
+
         <item name="android:button">@drawable/checkbox_custom_selector</item>
     </style>
 
