@@ -33,9 +33,9 @@
         android:name="PhoneGuardianApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label=""
         android:theme="@style/AppTheme"
-        android:logo="@drawable/alert_icon_white"
+        android:logo="@drawable/app_logo"
         >
         
        <!-- <meta-data
@@ -75,7 +75,6 @@
         <activity
             android:name="edu.elfak.mosis.phoneguardian.AddLocationActivity"
             android:windowSoftInputMode="stateHidden"
-            android:label="@string/event_report"
             android:parentActivityName="edu.elfak.mosis.phoneguardian.AlertActivity" >
             >
             <intent-filter >
