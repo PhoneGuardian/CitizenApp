@@ -2,37 +2,16 @@
 <resources>
 
     <string name="app_name">Phone Guardian</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="map">Map</string>
     <string name="report_event">Report event</string>
     <string name="event_report">Event report</string>
     <string name="browse_map">Browse map</string>
     <string name="current_location">Current location</string>
-    <string name="description_dotdotdot">Description...</string>
+    <string name="description_dotdotdot">Description…</string>
 
     <string name="anonymous_message">Anonymous message</string>
     <string name="sign_up">Sign Up</string>
     <string name="username">username</string>
-    <string name="password">Password:</string>
-    <string name="signin">Sign in</string>
-    <string name="signup">Sign up</string>
-    <string name="title_activity_register">RegisterActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="repeat_password">Repeat password:</string>
-    <string name="name_lastname">Name and Last name:</string>
     <string name="phone_num">phone number</string>
-    <string name="title_activity_show_users">ShowUsersActivity</string>
-    <string name="finish">Finish</string>
-    <string name="users">Users</string>
-    <string name="alert">Alert!</string>
-    <string name="select_picture">Select picture</string>
-    <string name="take_picture">Take picture</string>
-	<string name="getpic">Get picture</string>
-	<string name="profile">Profile</string>
-	<string name="profile_underlined"><u><i>Profile</i></u></string>
-	<string name="picture">Picture:</string>
-	<string name="add_location">Add location</string>
-    <string name="autocomplete_hint">Enter place name or address</string>
 
 	<string name="fire">Fire</string>
 	<string name="emergency">Emergency</string>
@@ -42,11 +21,9 @@
 	<string name="description">Description:</string>
 	<string name="save">Save</string>
 	
-	<string name="filter">Filter</string>
 	<string name="nearme">Near me</string>
 	<string name="address">Address:</string>
 	<string name="date">Date:</string>
-	<string name="username_comment">Comment username:</string>
 	<string name="comment">Comment:</string>
 	
 	<string name="show_markers_on_map">Show on map</string>
@@ -56,12 +33,10 @@
 	<string name="list_is_empty">Search result: None</string>
 	
 	<string name="radius">Radius</string>
-	<string name="location">Location</string>
-	<string name="my_location">My Location</string>
-	<string name="location_from_address">Address</string>
 	<string name="from">From:</string>
 	<string name="to">To:</string>
     <string name="dummy_datetime">12:00 01/01/2015</string>
+    <string name="dummy_countrycode">+39</string>
 
     <string-array name="spinner">
 		<item>20</item>
