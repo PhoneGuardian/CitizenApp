@@ -32,8 +32,8 @@
     <application
         android:name="PhoneGuardianApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label=""
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:logo="@drawable/app_logo"
         >
@@ -74,6 +74,7 @@
         
         <activity
             android:name="edu.elfak.mosis.phoneguardian.AddLocationActivity"
+            android:label=""
             android:windowSoftInputMode="stateHidden"
             android:parentActivityName="edu.elfak.mosis.phoneguardian.AlertActivity" >
             >
