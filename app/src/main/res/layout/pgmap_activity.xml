@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/frameLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+    tools:context=".PGMapActivity">
 
 	
     <LinearLayout 
@@ -91,7 +93,8 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent" 
 	android:layout_marginTop="120dp"
-	class="com.google.android.gms.maps.SupportMapFragment"/>
+	class="com.google.android.gms.maps.SupportMapFragment"
+    tools:layout="@layout/dummy_google_map" />
     
 
 </FrameLayout>
