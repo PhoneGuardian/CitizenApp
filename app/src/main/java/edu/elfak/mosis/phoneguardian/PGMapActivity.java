@@ -14,7 +14,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -26,9 +25,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -38,7 +36,10 @@ import java.lang.Math;
 
 public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener
 {
-	
+	Menu mOptionsMenu;
+    CheckableMenuItem fireMenuItem;
+    CheckableMenuItem emergencyMenuItem;
+    CheckableMenuItem policeMenuItem;
 	public GoogleMap mapa;
     private SeekBar seekBar;
 	MarkerOptions markerOptions;
@@ -50,10 +51,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	double lat;
     double lng;
 
-	int flag_fire = 1;
-	int flag_emergency = 1;
-	int flag_police = 1;
-	
 	int refresh= 1;
 
 	JSONParser jParser = new JSONParser();
@@ -81,7 +78,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
         GetCurrentLocation();
-		new GetMarkersByCategory().execute();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 1;
@@ -148,35 +144,61 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
+        this.mOptionsMenu = menu;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.pgmap_menu, menu);
+
 		menu.add(0,1,1,"Refresh");
 		menu.add(0,2,2,"Search");
-		return super.onCreateOptionsMenu(menu);
+
+        fireMenuItem = new CheckableMenuItem(menu.findItem(R.id.fire_events_toggle), menu.findItem(R.id.fire_events_toggle).isChecked(),
+                R.drawable.flame_black, R.drawable.flame_gray);
+        emergencyMenuItem = new CheckableMenuItem(menu.findItem(R.id.emergency_events_toggle), menu.findItem(R.id.emergency_events_toggle).isChecked(),
+                R.drawable.ambulance_black, R.drawable.ambulance_gray);
+        policeMenuItem = new CheckableMenuItem(menu.findItem(R.id.police_events_toggle), menu.findItem(R.id.police_events_toggle).isChecked(),
+                R.drawable.police_hat_black, R.drawable.police_hat_gray);
+        new GetMarkersByCategory().execute();
+
+
+        return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
+
 		switch(item.getItemId())
 		{
 			case 1:
 				refresh=1;
-				flag_fire = 1;
-				flag_police = 1;
-				flag_emergency = 1;
-				CheckBox cb_fire = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_fire);
-				cb_fire.setChecked(true);
-				CheckBox cb_police = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_police);
-				cb_police.setChecked(true);
-				CheckBox cb_emergency = (CheckBox) PGMapActivity.this.findViewById(R.id.cb_emergency);
-                cb_emergency.setChecked(true);
-				onRestart();
+                fireMenuItem.setChecked(true);
+                policeMenuItem.setChecked(true);
+                emergencyMenuItem.setChecked(true);
+                onRestart();
 				break;
 			case 2:
 				Intent i = new Intent(PGMapActivity.this,FilterActivity.class);
 				startActivityForResult(i, 1);
 				break;
+            case R.id.fire_events_toggle:
+                fireMenuItem.toggle();
+                refresh=1;
+                Toast.makeText(PGMapActivity.this, item.isChecked()? "fire:checked": "fire: unchecked", Toast.LENGTH_SHORT).show();
+                onRestart();
+                break;
+            case R.id.emergency_events_toggle:
+                emergencyMenuItem.toggle();
+                refresh=1;
+                Toast.makeText(PGMapActivity.this, item.isChecked()? "er:checked": "er: unchecked", Toast.LENGTH_SHORT).show();
+                onRestart();
+            break;
+            case R.id.police_events_toggle:
+                policeMenuItem.toggle();
+                refresh=1;
+                Toast.makeText(PGMapActivity.this, item.isChecked()? "police:checked": "police: unchecked", Toast.LENGTH_SHORT).show();
+                onRestart();
+            break;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -206,37 +228,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	}
 
 
-	public void onCheckboxClicked(View v) {
-	    // Is the view now checked?
-	    boolean checked = ((CheckBox) v).isChecked();
-	    refresh=1;
-	    // Check which checkbox was clicked
-	    switch(v.getId()) {
-	        case R.id.cb_fire:
-	            if (checked)
-	                flag_fire=1;
-	            else
-	            	flag_fire=0;
-	            break;
-	        case R.id.cb_police:
-	            if (checked)
-	                flag_police=1;
-	            else
-                    flag_police=0;
-	            break;
-	        case R.id.cb_emergency:
-	        	if (checked)
-	                flag_emergency=1;
-	            else
-                    flag_emergency=0;
-	            break;
-
-	       
-	    }
-
-	    onRestart();
-	    
-	}
 
 	private void DrawMarkers() {
 
@@ -360,9 +351,9 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
-			params.add(new BasicNameValuePair("category_fire", Integer.toString(flag_fire)));
-	        params.add(new BasicNameValuePair("category_police", Integer.toString(flag_police)));
-	        params.add(new BasicNameValuePair("category_emergency", Integer.toString(flag_emergency)));
+			params.add(new BasicNameValuePair("category_fire", fireMenuItem.isChecked()? "1" : "0"));
+	        params.add(new BasicNameValuePair("category_police", policeMenuItem.isChecked()? "1" : "0"));
+	        params.add(new BasicNameValuePair("category_emergency", emergencyMenuItem.isChecked()? "1" : "0"));
 
 
             params.add(new BasicNameValuePair("lng_min",Double.toString(lng_min)));
