@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <group android:checkableBehavior="all">
-    <item android:id="@+id/fire_events_toggle"
-        android:icon="@drawable/flame_black"
-        android:title="@string/fire"
-        android:checkable="true"
-        android:checked="true"
-        app:showAsAction="always"
-        android:showAsAction="always"
-        />
-    <item android:id="@+id/emergency_events_toggle"
-    android:icon="@drawable/ambulance_black"
-    android:title="@string/emergency"
-        android:checkable="true"
-        android:checked="true"
-    app:showAsAction="always"
-    android:showAsAction="always"
-    />
+        <item android:id="@+id/fire_events_toggle"
+            android:icon="@drawable/flame_blue"
+            android:title="@string/fire"
+            android:checkable="true"
+            android:checked="true"
+            app:showAsAction="always"
+            android:showAsAction="always"
+            />
+        <item android:id="@+id/emergency_events_toggle"
+            android:icon="@drawable/ambulance_blue"
+            android:title="@string/emergency"
+            android:checkable="true"
+            android:checked="true"
+            app:showAsAction="always"
+            android:showAsAction="always"
+            />
 
-    <item android:id="@+id/police_events_toggle"
-        android:icon="@drawable/police_hat_black"
-        android:title="@string/police"
-        android:checkable="true"
-        android:checked="true"
-        app:showAsAction="always"
-        android:showAsAction="always"
-        />
+        <item android:id="@+id/police_events_toggle"
+            android:icon="@drawable/police_hat_blue"
+            android:title="@string/police"
+            android:checkable="true"
+            android:checked="true"
+            app:showAsAction="always"
+            android:showAsAction="always"
+            />
     </group>
+
+
 </menu>

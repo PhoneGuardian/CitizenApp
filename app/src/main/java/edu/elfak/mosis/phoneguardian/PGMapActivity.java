@@ -155,11 +155,11 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		menu.add(0,2,2,"Search");
 
         fireMenuItem = new CheckableMenuItem(menu.findItem(R.id.fire_events_toggle), menu.findItem(R.id.fire_events_toggle).isChecked(),
-                R.drawable.flame_black, R.drawable.flame_gray);
+                R.drawable.flame_blue, R.drawable.flame_gray);
         emergencyMenuItem = new CheckableMenuItem(menu.findItem(R.id.emergency_events_toggle), menu.findItem(R.id.emergency_events_toggle).isChecked(),
-                R.drawable.ambulance_black, R.drawable.ambulance_gray);
+                R.drawable.ambulance_blue, R.drawable.ambulance_gray);
         policeMenuItem = new CheckableMenuItem(menu.findItem(R.id.police_events_toggle), menu.findItem(R.id.police_events_toggle).isChecked(),
-                R.drawable.police_hat_black, R.drawable.police_hat_gray);
+                R.drawable.police_hat_blue, R.drawable.police_hat_gray);
         new GetMarkersByCategory().execute();
 
 

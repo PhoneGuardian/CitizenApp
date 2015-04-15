@@ -9,6 +9,7 @@
 
     <style name="AppTheme"  parent="AppBaseTheme">
         <item name="android:actionBarStyle">@style/app_ActionBar</item>
+        <item name="android:actionButtonStyle">@style/app_ActionButton</item>
     </style>
 
     <style name="AppThemeNoActionBar"  parent="android:Theme.Holo.Light.NoActionBar">
@@ -16,5 +17,11 @@
 
     <style name="app_ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/blue_light</item>
+    </style>
+
+    <style name="app_ActionButton" parent="@android:style/Widget.Holo.Light.ActionButton">
+        <item name="android:minWidth">0dip</item>
+        <item name="android:paddingLeft">@dimen/spacing_tiny</item>
+        <item name="android:paddingRight">@dimen/spacing_tiny</item>
     </style>
 </resources>
