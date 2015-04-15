@@ -30,6 +30,13 @@
         <item name="android:paddingBottom">@dimen/spacing_huge</item>
     </style>
 
+
+    <style name="app_text_small_light">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="app_text_normal">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/font_normal</item>

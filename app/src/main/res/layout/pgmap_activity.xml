@@ -7,39 +7,53 @@
     tools:context=".PGMapActivity">
 
     <LinearLayout
-        android:id="@+id/pgmap_seekbar"
+        android:id="@+id/pgmap_seekbar_layout"
         android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_small"
 		android:orientation="horizontal"
-		android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:gravity="center"
         >
             
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:padding="@dimen/spacing_tiny"
-            android:text="@string/nearme"
-            style="@style/app_text_normal"
+            android:padding="@dimen/spacing_small"
+            android:text="@string/event_radius"
+            style="@style/app_text_small_light"
             />
 
         <SeekBar
             android:id="@+id/seekBar"
+            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_tiny"
-            android:layout_weight="1"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginBottom="@dimen/spacing_tiny"
             android:max="20"
             />
 
+        <TextView
+            android:id="@+id/tv_seekbar_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/spacing_small"
+            android:text="@string/dummy_km_distance_value"
+            style="@style/app_text_small_light"
+            />
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider_seekbar"
+        android:layout_below="@id/pgmap_seekbar_layout"
+        style="@style/divider_gray"
+        />
 
     <fragment
         android:id="@+id/mapf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/pgmap_seekbar"
+        android:layout_below="@id/divider_seekbar"
         class="com.google.android.gms.maps.SupportMapFragment"
         tools:layout="@layout/dummy_google_map" />
 

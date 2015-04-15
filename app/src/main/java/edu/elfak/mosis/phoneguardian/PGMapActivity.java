@@ -29,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -42,6 +43,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
     CheckableMenuItem policeMenuItem;
 	public GoogleMap mapa;
     private SeekBar seekBar;
+    TextView tvSeekBarProgress;
 	MarkerOptions markerOptions;
 	Marker markers[];
 	int finishedTask = 0;
@@ -76,6 +78,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			
 		finishedTask=0;
         seekBar = (SeekBar) findViewById(R.id.seekBar);
+        tvSeekBarProgress = (TextView) findViewById(R.id.tv_seekbar_progress);
 
         GetCurrentLocation();
 
@@ -86,11 +89,11 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 progress = progresValue;
+                tvSeekBarProgress.setText(progresValue + "km");
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
+            public void onStartTrackingTouch(SeekBar seekBar) {
             }
 
             @Override
