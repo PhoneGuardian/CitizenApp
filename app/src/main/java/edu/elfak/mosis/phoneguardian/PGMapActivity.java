@@ -254,8 +254,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			                .position(new LatLng(markers[i].lat,markers[i].lng))
 			                .title(title)
 			                .snippet(snippet)
-                            .icon(BitmapDescriptorFactory.defaultMarker(0)));
-                            //.icon(BitmapDescriptorFactory.fromResource(R.drawable.fire)));
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.flame_pin)));
 					m.hideInfoWindow();
 
 
@@ -270,21 +269,18 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 				                .position(new LatLng(markers[i].lat,markers[i].lng))
 				                .title(title)
 				                .snippet(snippet)
-                                .icon(BitmapDescriptorFactory.defaultMarker(60)));
-				                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.emergency)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.emergency_pin)));
 						m.hideInfoWindow();
 					}
 					else
 					{
 
-						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
 				                .position(new LatLng(markers[i].lat,markers[i].lng))
 				                .title(title)
 				                .snippet(snippet)
-                                .icon(BitmapDescriptorFactory.defaultMarker(240)));
-				                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.police)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.police_pin)));
 						m.hideInfoWindow();
 					}
 				
