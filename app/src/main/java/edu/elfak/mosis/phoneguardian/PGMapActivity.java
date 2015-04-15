@@ -37,7 +37,6 @@ import java.lang.Math;
 
 public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener
 {
-	Menu mOptionsMenu;
     CheckableMenuItem fireMenuItem;
     CheckableMenuItem emergencyMenuItem;
     CheckableMenuItem policeMenuItem;
@@ -57,8 +56,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 	JSONParser jParser = new JSONParser();
 	
-
- 
     Tags t = new Tags();
 
     JSONArray markers_response = null;
@@ -147,21 +144,17 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        this.mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.pgmap_menu, menu);
-
-		menu.add(0,1,1,"Refresh");
-		menu.add(0,2,2,"Search");
 
         fireMenuItem = new CheckableMenuItem(menu.findItem(R.id.fire_events_toggle), menu.findItem(R.id.fire_events_toggle).isChecked(),
                 R.drawable.flame_blue, R.drawable.flame_gray);
         emergencyMenuItem = new CheckableMenuItem(menu.findItem(R.id.emergency_events_toggle), menu.findItem(R.id.emergency_events_toggle).isChecked(),
                 R.drawable.ambulance_blue, R.drawable.ambulance_gray);
         policeMenuItem = new CheckableMenuItem(menu.findItem(R.id.police_events_toggle), menu.findItem(R.id.police_events_toggle).isChecked(),
-                R.drawable.police_hat_blue, R.drawable.police_hat_gray);
-        new GetMarkersByCategory().execute();
+                R.drawable.police_badge_blue, R.drawable.police_badge_gray);
 
+        new GetMarkersByCategory().execute();
 
         return super.onCreateOptionsMenu(menu);
 	}
@@ -171,33 +164,30 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 		switch(item.getItemId())
 		{
-			case 1:
-				refresh=1;
+			case R.id.refresh_events:
+				refresh = 1;
                 fireMenuItem.setChecked(true);
                 policeMenuItem.setChecked(true);
                 emergencyMenuItem.setChecked(true);
                 onRestart();
 				break;
-			case 2:
+			case R.id.filter_events:
 				Intent i = new Intent(PGMapActivity.this,FilterActivity.class);
 				startActivityForResult(i, 1);
 				break;
             case R.id.fire_events_toggle:
+                refresh = 1;
                 fireMenuItem.toggle();
-                refresh=1;
-                Toast.makeText(PGMapActivity.this, item.isChecked()? "fire:checked": "fire: unchecked", Toast.LENGTH_SHORT).show();
                 onRestart();
                 break;
             case R.id.emergency_events_toggle:
+                refresh = 1;
                 emergencyMenuItem.toggle();
-                refresh=1;
-                Toast.makeText(PGMapActivity.this, item.isChecked()? "er:checked": "er: unchecked", Toast.LENGTH_SHORT).show();
                 onRestart();
             break;
             case R.id.police_events_toggle:
+                refresh = 1;
                 policeMenuItem.toggle();
-                refresh=1;
-                Toast.makeText(PGMapActivity.this, item.isChecked()? "police:checked": "police: unchecked", Toast.LENGTH_SHORT).show();
                 onRestart();
             break;
 		}
