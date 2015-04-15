@@ -20,11 +20,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,10 +44,12 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	
 	public GoogleMap mapa;
     private SeekBar seekBar;
-	MarkerOptions markerOptions;
+
 	Marker markers[];
 	int finishedTask = 0;
 	Spinner s;
+
+    int screenWidth;
 
     double d=1; // radius around our location where we want to find events, in km
 	double lat;
@@ -72,7 +77,11 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceBundle);
 		setContentView(R.layout.pgmap_activity);
-		
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenWidth = metrics.widthPixels;
+
 
 	    mapa = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
 		mapa.setOnMarkerClickListener(this);
@@ -100,14 +109,28 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 d = seekBar.getProgress();
+               // int zoomLevel = calculateZoomLevel(screenWidth, d*1000);
                 new GetMarkersByCategory().execute();
-                /*if(d>10)
-                getMapa().animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );*/
+
+               // getMapa().animateCamera( CameraUpdateFactory.zoomTo( zoomLevel ) );
             }
         });
 
 
 	}
+
+    private int calculateZoomLevel(int screenWidth,double radiusInMeters) {
+        double equatorLength = 40075004; // in meters
+        double widthInPixels = screenWidth;
+        double metersPerPixel = equatorLength / 256;
+        int zoomLevel = 1;
+        while ((metersPerPixel * widthInPixels) > radiusInMeters) {
+            metersPerPixel /= 2;
+            zoomLevel+=1;
+        }
+
+        return zoomLevel;
+    }
 
 		@Override
 		public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
