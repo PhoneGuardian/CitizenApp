@@ -134,6 +134,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
 
         mAdapter = new PlaceAutocompleteAdapter(this, R.layout.single_location_search_item,BOUNDS_GREATER, null);
+        mAdapter.setGoogleApiClient(mGoogleApiClient);
         mAutocompleteView.setAdapter(mAdapter);
 
         (new GetAddressTask(this)).execute(location);
@@ -470,7 +471,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         else{
             Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
         }
-        
+
         if(description_checked==1)
             this.description = et_description.getText().toString();
         if(radius_checked==1)
