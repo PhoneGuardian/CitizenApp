@@ -1,7 +1,10 @@
 package edu.elfak.mosis.phoneguardian;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -12,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -19,6 +23,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -484,7 +489,8 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	class GetMarkersBySearch extends AsyncTask<Void, Void, Integer>
 	{
 
-		@Override
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+        @Override
 		protected Integer doInBackground(Void... paramss) {
 			// TODO Auto-generated method stub
 
@@ -526,37 +532,13 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
 	        
 
-        	String begin_day, end_day;
- 	        
- 	        if(dt_begin.getDayOfMonth()>0 && dt_begin.getDayOfMonth()<9) {
-                begin_day = '0' + Integer.toString(dt_begin.getDayOfMonth() + 1);
-            }else{
-                begin_day = Integer.toString(dt_begin.getDayOfMonth()+1);
-            }
- 	        
- 	        if(dt_end.getDayOfMonth()>0 && dt_end.getDayOfMonth()<9) {
-                end_day = '0' + Integer.toString(dt_end.getDayOfMonth() + 1);
-            }else {
-                end_day = Integer.toString(dt_end.getDayOfMonth() + 1);
-            }
- 	        
-	        String begin_month, end_month;
-	        
-	        if(dt_begin.getMonth()>0 && dt_begin.getMonth()<9) {
-                begin_month = '0' + Integer.toString(dt_begin.getMonth() + 1);
-            }else{
-                begin_month = Integer.toString(dt_begin.getMonth()+1);
-            }
-	        
-	        if(dt_end.getMonth()>0 && dt_end.getMonth()<9) {
-                end_month = '0' + Integer.toString(dt_end.getMonth() + 1);
-            }else{
-                end_month = Integer.toString(dt_end.getMonth()+1);
-            }
-	        
-	        params.add(new BasicNameValuePair("begin_time", dt_begin.getYear()+"-"+begin_month+"-"+begin_day+" 00:00:00"));
-	        params.add(new BasicNameValuePair("end_time",dt_end.getYear()+"-"+end_month+"-"+end_day+" 23:59:59"));
-        
+            Date begin_date = new Date(dt_begin.getCalendarView().getDate());
+            Date end_date = new Date(dt_end.getCalendarView().getDate());
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            params.add(new BasicNameValuePair("begin_time", String.format("%s 00:00:00", dateFormat.format(begin_date))));
+            params.add(new BasicNameValuePair("end_time", String.format("%s 23:59:59", dateFormat.format(end_date))));
+
 	       
         	JSONObject json = jParser.makeHttpRequest(URL1, "GET", params);
  

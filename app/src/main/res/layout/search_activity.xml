@@ -35,7 +35,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/current_location"
-                android:drawableLeft="@drawable/location_pin_gray_15x18"
                 style="@style/ClearableAutoCompleteTextView"
                 />
 

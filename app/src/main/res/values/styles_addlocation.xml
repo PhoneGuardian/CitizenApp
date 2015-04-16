@@ -13,6 +13,7 @@
     <style name="addlocation_date" parent="app_text_normal_light_gray">
         <item name="android:drawablePadding">@dimen/spacing_small</item>
         <item name="android:paddingLeft">@dimen/spacing_small</item>
+        <item name="android:drawableLeft">@drawable/clock_gray_18x18</item>
     </style>
 
 

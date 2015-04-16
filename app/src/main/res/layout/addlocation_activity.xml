@@ -35,7 +35,6 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:hint="@string/current_location"
-           android:drawableLeft="@drawable/location_pin_gray_15x18"
            style="@style/ClearableAutoCompleteTextView"
            />
 
@@ -45,7 +44,6 @@
             android:text="@string/dummy_datetime"
             android:layout_marginBottom="@dimen/spacing_tiny"
             android:layout_marginTop="@dimen/spacing_large"
-            android:drawableLeft="@drawable/clock_gray_18x18"
             style="@style/addlocation_date"
            />
 
