@@ -69,19 +69,30 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
     @Override
 	protected void onCreate(Bundle savedInstanceBundle) {
 
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceBundle);
-		setContentView(R.layout.pgmap_activity);
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceBundle);
+        setContentView(R.layout.pgmap_activity);
 
-	    mapa = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
-		mapa.setOnMarkerClickListener(this);
+        mapa = ((SupportMapFragment) (getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
+        mapa.setOnMarkerClickListener(this);
         mapa.setOnCameraChangeListener(this);
-			
-		finishedTask=0;
-        GetCurrentLocation();
-	}
 
+        lat = getIntent().getDoubleExtra("lat", 0);
+        lng = getIntent().getDoubleExtra("lng", 0);
 
+        finishedTask = 0;
+        PostionOnMap();
+    }
+
+    public void PostionOnMap()
+    {
+        if (lat == 0 && lng == 0)
+            GetCurrentLocation();
+
+        LatLng ll = new LatLng(lat,lng);
+        mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));
+        mapa.setMyLocationEnabled(true);
+    }
 		@Override
 		public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
 			
@@ -342,19 +353,11 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
         }
 	}
 
-
-
 	private void GetCurrentLocation()
 	{
 	    double[] a = getLocation();
 	    lat = a[0];
 	    lng = a[1];
-
-        LatLng ll = new LatLng(lat,lng);
-	    mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));
-	    mapa.setMyLocationEnabled(true);
-
-
 	}
 
 	public double[] getLocation()

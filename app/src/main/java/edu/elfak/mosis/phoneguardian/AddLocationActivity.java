@@ -53,6 +53,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 {
     EventLocation inputLocation = new EventLocation();
     EventLocation currentLocation = new EventLocation();
+    String inputAddr ;
 
 	String type_of_event = "F";
 
@@ -229,7 +230,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 		{
 		case R.id.btn_report_event:
 
-            String inputAddr = ((AutoCompleteTextView) findViewById(R.id.autocomplete_places)).getText().toString();
+            inputAddr = ((AutoCompleteTextView) findViewById(R.id.autocomplete_places)).getText().toString();
 
 			if(type_of_event!="" && description.getText().toString().length()!=0)
 			{
@@ -457,8 +458,16 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
 	        protected void onPostExecute(String file_url) {
                 enableReportEvent();
                 if(success == 1) { // case event successfully created
+                    LatLng ll;
+                    if ( inputAddr.length() == 0 && currentLocation.isValid())
+                        ll= new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                    else
+                        ll = new LatLng(inputLocation.getLatitude(), inputLocation.getLongitude());
+
                     Toast.makeText(AddLocationActivity.this, msg, Toast.LENGTH_LONG).show();
                     Intent i = new Intent(getApplicationContext(), PGMapActivity.class );
+                    i.putExtra("lat",ll.latitude);
+                    i.putExtra("lng",ll.longitude);
                     i.setFlags(i.FLAG_ACTIVITY_NEW_TASK );
                     startActivity(i); // Launch the PGMapActivity
                     finish();         // Close down the AddLocationActivity
