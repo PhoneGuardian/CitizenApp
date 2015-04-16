@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@color/white"  >
-    
-   <LinearLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:background="@color/white"
-		android:padding="25dp">
-        
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="@dimen/spacing_normal"
+        >
+
         <LinearLayout android:id="@+id/filter_layout"
             android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
             <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
                 android:id="@+id/autocomplete_places_filter"
@@ -32,148 +29,148 @@
 
 
             <LinearLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				>
-	            
-	            <CheckBox
-	                	android:id="@+id/cb_type_of_event_filter"
-			       		android:layout_width="0dp"
-			            android:layout_height="wrap_content"
-			            android:layout_weight="2"
-			            android:layout_gravity="left"
-			            android:text="@string/category"
-                        android:textColor="@color/black"
-			            android:onClick="onCheckboxClicked"/>
-	
-	            <RadioGroup android:id="@+id/rg_type_of_event"
-		            android:orientation="vertical"
-		            android:layout_width="0dp"
-		            android:layout_weight="2"
-		            android:layout_height="wrap_content">
-	            
-			            <RadioButton android:id="@+id/rb_fire_filter"
-			                android:text="@string/fire"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-			                android:textSize="20sp"
-                            android:textColor="@color/black"
-			        		android:checked="true"
-			        		android:onClick="onRadioButtonClicked"
-			                android:enabled="false"   />
-			            
-			            <RadioButton android:id="@+id/rb_emergency_filter"
-			                android:text="@string/emergency"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-			                android:textSize="20sp"
-                            android:textColor="@color/black"
-			        		android:onClick="onRadioButtonClicked"
-			        		android:enabled="false" />
-			            
-			            <RadioButton android:id="@+id/rb_police_filter"
-			                android:text="@string/police"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-			                android:textSize="20sp"
-                            android:textColor="@color/black"
-			        		android:onClick="onRadioButtonClicked"
-			        		android:enabled="false" />
-	            
-	        		</RadioGroup>
-	            
-	        </LinearLayout>
-	        
-	        <LinearLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				>
-	            
-	            <CheckBox
-	                	android:id="@+id/cb_desc_filter"
-			       		android:layout_width="0dp"
-			            android:layout_height="wrap_content"
-			            android:layout_weight="4"
-			            android:layout_gravity="left"
-			            android:text="@string/description"
-                        android:textColor="@color/black"
-			            android:onClick="onCheckboxClicked"/>
-	
-	            <EditText
-	                android:id="@+id/et_desc_filter"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="5"
-	                android:enabled="false"
-	                android:inputType="text" />
-	            
-	        </LinearLayout>
-
-	        <LinearLayout android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"
-				>
-	            
-	            <CheckBox
-	                	android:id="@+id/cb_date_filter"
-			       		android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:layout_gravity="left"
-			            android:text="@string/date"
-                        android:textColor="@color/black"
-			            android:onClick="onCheckboxClicked"/>
-
-
-			    <TextView
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:layout_gravity="left"
-					    android:text="@string/from"
-					    android:textColor="@color/black"/>
-			    <DatePicker android:id="@+id/datepicker_from"
-                        android:datePickerMode="spinner"
-                        style="@android:style/Widget.DatePicker"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:endYear="2050"
-			        	android:startYear="1950"
-                        android:spinnersShown="false"
-                        />
-
-
-			    <TextView
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:layout_gravity="left"
-					    android:text="@string/to"
-                        android:textColor="@color/black"/>
-
-
-                <DatePicker android:id="@+id/datepicker_to"
-                        style="@android:style/Widget.DatePicker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:endYear="2050"
-                        android:startYear="1950"
-                        android:spinnersShown="false"
-                    />
-
-           </LinearLayout>
-
-           <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
 
                 <CheckBox
-                        android:id="@+id/cb_radius"
-                           android:layout_width="0dp"
+                    android:id="@+id/cb_type_of_event_filter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="left"
+                    android:text="@string/category"
+                    android:textColor="@color/black"
+                    android:onClick="onCheckboxClicked"/>
+
+                <RadioGroup android:id="@+id/rg_type_of_event"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton android:id="@+id/rb_fire_filter"
+                        android:text="@string/fire"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:layout_gravity="left"
-                        android:text="@string/radius"
+                        android:textSize="20sp"
                         android:textColor="@color/black"
-                        android:onClick="onCheckboxClicked"/>
+                        android:checked="true"
+                        android:onClick="onRadioButtonClicked"
+                        android:enabled="false"   />
+
+                    <RadioButton android:id="@+id/rb_emergency_filter"
+                        android:text="@string/emergency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/black"
+                        android:onClick="onRadioButtonClicked"
+                        android:enabled="false" />
+
+                    <RadioButton android:id="@+id/rb_police_filter"
+                        android:text="@string/police"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/black"
+                        android:onClick="onRadioButtonClicked"
+                        android:enabled="false" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <CheckBox
+                    android:id="@+id/cb_desc_filter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="left"
+                    android:text="@string/description"
+                    android:textColor="@color/black"
+                    android:onClick="onCheckboxClicked"/>
+
+                <EditText
+                    android:id="@+id/et_desc_filter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:enabled="false"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <CheckBox
+                    android:id="@+id/cb_date_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/date"
+                    android:textColor="@color/black"
+                    android:onClick="onCheckboxClicked"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/from"
+                    android:textColor="@color/black"/>
+                <DatePicker android:id="@+id/datepicker_from"
+                    android:datePickerMode="spinner"
+                    style="@android:style/Widget.DatePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:endYear="2050"
+                    android:startYear="1950"
+                    android:spinnersShown="false"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/to"
+                    android:textColor="@color/black"/>
+
+
+                <DatePicker android:id="@+id/datepicker_to"
+                    style="@android:style/Widget.DatePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:endYear="2050"
+                    android:startYear="1950"
+                    android:spinnersShown="false"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <CheckBox
+                    android:id="@+id/cb_radius"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="left"
+                    android:text="@string/radius"
+                    android:textColor="@color/black"
+                    android:onClick="onCheckboxClicked"/>
 
                 <Spinner
                     android:id="@+id/radius_filter"
@@ -181,30 +178,30 @@
                     android:layout_weight="2"
                     android:layout_height="wrap_content" />
 
-           </LinearLayout>
+            </LinearLayout>
 
-           <LinearLayout android:layout_width="fill_parent"
+            <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
 
                 <Button
-                        android:id="@+id/btn_show_filtered_events"
-                           android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="left"
-                        android:text="@string/show_list"
-                        android:textColor="@color/black"/>
+                    android:id="@+id/btn_show_filtered_events"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="left"
+                    android:text="@string/show_list"
+                    android:textColor="@color/black"/>
 
                 <Button
-                        android:id="@+id/btn_show_filtered_events_on_map"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="left"
-                        android:text="@string/show_markers_on_map"
-                        android:textColor="@color/black"/>
+                    android:id="@+id/btn_show_filtered_events_on_map"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="left"
+                    android:text="@string/show_markers_on_map"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
@@ -213,7 +210,7 @@
         </LinearLayout>
 
 
-    </LinearLayout>
 
-</ScrollView>
+
+    </ScrollView>
 </RelativeLayout>
