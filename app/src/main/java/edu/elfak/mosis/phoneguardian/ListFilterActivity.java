@@ -8,7 +8,7 @@ public class ListFilterActivity extends ListActivity {
  
  Marker[] markers;
  String[] values;
- 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_of_markers_activity);
@@ -17,11 +17,13 @@ public class ListFilterActivity extends ListActivity {
         
         markers = dw.getMarkers();
         
-        String[] niz = new String[markers.length];
-        
-        for(int i=0 ; i<markers.length; i++)
-        {
-         niz[i] = "address: "+markers[i].getAddress()+"\nType of event: "+markers[i].getType_of_event();
+        String[] niz = new String[0];
+        if(markers !=null) {    //if there's no internet connection on the phone markers will be null
+            niz = new String[markers.length];
+
+            for (int i = 0; i < markers.length; i++) {
+                niz[i] = "address: " + markers[i].getAddress() + "\nType of event: " + markers[i].getType_of_event();
+            }
         }
         
         
