@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -22,15 +21,15 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Layout;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -64,7 +63,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	boolean show_events_in_list = false;
 	int radius_checked = 0;
     int description_checked = 0;
-    int type_of_event_checked = 0;
     int date_checked = 0;
 	 
 	ArrayList<Marker> events_in_radius;
@@ -86,10 +84,9 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     ClearableAutoCompleteTextView mAutocompleteView;
 	EditText et_description;
 	
-	RadioGroup rg_type_of_event;
-	RadioButton rb_fire;
-	RadioButton rb_emergency;
-	RadioButton rb_police;
+    CheckBox cb_fire;
+    CheckBox cb_emergency;
+    CheckBox cd_police;
     DatePicker date_from;
     DatePicker date_to;
 	
@@ -100,7 +97,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	
 	String address="";
 	String description="";
-	String type_of_event="";
 
 	 
 	double latitude;
@@ -134,6 +130,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 new LatLng(location.getLatitude()+0.5, location.getLongitude()+0.5));
 
         mAdapter = new PlaceAutocompleteAdapter(this, R.layout.single_location_search_item,BOUNDS_GREATER, null);
+        mAdapter.setGoogleApiClient(mGoogleApiClient);
         mAutocompleteView.setAdapter(mAdapter);
 
         (new GetAddressTask(this)).execute(location);
@@ -150,11 +147,10 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         date_to = (DatePicker) findViewById(R.id.datepicker_to);
         date_to.setSpinnersShown(false);
 		
-		rg_type_of_event = (RadioGroup)findViewById(R.id.rg_type_of_event);
 
-		rb_fire = (RadioButton)findViewById(R.id.rb_fire_filter);
-		rb_emergency = (RadioButton)findViewById(R.id.rb_emergency_filter);
-		rb_police = (RadioButton)findViewById(R.id.rb_police_filter);
+		cb_fire = (CheckBox)findViewById(R.id.cb_fire_filter);
+		cb_emergency = (CheckBox)findViewById(R.id.cb_emergency_filter);
+		cd_police = (CheckBox)findViewById(R.id.cb_police_filter);
 
 		dt_begin = (DatePicker) findViewById(R.id.datepicker_from);
 		dt_end = (DatePicker) findViewById(R.id.datepicker_to);
@@ -168,7 +164,10 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	     
 	    events_in_radius = new ArrayList<Marker>();
 	    geoCoder = new Geocoder(FilterActivity.this);
-	}
+
+        findViewById(R.id.filter_layout).setOnTouchListener(hideKeyboardlistener);
+
+    }
 
     public Location getlocation() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -368,23 +367,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	    
 	    // Check which checkbox was clicked
 	    switch(view.getId()) {
-	        case R.id.cb_type_of_event_filter:
-	            if (checked)
-	            	{
 
-                        type_of_event_checked = 1;
-                        rb_fire.setEnabled(true);
-                        rb_emergency.setEnabled(true);
-                        rb_police.setEnabled(true);
-	            	}
-	            else
-		            {
-                        rb_fire.setEnabled(false);
-                        rb_emergency.setEnabled(false);
-                        rb_police.setEnabled(false);
-                        type_of_event_checked = 0;
-		            }
-	            break;
 	        case R.id.cb_desc_filter:
 	            if (checked)
 	            {
@@ -430,75 +413,60 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	    }
 	}
 	
-	public void onRadioButtonClicked(View view) {
-	    // Is the button now checked?
-	    boolean checked = ((RadioButton) view).isChecked();
-	    
-	    // Check which radio button was clicked
-	    switch(view.getId()) {
-	        case R.id.rb_fire_filter:
-	            if (checked)
-                    type_of_event="F";
-	            break;
-	        case R.id.rb_emergency_filter:
-	            if (checked)
-                    type_of_event="E";
-	            break;
-	        case R.id.rb_police_filter:
-	            if (checked)
-                    type_of_event="P";
-	            break;
-	    }
-	}
 
 	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-
-        String inputAddr = mAutocompleteView.getText().toString();
-        if(inputAddr.length() == 0)
+        if (v.getId() == R.id.btn_show_filtered_events_on_map || v.getId() == R.id.btn_show_filtered_events)
         {
-            this.address = currentLocation.getAddress();
-            this.latitude = currentLocation.getLatitude();
-            this.longitude = currentLocation.getLongitude();
-        }
-        else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress()) )
-        {
-            this.address = inputLocation.getAddress();
-            this.latitude = inputLocation.getLatitude();
-            this.longitude = inputLocation.getLongitude();
+            show_events_in_list = v.getId() == R.id.btn_show_filtered_events ? true : false;
+
+            if (description_checked == 1)
+                this.description = et_description.getText().toString();
+            if (radius_checked == 1)
+                this.radius = Float.parseFloat(spinner_radius.getSelectedItem().toString());
+
+            String inputAddr = mAutocompleteView.getText().toString();
+            if (inputAddr.length() == 0 && currentLocation.isValid()) {
+                this.address = currentLocation.getAddress();
+                this.latitude = currentLocation.getLatitude();
+                this.longitude = currentLocation.getLongitude();
+                new GetMarkersBySearch().execute();
+
+            } else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress())) {
+                this.address = inputLocation.getAddress();
+                this.latitude = inputLocation.getLatitude();
+                this.longitude = inputLocation.getLongitude();
+                new GetMarkersBySearch().execute();
+
+            } else {
+                Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+            }
+
 
         }
-        else
-        {
-            Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
-        }
-        if(description_checked==1)
-            this.description = et_description.getText().toString();
-        if(radius_checked==1)
-            this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
 
-
-        switch(v.getId())
+/*        switch(v.getId())
         {
          
          case R.id.btn_show_filtered_events_on_map:
              show_events_in_list=false;
              if(radius_checked==0 && description_checked==0 && type_of_event_checked==0 && date_checked==0)
-                Toast.makeText(this,"Filter not choosed!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Filter not chosen!",Toast.LENGTH_SHORT).show();
              else
                 new GetMarkersBySearch().execute();
              break;
          case R.id.btn_show_filtered_events:
             show_events_in_list = true;
             if(radius_checked==0 && description_checked==0 && type_of_event_checked==0 && date_checked==0)
-                Toast.makeText(this,"Filter not choosed!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Filter not chosen!",Toast.LENGTH_SHORT).show();
             else
                 new GetMarkersBySearch().execute();
             break;
 
         }
+        */
 		
 	}
 	
@@ -522,8 +490,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             String URL1 = "http://nemanjastolic.co.nf/guardian/get_events_by_filter.php";
-            if(radius_checked==1)
-            {
+            if(radius_checked==1) {
                 double R = 6371; //in km
                 double r = radius / R; //d has to be in km
 
@@ -548,35 +515,44 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 params.add(new BasicNameValuePair("lat_max",Double.toString(lat_max)));
             }
 
-	        params.add(new BasicNameValuePair("type_of_event", type_of_event));
-	        params.add(new BasicNameValuePair("description", description));
+            params.add(new BasicNameValuePair("fire_event_checked", cb_fire.isChecked()? "1" : "0"));
+            params.add(new BasicNameValuePair("police_event_checked", cd_police.isChecked()? "1" : "0"));
+            params.add(new BasicNameValuePair("emergency_event_checked", cb_emergency.isChecked()? "1" : "0"));
+
+            params.add(new BasicNameValuePair("description", description));
 
             params.add(new BasicNameValuePair("radius_checked",Integer.toString(radius_checked)));
             params.add(new BasicNameValuePair("description_checked",Integer.toString(description_checked)));
-            params.add(new BasicNameValuePair("type_of_event_checked",Integer.toString(type_of_event_checked)));
             params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
 	        
 
         	String begin_day, end_day;
  	        
- 	        if(dt_begin.getDayOfMonth()>0 && dt_begin.getDayOfMonth()<9)
- 	        	begin_day = '0'+ Integer.toString(dt_begin.getDayOfMonth()+1);
- 	        else begin_day = Integer.toString(dt_begin.getDayOfMonth()+1);
+ 	        if(dt_begin.getDayOfMonth()>0 && dt_begin.getDayOfMonth()<9) {
+                begin_day = '0' + Integer.toString(dt_begin.getDayOfMonth() + 1);
+            }else{
+                begin_day = Integer.toString(dt_begin.getDayOfMonth()+1);
+            }
  	        
- 	        if(dt_end.getDayOfMonth()>0 && dt_end.getDayOfMonth()<9)
- 	        	end_day = '0'+ Integer.toString(dt_end.getDayOfMonth()+1);
- 	        else end_day = Integer.toString(dt_end.getDayOfMonth()+1);
+ 	        if(dt_end.getDayOfMonth()>0 && dt_end.getDayOfMonth()<9) {
+                end_day = '0' + Integer.toString(dt_end.getDayOfMonth() + 1);
+            }else {
+                end_day = Integer.toString(dt_end.getDayOfMonth() + 1);
+            }
  	        
 	        String begin_month, end_month;
 	        
-	        if(dt_begin.getMonth()>0 && dt_begin.getMonth()<9)
-	        	begin_month = '0'+ Integer.toString(dt_begin.getMonth()+1);
-	        else begin_month = Integer.toString(dt_begin.getMonth()+1);
+	        if(dt_begin.getMonth()>0 && dt_begin.getMonth()<9) {
+                begin_month = '0' + Integer.toString(dt_begin.getMonth() + 1);
+            }else{
+                begin_month = Integer.toString(dt_begin.getMonth()+1);
+            }
 	        
-	        if(dt_end.getMonth()>0 && dt_end.getMonth()<9)
-	        	end_month = '0'+ Integer.toString(dt_end.getMonth()+1);
-	        else end_month = Integer.toString(dt_end.getMonth()+1);
-	        
+	        if(dt_end.getMonth()>0 && dt_end.getMonth()<9) {
+                end_month = '0' + Integer.toString(dt_end.getMonth() + 1);
+            }else{
+                end_month = Integer.toString(dt_end.getMonth()+1);
+            }
 	        
 	        params.add(new BasicNameValuePair("begin_time", dt_begin.getYear()+"-"+begin_month+"-"+begin_day+" 00:00:00"));
 	        params.add(new BasicNameValuePair("end_time",dt_end.getYear()+"-"+end_month+"-"+end_day+" 23:59:59"));
@@ -588,18 +564,15 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 // Checking for SUCCESS TAG
 	                int success = json.getInt(t.TAG_SUCCESS);
 	 
-	                if (success == 1)
-	                {
-
+	                if (success == 1){
 	                	events_response = json.getJSONArray(t.TAG_EVENTS);
 
-	                	if(events_response==null)
-	                		msg =  "No markers found!";
-	                	else
-	                	{
+	                	if(events_response==null) {
+                            msg = "No markers found!";
+                        }
+	                	else{
 	                		markers = new Marker[events_response.length()];
 	 
-
                             for (int i = 0; i < events_response.length(); i++)
                             {
                                 JSONObject c = events_response.getJSONObject(i);
@@ -616,18 +589,14 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                                 markers[i].id = c.getString(t.TAG_EVENT_ID);
                                 markers[i].setLocation_acc(Float.parseFloat(c.getString(t.TAG_LOCATION_ACC)));
                                 markers[i].setAnonymous(c.getInt(t.TAG_ANONYMOUS));
-
-
                             }
 	                	}
 	                }
-	                else
-	                {
+	                else{
 	                	msg = "No markers found!";
 	                }
             	}
-            	catch (JSONException e)
-            	{
+            	catch (JSONException e){
             		msg = "GRESKA JSON";
             	}
 
@@ -636,35 +605,33 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 		@Override
 		protected void onPostExecute(Integer result)
 		{
-
-            	if(show_events_in_list == true)
-                {
-                
+            	if(show_events_in_list == true){
                  Intent i = new Intent(FilterActivity.this,ListFilterActivity.class);
                  i.putExtra("markers", new DataWrapper(markers));
                  startActivity(i);
                 }
-                else
-                {
+                else{
                   Intent returnIntent = new Intent();
                   returnIntent.putExtra("markers", new DataWrapper(markers));
                   setResult(RESULT_OK, returnIntent);
                     
                   Toast.makeText(FilterActivity.this,"USPEH",Toast.LENGTH_LONG).show();
+                  FilterActivity.this.finish();
                 }
-            	
-
-            
-          
-            FilterActivity.this.finish();
-             
-
         }
-		
 	}
-	
-	
-	
-	
 
+    private View.OnTouchListener hideKeyboardlistener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent ev) {
+            hideKeyboard(view);
+            return false;
+        }
+        protected void hideKeyboard(View view)
+        {
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+    };
 }

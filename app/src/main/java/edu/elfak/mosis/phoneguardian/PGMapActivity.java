@@ -34,6 +34,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -41,12 +42,13 @@ import java.lang.Math;
 
 public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener
 {
-	Menu mOptionsMenu;
     CheckableMenuItem fireMenuItem;
     CheckableMenuItem emergencyMenuItem;
     CheckableMenuItem policeMenuItem;
 	public GoogleMap mapa;
     private SeekBar seekBar;
+    TextView tvSeekBarProgress;
+
 
 	Marker markers[];
 	int finishedTask = 0;
@@ -64,8 +66,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 	JSONParser jParser = new JSONParser();
 	
-
- 
     Tags t = new Tags();
 
     JSONArray markers_response = null;
@@ -89,6 +89,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			
 		finishedTask=0;
         seekBar = (SeekBar) findViewById(R.id.seekBar);
+        tvSeekBarProgress = (TextView) findViewById(R.id.tv_seekbar_progress);
 
         GetCurrentLocation();
 
@@ -99,11 +100,11 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 progress = progresValue;
+                tvSeekBarProgress.setText(progresValue + "km");
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
+            public void onStartTrackingTouch(SeekBar seekBar) {
             }
 
             @Override
@@ -113,7 +114,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
                 new GetMarkersByCategory().execute();
 
 
-                getMapa().animateCamera(CameraUpdateFactory.newLatLngBounds(llb, findViewById(R.id.mapf).));
+               // getMapa().animateCamera(CameraUpdateFactory.newLatLngBounds(llb, findViewById(R.id.mapf).));
             }
         });
 
@@ -172,21 +173,17 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        this.mOptionsMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.pgmap_menu, menu);
 
-		menu.add(0,1,1,"Refresh");
-		menu.add(0,2,2,"Search");
-
         fireMenuItem = new CheckableMenuItem(menu.findItem(R.id.fire_events_toggle), menu.findItem(R.id.fire_events_toggle).isChecked(),
-                R.drawable.flame_black, R.drawable.flame_gray);
+                R.drawable.flame_blue, R.drawable.flame_gray);
         emergencyMenuItem = new CheckableMenuItem(menu.findItem(R.id.emergency_events_toggle), menu.findItem(R.id.emergency_events_toggle).isChecked(),
-                R.drawable.ambulance_black, R.drawable.ambulance_gray);
+                R.drawable.ambulance_blue, R.drawable.ambulance_gray);
         policeMenuItem = new CheckableMenuItem(menu.findItem(R.id.police_events_toggle), menu.findItem(R.id.police_events_toggle).isChecked(),
-                R.drawable.police_hat_black, R.drawable.police_hat_gray);
-        new GetMarkersByCategory().execute();
+                R.drawable.police_badge_blue, R.drawable.police_badge_gray);
 
+        new GetMarkersByCategory().execute();
 
         return super.onCreateOptionsMenu(menu);
 	}
@@ -196,33 +193,30 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 		switch(item.getItemId())
 		{
-			case 1:
-				refresh=1;
+			case R.id.refresh_events:
+				refresh = 1;
                 fireMenuItem.setChecked(true);
                 policeMenuItem.setChecked(true);
                 emergencyMenuItem.setChecked(true);
                 onRestart();
 				break;
-			case 2:
+			case R.id.filter_events:
 				Intent i = new Intent(PGMapActivity.this,FilterActivity.class);
 				startActivityForResult(i, 1);
 				break;
             case R.id.fire_events_toggle:
+                refresh = 1;
                 fireMenuItem.toggle();
-                refresh=1;
-                Toast.makeText(PGMapActivity.this, item.isChecked()? "fire:checked": "fire: unchecked", Toast.LENGTH_SHORT).show();
                 onRestart();
                 break;
             case R.id.emergency_events_toggle:
+                refresh = 1;
                 emergencyMenuItem.toggle();
-                refresh=1;
-                Toast.makeText(PGMapActivity.this, item.isChecked()? "er:checked": "er: unchecked", Toast.LENGTH_SHORT).show();
                 onRestart();
             break;
             case R.id.police_events_toggle:
+                refresh = 1;
                 policeMenuItem.toggle();
-                refresh=1;
-                Toast.makeText(PGMapActivity.this, item.isChecked()? "police:checked": "police: unchecked", Toast.LENGTH_SHORT).show();
                 onRestart();
             break;
 		}
@@ -282,44 +276,33 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 				if(markers[i].type_of_event.equals("F"))
 				{
-
-					
 					com.google.android.gms.maps.model.Marker m = mapa
 			        .addMarker(new MarkerOptions()
 			                .position(new LatLng(markers[i].lat,markers[i].lng))
 			                .title(title)
 			                .snippet(snippet)
-                            .icon(BitmapDescriptorFactory.defaultMarker(0)));
-                            //.icon(BitmapDescriptorFactory.fromResource(R.drawable.fire)));
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.flame_pin)));
 					m.hideInfoWindow();
-
-
 				}
 				else
 					if(markers[i].type_of_event.equals("E"))
 					{
-
-						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
 				                .position(new LatLng(markers[i].lat,markers[i].lng))
 				                .title(title)
 				                .snippet(snippet)
-                                .icon(BitmapDescriptorFactory.defaultMarker(60)));
-				                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.emergency)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.emergency_pin)));
 						m.hideInfoWindow();
 					}
 					else
 					{
-
-						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
 				                .position(new LatLng(markers[i].lat,markers[i].lng))
 				                .title(title)
 				                .snippet(snippet)
-                                .icon(BitmapDescriptorFactory.defaultMarker(240)));
-				                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.police)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.police_pin)));
 						m.hideInfoWindow();
 					}
 				

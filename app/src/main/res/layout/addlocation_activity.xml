@@ -35,8 +35,8 @@
            android:layout_height="wrap_content"
            android:hint="@string/current_location"
            android:drawableLeft="@drawable/location_pin_gray_15x18"
-           style="@style/addlocation_ClearableAutoCompleteTextView"
-           tools:ignore="RtlHardcoded" />
+           style="@style/ClearableAutoCompleteTextView"
+           />
 
        <TextView android:id="@+id/label_addingtime"
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:drawableLeft="@drawable/clock_gray_18x18"
             style="@style/addlocation_date"
-           tools:ignore="RtlHardcoded" />
+           />
 
        <View style="@style/divider_gray"
             android:layout_marginBottom="@dimen/spacing_large"

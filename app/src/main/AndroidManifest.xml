@@ -93,7 +93,13 @@
 
         <activity
             android:name="edu.elfak.mosis.phoneguardian.FilterActivity"
-            android:theme="@style/AppTheme" >
+            android:label=""
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="edu.elfak.mosis.phoneguardian.PGMapActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.elfak.mosis.phoneguardian.PGMapActivity" />
         </activity>
         <activity
             android:name="edu.elfak.mosis.phoneguardian.MarkerActivity"

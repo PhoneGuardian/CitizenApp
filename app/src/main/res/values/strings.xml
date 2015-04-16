@@ -21,7 +21,6 @@
 	<string name="description">Description:</string>
 	<string name="save">Save</string>
 	
-	<string name="nearme">Near me</string>
 	<string name="address">Address:</string>
 	<string name="date">Date:</string>
 	<string name="comment">Comment:</string>
@@ -35,8 +34,17 @@
 	<string name="radius">Radius</string>
 	<string name="from">From:</string>
 	<string name="to">To:</string>
+
+    <string name="fire_events">Fire events</string>
+    <string name="emergency_events">Emergency events</string>
+    <string name="police_events">Police events</string>
+    <string name="filter_events">Filter events</string>
+    <string name="refresh_map">Refresh map</string>
+
     <string name="dummy_datetime">12:00 01/01/2015</string>
     <string name="dummy_countrycode">+39</string>
+    <string name="event_radius">Event radius:</string>
+    <string name="dummy_km_distance_value">0km</string>
 
     <string-array name="spinner">
 		<item>20</item>
