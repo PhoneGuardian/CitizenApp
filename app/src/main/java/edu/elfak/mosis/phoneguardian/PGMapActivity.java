@@ -15,9 +15,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,8 +29,6 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,15 +40,16 @@ import android.widget.Toast;
 
 import java.lang.Math;
 
-public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener
+public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener,GoogleMap.OnCameraChangeListener
 {
+
     CheckableMenuItem fireMenuItem;
     CheckableMenuItem emergencyMenuItem;
     CheckableMenuItem policeMenuItem;
 	public GoogleMap mapa;
     private SeekBar seekBar;
     TextView tvSeekBarProgress;
-
+    boolean asyncTaskInProgress = false;
 
 	Marker markers[];
 	int finishedTask = 0;
@@ -59,6 +60,11 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
     double d=1; // radius around our location where we want to find events, in km
 	double lat;
     double lng;
+
+    double lng_min;
+    double lat_max;
+    double lng_max;
+    double lat_min;
 
     LatLngBounds llb;
 
@@ -72,20 +78,18 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
     private float previousZoomLevel = -1.0f;
 
-	
-	@Override
+
+    @Override
 	protected void onCreate(Bundle savedInstanceBundle) {
+
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceBundle);
 		setContentView(R.layout.pgmap_activity);
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        screenWidth = metrics.widthPixels;
-
 
 	    mapa = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
 		mapa.setOnMarkerClickListener(this);
+        mapa.setOnCameraChangeListener(this);
 			
 		finishedTask=0;
         seekBar = (SeekBar) findViewById(R.id.seekBar);
@@ -110,29 +114,14 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 d = seekBar.getProgress();
-               // int zoomLevel = calculateZoomLevel(screenWidth, d*1000);
                 new GetMarkersByCategory().execute();
 
-
-               // getMapa().animateCamera(CameraUpdateFactory.newLatLngBounds(llb, findViewById(R.id.mapf).));
             }
         });
 
 
 	}
 
-    private int calculateZoomLevel(int screenWidth,double radiusInMeters) {
-        double equatorLength = 40075004; // in meters
-        double widthInPixels = screenWidth;
-        double metersPerPixel = equatorLength / 256;
-        int zoomLevel = 1;
-        while ((metersPerPixel * widthInPixels) > radiusInMeters) {
-            metersPerPixel /= 2;
-            zoomLevel+=1;
-        }
-
-        return zoomLevel;
-    }
 
 		@Override
 		public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
@@ -338,11 +327,12 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		@Override
 		protected Integer doInBackground(Void... paramss) {
 			// TODO Auto-generated method stub
-
+            if (asyncTaskInProgress) return 0;
+            asyncTaskInProgress = true ;
             String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
 			refresh = 0;
 
-            double R = 6371; //in km
+            /*double R = 6371; //in km
             double r= d/R; //d has to be in km
 
             double lat_rad = toRad(lat);
@@ -360,7 +350,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
             double lng_min = toDeg(lng_min_rad);
             double lng_max = toDeg(lng_max_rad);
 
-            llb = new LatLngBounds(new LatLng(lat_min,lng_min),new LatLng(lat_max,lng_max));
+            llb = new LatLngBounds(new LatLng(lat_min,lng_min),new LatLng(lat_max,lng_max));*/
 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
@@ -430,7 +420,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		{
 
             DrawMarkers();
-
+            asyncTaskInProgress = false ;
         }
 	}
 
@@ -471,12 +461,32 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	    return gps;
 	}
 
-	
+    @Override
+    public void onCameraChange(CameraPosition cameraPosition) {
+
+
+        VisibleRegion vr = getMapa().getProjection().getVisibleRegion();
+
+        if(Math.abs(lng_max-vr.latLngBounds.northeast.longitude)>0.005 || Math.abs(lat_max-vr.latLngBounds.northeast.latitude)>0.002)
+        {
+            lng_min = vr.latLngBounds.southwest.longitude;
+            lat_max = vr.latLngBounds.northeast.latitude;
+            lng_max = vr.latLngBounds.northeast.longitude;
+            lat_min = vr.latLngBounds.southwest.latitude;
+
+            new GetMarkersByCategory().execute();
+        }
+
+
+    }
 
 
 
 
 
-	
+
+
+
+
 
 }
