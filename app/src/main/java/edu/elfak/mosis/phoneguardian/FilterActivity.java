@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -22,7 +21,6 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Layout;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -66,7 +63,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	boolean show_events_in_list = false;
 	int radius_checked = 0;
     int description_checked = 0;
-    int type_of_event_checked = 0;
     int date_checked = 0;
 	 
 	ArrayList<Marker> events_in_radius;
@@ -88,10 +84,9 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     ClearableAutoCompleteTextView mAutocompleteView;
 	EditText et_description;
 	
-	RadioGroup rg_type_of_event;
-	RadioButton rb_fire;
-	RadioButton rb_emergency;
-	RadioButton rb_police;
+    CheckBox cb_fire;
+    CheckBox cb_emergency;
+    CheckBox cd_police;
     DatePicker date_from;
     DatePicker date_to;
 	
@@ -102,7 +97,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	
 	String address="";
 	String description="";
-	String type_of_event="F";
 
 	 
 	double latitude;
@@ -153,11 +147,10 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         date_to = (DatePicker) findViewById(R.id.datepicker_to);
         date_to.setSpinnersShown(false);
 		
-		rg_type_of_event = (RadioGroup)findViewById(R.id.rg_type_of_event);
 
-		rb_fire = (RadioButton)findViewById(R.id.rb_fire_filter);
-		rb_emergency = (RadioButton)findViewById(R.id.rb_emergency_filter);
-		rb_police = (RadioButton)findViewById(R.id.rb_police_filter);
+		cb_fire = (CheckBox)findViewById(R.id.cb_fire_filter);
+		cb_emergency = (CheckBox)findViewById(R.id.cb_emergency_filter);
+		cd_police = (CheckBox)findViewById(R.id.cb_police_filter);
 
 		dt_begin = (DatePicker) findViewById(R.id.datepicker_from);
 		dt_end = (DatePicker) findViewById(R.id.datepicker_to);
@@ -374,23 +367,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	    
 	    // Check which checkbox was clicked
 	    switch(view.getId()) {
-	        case R.id.cb_type_of_event_filter:
-	            if (checked)
-	            	{
 
-                        type_of_event_checked = 1;
-                        rb_fire.setEnabled(true);
-                        rb_emergency.setEnabled(true);
-                        rb_police.setEnabled(true);
-	            	}
-	            else
-		            {
-                        rb_fire.setEnabled(false);
-                        rb_emergency.setEnabled(false);
-                        rb_police.setEnabled(false);
-                        type_of_event_checked = 0;
-		            }
-	            break;
 	        case R.id.cb_desc_filter:
 	            if (checked)
 	            {
@@ -436,54 +413,41 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	    }
 	}
 	
-	public void onRadioButtonClicked(View view) {
-	    // Is the button now checked?
-	    boolean checked = ((RadioButton) view).isChecked();
-	    
-	    // Check which radio button was clicked
-	    switch(view.getId()) {
-	        case R.id.rb_fire_filter:
-	            if (checked)
-                    type_of_event="F";
-	            break;
-	        case R.id.rb_emergency_filter:
-	            if (checked)
-                    type_of_event="E";
-	            break;
-	        case R.id.rb_police_filter:
-	            if (checked)
-                    type_of_event="P";
-	            break;
-	    }
-	}
 
 	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+        if (v.getId() == R.id.btn_show_filtered_events_on_map || v.getId() == R.id.btn_show_filtered_events)
+        {
+            show_events_in_list = v.getId() == R.id.btn_show_filtered_events ? true : false;
 
-        String inputAddr = mAutocompleteView.getText().toString();
-        if(inputAddr.length() == 0){
-            this.address = currentLocation.getAddress();
-            this.latitude = currentLocation.getLatitude();
-            this.longitude = currentLocation.getLongitude();
+            if (description_checked == 1)
+                this.description = et_description.getText().toString();
+            if (radius_checked == 1)
+                this.radius = Float.parseFloat(spinner_radius.getSelectedItem().toString());
+
+            String inputAddr = mAutocompleteView.getText().toString();
+            if (inputAddr.length() == 0 && currentLocation.isValid()) {
+                this.address = currentLocation.getAddress();
+                this.latitude = currentLocation.getLatitude();
+                this.longitude = currentLocation.getLongitude();
+                new GetMarkersBySearch().execute();
+
+            } else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress())) {
+                this.address = inputLocation.getAddress();
+                this.latitude = inputLocation.getLatitude();
+                this.longitude = inputLocation.getLongitude();
+                new GetMarkersBySearch().execute();
+
+            } else {
+                Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+            }
+
+
         }
-        else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress())) {
-            this.address = inputLocation.getAddress();
-            this.latitude = inputLocation.getLatitude();
-            this.longitude = inputLocation.getLongitude();
-        }
-        else{
-            Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
-        }
 
-        if(description_checked==1)
-            this.description = et_description.getText().toString();
-        if(radius_checked==1)
-            this.radius= Float.parseFloat(spinner_radius.getSelectedItem().toString());
-
-
-        switch(v.getId())
+/*        switch(v.getId())
         {
          
          case R.id.btn_show_filtered_events_on_map:
@@ -502,6 +466,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             break;
 
         }
+        */
 		
 	}
 	
@@ -550,12 +515,14 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 params.add(new BasicNameValuePair("lat_max",Double.toString(lat_max)));
             }
 
-	        params.add(new BasicNameValuePair("type_of_event", type_of_event));
-	        params.add(new BasicNameValuePair("description", description));
+            params.add(new BasicNameValuePair("fire_event_checked", cb_fire.isChecked()? "1" : "0"));
+            params.add(new BasicNameValuePair("police_event_checked", cd_police.isChecked()? "1" : "0"));
+            params.add(new BasicNameValuePair("emergency_event_checked", cb_emergency.isChecked()? "1" : "0"));
+
+            params.add(new BasicNameValuePair("description", description));
 
             params.add(new BasicNameValuePair("radius_checked",Integer.toString(radius_checked)));
             params.add(new BasicNameValuePair("description_checked",Integer.toString(description_checked)));
-            params.add(new BasicNameValuePair("type_of_event_checked",Integer.toString(type_of_event_checked)));
             params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
 	        
 
