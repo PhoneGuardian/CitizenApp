@@ -247,8 +247,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 				if(markers[i].type_of_event.equals("F"))
 				{
-
-					
 					com.google.android.gms.maps.model.Marker m = mapa
 			        .addMarker(new MarkerOptions()
 			                .position(new LatLng(markers[i].lat,markers[i].lng))
@@ -256,14 +254,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			                .snippet(snippet)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.flame_pin)));
 					m.hideInfoWindow();
-
-
 				}
 				else
 					if(markers[i].type_of_event.equals("E"))
 					{
-
-						
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
 				                .position(new LatLng(markers[i].lat,markers[i].lng))
@@ -274,7 +268,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 					}
 					else
 					{
-
 						com.google.android.gms.maps.model.Marker m = mapa
 				        .addMarker(new MarkerOptions()
 				                .position(new LatLng(markers[i].lat,markers[i].lng))

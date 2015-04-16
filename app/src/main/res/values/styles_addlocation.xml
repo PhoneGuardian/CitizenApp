@@ -8,11 +8,7 @@
         <item name="android:paddingBottom">@dimen/spacing_normal</item>
     </style>
 
-    <style name="addlocation_ClearableAutoCompleteTextView" parent="app_text_normal_light">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:drawablePadding">@dimen/spacing_small</item>
-        <item name="android:dropDownVerticalOffset">@dimen/spacing_tiny</item>
-    </style>
+
 
     <style name="addlocation_date" parent="app_text_normal_light_gray">
         <item name="android:drawablePadding">@dimen/spacing_small</item>
