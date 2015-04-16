@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/et_register_phone_num"
             style="@style/signup_form_base"
-            android:text="+39"
+            android:text="@string/dummy_countrycode"
             />
 
         <EditText

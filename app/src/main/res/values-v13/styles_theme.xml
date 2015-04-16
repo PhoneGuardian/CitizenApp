@@ -14,9 +14,6 @@
     <style name="AppThemeNoActionBar"  parent="android:Theme.Holo.Light.NoActionBar">
     </style>
 
-    <style name="MyTheme" parent="@android:style/Theme.Holo.Light">
-    </style>
-
     <style name="app_ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/blue_light</item>
     </style>

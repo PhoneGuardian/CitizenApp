@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/spacing_large"
-    tools:context=".AddLocationActivity"
-  >
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
     android:fillViewport="true"
+    android:padding="@dimen/spacing_large"
+    tools:context=".AddLocationActivity"
     >
 
     <LinearLayout
@@ -28,7 +23,7 @@
             android:text="@string/event_report"
             android:textAllCaps="true"
             style="@style/app_text_normal"
-            />
+           tools:ignore="UnusedAttribute" />
 
        <View style="@style/divider_black"
            android:layout_marginBottom="@dimen/spacing_huge"
@@ -41,17 +36,17 @@
            android:hint="@string/current_location"
            android:drawableLeft="@drawable/location_pin_gray_15x18"
            style="@style/addlocation_ClearableAutoCompleteTextView"
-           />
+           tools:ignore="RtlHardcoded" />
 
        <TextView android:id="@+id/label_addingtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12:00 01/01/2015"
+            android:text="@string/dummy_datetime"
             android:layout_marginBottom="@dimen/spacing_tiny"
             android:layout_marginTop="@dimen/spacing_large"
             android:drawableLeft="@drawable/clock_gray_18x18"
             style="@style/addlocation_date"
-            />
+           tools:ignore="RtlHardcoded" />
 
        <View style="@style/divider_gray"
             android:layout_marginBottom="@dimen/spacing_large"
@@ -71,7 +66,7 @@
                 android:layout_weight="1"
                 android:onClick="onRadioButtonClicked"
                 android:checked="true"
-                android:text="Fire"
+                android:text="@string/fire"
                 style="@style/addlocation_checkbox"
                 />
 
@@ -81,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onRadioButtonClicked"
-                android:text="Emergency"
+                android:text="@string/emergency"
                 style="@style/addlocation_checkbox"
                 />
 
@@ -91,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onRadioButtonClicked"
-                android:text="Police"
+                android:text="@string/police"
                 style="@style/addlocation_checkbox"
                 />
        </RadioGroup>
@@ -104,7 +99,6 @@
         android:minLines="5"
         style="@style/addlocation_LineEditText"
      />
-
 
     <CheckBox
         android:id="@+id/cb_anonymous"
@@ -141,7 +135,5 @@
             style="?android:attr/progressBarStyleSmallInverse"
             />
     </RelativeLayout>
-
     </LinearLayout>
 </ScrollView>
-</RelativeLayout>

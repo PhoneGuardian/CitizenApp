@@ -8,16 +8,11 @@
     <color name="black"     >#000000</color>
 
     <!-- basic colors -->
-    <color name="green">#27D34D</color>
     <color name="blue_light">#9FB6CD</color>
+    <color name="blue_dark">#191F34</color>
     <color name="blue">#2A91BD</color>
-    <color name="orange">#FF9D2F</color>
-    <color name="red">#ff0000</color>
 
     <!-- other -->
-    <color name="teal">#1A6D6D</color>
-    <color name="blue_dark">#191F34</color>
-
     <color name="transparent">#00000000</color>
 
 </resources>
