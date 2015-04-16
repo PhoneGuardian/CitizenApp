@@ -46,38 +46,25 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
     CheckableMenuItem fireMenuItem;
     CheckableMenuItem emergencyMenuItem;
     CheckableMenuItem policeMenuItem;
-	public GoogleMap mapa;
-    private SeekBar seekBar;
-    TextView tvSeekBarProgress;
+
+	GoogleMap mapa;
     boolean asyncTaskInProgress = false;
 
 	Marker markers[];
 	int finishedTask = 0;
-	Spinner s;
+    int refresh= 1;
 
-    int screenWidth;
-
-    double d=1; // radius around our location where we want to find events, in km
 	double lat;
     double lng;
-
     double lng_min;
     double lat_max;
     double lng_max;
     double lat_min;
 
-    LatLngBounds llb;
-
-    int refresh= 1;
-
-	JSONParser jParser = new JSONParser();
-	
-    Tags t = new Tags();
-
     JSONArray markers_response = null;
+	JSONParser jParser = new JSONParser();
 
-    private float previousZoomLevel = -1.0f;
-
+    Tags t = new Tags();
 
     @Override
 	protected void onCreate(Bundle savedInstanceBundle) {
@@ -86,40 +73,12 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		super.onCreate(savedInstanceBundle);
 		setContentView(R.layout.pgmap_activity);
 
-
 	    mapa = ((SupportMapFragment)(getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
 		mapa.setOnMarkerClickListener(this);
         mapa.setOnCameraChangeListener(this);
 			
 		finishedTask=0;
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
-        tvSeekBarProgress = (TextView) findViewById(R.id.tv_seekbar_progress);
-
         GetCurrentLocation();
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 1;
-
-            @Override
-
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                progress = progresValue;
-                tvSeekBarProgress.setText(progresValue + "km");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                d = seekBar.getProgress();
-                new GetMarkersByCategory().execute();
-
-            }
-        });
-
-
 	}
 
 
@@ -173,7 +132,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
                 R.drawable.police_badge_blue, R.drawable.police_badge_gray);
 
         new GetMarkersByCategory().execute();
-
         return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -209,7 +167,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
                 onRestart();
             break;
 		}
-
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -223,7 +180,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 			DataWrapper dw = (DataWrapper) data.getSerializableExtra("markers");
 	        markers = dw.getMarkers();
             DrawMarkers();
-
 		}
 	}
 	
@@ -294,12 +250,9 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.police_pin)));
 						m.hideInfoWindow();
 					}
-				
 
 			}
 		}
-
-		 
 	    
 	}
 
@@ -311,16 +264,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		this.mapa = mapa;
 	}
 
-    private double  toRad(double val) {
-        /** Converts numeric degrees to radians */
-        return val * Math.PI / 180;
-    }
-
-    private double  toDeg(double val) {
-        /** Converts numeric degrees to radians */
-        return val * 180 / Math.PI;
-    }
-
 	class GetMarkersByCategory extends AsyncTask<Void, Void, Integer>
 	{
 
@@ -331,26 +274,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
             asyncTaskInProgress = true ;
             String URL = "http://nemanjastolic.co.nf/guardian/get_all_events.php";
 			refresh = 0;
-
-            /*double R = 6371; //in km
-            double r= d/R; //d has to be in km
-
-            double lat_rad = toRad(lat);
-            double lng_rad = toRad(lng);
-
-            double lat_min_rad = lat_rad - r;
-            double lat_max_rad = lat_rad + r;
-
-            double delta_lot = Math.asin(Math.sin(r)/Math.cos(r));
-            double lng_min_rad = lng_rad - delta_lot;
-            double lng_max_rad = lng_rad + delta_lot;
-
-            double lat_min = toDeg(lat_min_rad);
-            double lat_max = toDeg(lat_max_rad);
-            double lng_min = toDeg(lng_min_rad);
-            double lng_max = toDeg(lng_max_rad);
-
-            llb = new LatLngBounds(new LatLng(lat_min,lng_min),new LatLng(lat_max,lng_max));*/
 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
@@ -372,8 +295,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	 
 	                if (success == 1)
 	                {
-	                    // products found
-	                    // Getting Array of Products
 	                	markers_response = json.getJSONArray(t.TAG_EVENTS);
 	                	if(markers_response==null)
 	                		Toast.makeText(PGMapActivity.this, "No markers found!", Toast.LENGTH_LONG).show();
@@ -397,8 +318,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
                                 markers[i].setLat(c.getDouble(t.TAG_LAT));
                                 markers[i].setAnonymous(c.getInt(t.TAG_ANONYMOUS));
                                 markers[i].setLocation_acc(c.getLong(t.TAG_LOCATION_ACC));
-
-
                             }
 	                	}
 	                }
@@ -418,7 +337,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		@Override
 		protected void onPostExecute(Integer result)
 		{
-
             DrawMarkers();
             asyncTaskInProgress = false ;
         }
@@ -428,13 +346,11 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 	private void GetCurrentLocation()
 	{
-
 	    double[] a = getLocation();
 	    lat = a[0];
 	    lng = a[1];
 
         LatLng ll = new LatLng(lat,lng);
-
 	    mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 15));
 	    mapa.setMyLocationEnabled(true);
 
@@ -462,9 +378,8 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 	}
 
     @Override
-    public void onCameraChange(CameraPosition cameraPosition) {
-
-
+    public void onCameraChange(CameraPosition cameraPosition)
+    {
         VisibleRegion vr = getMapa().getProjection().getVisibleRegion();
 
         if(Math.abs(lng_max-vr.latLngBounds.northeast.longitude)>0.005 || Math.abs(lat_max-vr.latLngBounds.northeast.latitude)>0.002)
@@ -476,8 +391,6 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
             new GetMarkersByCategory().execute();
         }
-
-
     }
 
 
