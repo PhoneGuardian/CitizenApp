@@ -81,6 +81,7 @@
             android:name="edu.elfak.mosis.phoneguardian.AddLocationActivity"
             android:label=""
             android:windowSoftInputMode="stateHidden"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName="edu.elfak.mosis.phoneguardian.AlertActivity" >
             <intent-filter >
                 <action android:name="android.media.action.IMAGE_CAPTURE"/>
@@ -96,6 +97,7 @@
             android:label=""
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName="edu.elfak.mosis.phoneguardian.PGMapActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
