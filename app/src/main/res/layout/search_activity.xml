@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:layout_weight="1"
-                    style="@style/addlocation_checkbox"
+                    style="@style/app_checkbox"
 
                     />
 
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    style="@style/addlocation_checkbox"
+                    style="@style/app_checkbox"
                     />
 
                 <CheckBox android:id="@+id/cb_police_filter"
@@ -72,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    style="@style/addlocation_checkbox"
+                    style="@style/app_checkbox"
                     />
 
             </LinearLayout>

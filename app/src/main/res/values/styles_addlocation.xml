@@ -15,12 +15,6 @@
         <item name="android:paddingLeft">@dimen/spacing_small</item>
     </style>
 
-    <style name="addlocation_checkbox" parent="app_text_large_light">
-        <item name="android:paddingLeft">@dimen/checkbox_padding_left</item>
-        <item name="android:drawablePadding">@dimen/spacing_large</item>
-
-        <item name="android:button">@drawable/checkbox_custom_selector</item>
-    </style>
 
     <style name="addlocation_LineEditText" parent="app_text_normal_light">
         <item name="android:background">@color/transparent</item>

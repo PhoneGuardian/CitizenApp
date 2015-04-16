@@ -68,7 +68,7 @@
                 android:onClick="onRadioButtonClicked"
                 android:checked="true"
                 android:text="@string/fire"
-                style="@style/addlocation_checkbox"
+                style="@style/app_checkbox"
                 />
 
             <RadioButton
@@ -78,7 +78,7 @@
                 android:layout_weight="1"
                 android:onClick="onRadioButtonClicked"
                 android:text="@string/emergency"
-                style="@style/addlocation_checkbox"
+                style="@style/app_checkbox"
                 />
 
             <RadioButton
@@ -88,7 +88,7 @@
                 android:layout_weight="1"
                 android:onClick="onRadioButtonClicked"
                 android:text="@string/police"
-                style="@style/addlocation_checkbox"
+                style="@style/app_checkbox"
                 />
        </RadioGroup>
 
@@ -97,7 +97,8 @@
         android:layout_width="fill_parent"
         android:inputType="textMultiLine"
         android:hint="@string/description_dotdotdot"
-        android:minLines="5"
+        android:lines="5"
+        android:minLines="3"
         style="@style/addlocation_LineEditText"
      />
 
@@ -108,7 +109,7 @@
         android:layout_marginTop="@dimen/spacing_normal"
         android:onClick="onCheckboxClicked"
         android:text="@string/anonymous_message"
-        style="@style/addlocation_checkbox"
+        style="@style/app_checkbox"
         />
 
     <RelativeLayout
