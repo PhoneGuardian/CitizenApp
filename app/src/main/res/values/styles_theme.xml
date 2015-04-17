@@ -1,29 +1,25 @@
 <resources>
 
     <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles_theme.xml on newer devices.
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles_theme.xml on API 11+ devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles_theme.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <!-- API 11 theme customizations can go here. -->
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppTheme"  parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="actionBarStyle">@style/app_ActionBar</item>
+        <item name="android:actionBarStyle">@style/app_ActionBar</item>
     </style>
 
-    <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-    <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="AppThemeNoActionBar"  parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
-
-    <style name="app_ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="background">@color/blue_light</item>
+    <style name="app_ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/blue_light</item>
     </style>
 </resources>

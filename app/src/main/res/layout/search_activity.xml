@@ -21,32 +21,32 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_events"
+                android:text="Filter events by:"
                 android:textAllCaps="true"
                 style="@style/app_text_normal"
                 />
 
             <View style="@style/divider_black"
-                android:layout_marginBottom="@dimen/spacing_huge"
+                android:layout_marginBottom="@dimen/spacing_large"
                 />
 
             <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
                 android:id="@+id/autocomplete_places_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_large"
                 android:hint="@string/current_location"
                 style="@style/ClearableAutoCompleteTextView"
                 />
-
 
 
             <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="3"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginBottom="@dimen/spacing_small"
                 >
+
 
                 <CheckBox android:id="@+id/cb_fire_filter"
                     android:text="@string/fire"
@@ -55,7 +55,6 @@
                     android:checked="true"
                     android:layout_weight="1"
                     style="@style/app_checkbox"
-
                     />
 
                 <CheckBox android:id="@+id/cb_emergency_filter"
@@ -75,6 +74,86 @@
                     />
 
             </LinearLayout>
+
+            <View style="@style/divider_gray"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                />
+
+            <LinearLayout android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginBottom="@dimen/spacing_small"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minEms="2"
+                    android:text="From:"
+                    style="@style/app_text_normal_light"/>
+
+
+                <Button
+                    android:id="@+id/btn_filter_from_date"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/spacing_tiny"
+                    android:layout_marginRight="@dimen/spacing_tiny"
+
+                    android:drawablePadding="@dimen/spacing_small"
+                    android:drawableLeft="@drawable/clock_gray_18x18"
+                    android:hint="Any date"
+                    style="@android:style/Widget.Holo.Spinner"
+                    />
+                <ImageButton
+                    android:id="@+id/btn_filter_clear_from_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/button_cross"
+                    />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginBottom="@dimen/spacing_large"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minEms="2"
+                    android:text="@string/to"
+                    style="@style/app_text_normal_light"/>
+
+                <Button
+                    android:id="@+id/btn_filter_to_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_tiny"
+                    android:layout_marginRight="@dimen/spacing_tiny"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/spacing_small"
+                    android:drawableLeft="@drawable/clock_gray_18x18"
+                    android:hint="Any date"
+                    style="@android:style/Widget.Holo.Spinner"
+                    />
+                <ImageButton
+                    android:id="@+id/btn_filter_clear_to_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/button_cross"
+                    />
+
+            </LinearLayout>
+
+            <View style="@style/divider_gray"
+                android:layout_marginBottom="@dimen/spacing_large"
+                />
+
 
             <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -98,57 +177,6 @@
                     android:layout_weight="5"
                     android:enabled="false"
                     android:inputType="text" />
-
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-
-                <CheckBox
-                    android:id="@+id/cb_date_filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/date"
-                    android:textColor="@color/black"
-                    android:onClick="onCheckboxClicked"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/from"
-                    android:textColor="@color/black"/>
-                <DatePicker android:id="@+id/datepicker_from"
-                    android:datePickerMode="spinner"
-                    style="@android:style/Widget.DatePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:endYear="2050"
-                    android:startYear="1950"
-                    android:spinnersShown="false"
-                    />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/to"
-                    android:textColor="@color/black"/>
-
-
-                <DatePicker android:id="@+id/datepicker_to"
-                    style="@android:style/Widget.DatePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:endYear="2050"
-                    android:startYear="1950"
-                    android:spinnersShown="false"
-                    />
 
             </LinearLayout>
 
@@ -199,13 +227,6 @@
                     android:textColor="@color/black"/>
 
             </LinearLayout>
-
-
-
         </LinearLayout>
-
-
-
-
     </ScrollView>
 </RelativeLayout>

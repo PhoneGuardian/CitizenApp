@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +17,7 @@ import org.json.JSONObject;
 
 
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -26,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +39,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.CheckBox;
-import android.widget.RadioGroup;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -84,17 +87,21 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
     JSONArray events_response = null;
 
-	DatePicker dt_begin;
-	DatePicker dt_end;
+	Date dt_begin = new Date();
+	Date dt_end  = new Date();
+    Button btn_fromDate;
+    Button btn_toDate;
+
+    DatePickerDialog fromDatePickerDialog;
+    DatePickerDialog toDatePickerDialog;
+
     ClearableAutoCompleteTextView mAutocompleteView;
 	EditText et_description;
 	
     CheckBox cb_fire;
     CheckBox cb_emergency;
     CheckBox cd_police;
-    DatePicker date_from;
-    DatePicker date_to;
-	
+
 	Spinner spinner_radius;
 
     Button btn_show_map;
@@ -111,8 +118,8 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     double lng_min;
     double lng_max;
 	float radius;
-	
-	
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -147,18 +154,28 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 		btn_filtered_events.setOnClickListener(this);
 
 		et_description = (EditText)findViewById(R.id.et_desc_filter);
-        date_from = (DatePicker) findViewById(R.id.datepicker_from);
-        date_from.setSpinnersShown(false);
-        date_to = (DatePicker) findViewById(R.id.datepicker_to);
-        date_to.setSpinnersShown(false);
-		
+
+        btn_fromDate = (Button) findViewById(R.id.btn_filter_from_date);
+        btn_fromDate.setOnClickListener(this);
+        btn_toDate = (Button) findViewById(R.id.btn_filter_to_date);
+        btn_toDate.setOnClickListener(this);
+
+        findViewById(R.id.btn_filter_clear_from_date).setOnClickListener(this);
+        findViewById(R.id.btn_filter_clear_to_date).setOnClickListener(this);
+
+        Calendar c = Calendar.getInstance();
+        int cYear = c.get(Calendar.YEAR);
+        int cMonth = c.get(Calendar.MONTH);
+        int cDay = c.get(Calendar.DAY_OF_MONTH);
+
+        fromDatePickerDialog = new DatePickerDialog(this, fromDateSetListener, cYear, cMonth, cDay);
+        toDatePickerDialog = new DatePickerDialog(this, toDateSetListener, cYear, cMonth, cDay);
+
 
 		cb_fire = (CheckBox)findViewById(R.id.cb_fire_filter);
 		cb_emergency = (CheckBox)findViewById(R.id.cb_emergency_filter);
 		cd_police = (CheckBox)findViewById(R.id.cb_police_filter);
 
-		dt_begin = (DatePicker) findViewById(R.id.datepicker_from);
-		dt_end = (DatePicker) findViewById(R.id.datepicker_to);
 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 		         this, R.array.radius_array, android.R.layout.simple_spinner_item );
@@ -173,6 +190,25 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         findViewById(R.id.filter_layout).setOnTouchListener(hideKeyboardlistener);
 
     }
+
+    private DatePickerDialog.OnDateSetListener  fromDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            dt_begin = new Date(view.getCalendarView().getDate());
+            btn_fromDate.setText(dateFormat.format(view.getCalendarView().getDate()));
+
+        }
+    };
+    private DatePickerDialog.OnDateSetListener  toDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            dt_end = new Date(view.getCalendarView().getDate());
+            btn_toDate.setText(dateFormat.format(view.getCalendarView().getDate()));
+
+        }
+    };
 
     public Location getlocation() {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -374,121 +410,88 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	    switch(view.getId()) {
 
 	        case R.id.cb_desc_filter:
-	            if (checked)
-	            {
+	            if (checked){
                     description_checked = 1;
 	            	et_description.setEnabled(true);
-	            }
-	            else
-	            {
+	            }else{
 	            	et_description.setEnabled(false);
 	            	description_checked = 0;
 	            }
 	            break;
+
 	        case R.id.cb_radius:
-	             if (checked)
-	             {
+	             if (checked){
 	              spinner_radius.setEnabled(true);
 	              radius_checked = 1;
-	             }
-	             else
-	             {
+	             }else{
 	              spinner_radius.setEnabled(false);
 	              radius_checked = 0;
-	   
 	             }
 	             break;
-            case R.id.cb_date_filter:
-                if (checked)
-                {
-                    date_from.setSpinnersShown(true);
-                    date_to.setSpinnersShown(true);
-                    date_checked = 1;
-                }
-                else
-                {
-                    date_from.setSpinnersShown(false);
-                    date_to.setSpinnersShown(false);
-                    spinner_radius.setEnabled(false);
-                    date_checked = 0;
-
-                }
-                break;
-
 	    }
 	}
 	
 
 	
 	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-        if (v.getId() == R.id.btn_show_filtered_events_on_map || v.getId() == R.id.btn_show_filtered_events)
-        {
-            show_events_in_list = v.getId() == R.id.btn_show_filtered_events ? true : false;
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch(v.getId()) {
 
-            if (description_checked == 1)
-                this.description = et_description.getText().toString();
-            if (radius_checked == 1)
-                this.radius = Float.parseFloat(spinner_radius.getSelectedItem().toString());
+            case R.id.btn_show_filtered_events_on_map:
+            case R.id.btn_show_filtered_events:
 
-            String inputAddr = mAutocompleteView.getText().toString();
-            if (inputAddr.length() == 0 && currentLocation.isValid()) {
-                this.address = currentLocation.getAddress();
-                this.latitude = currentLocation.getLatitude();
-                this.longitude = currentLocation.getLongitude();
-                new GetMarkersBySearch().execute();
+                show_events_in_list = v.getId() == R.id.btn_show_filtered_events ? true : false;
 
-            } else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress())) {
-                this.address = inputLocation.getAddress();
-                this.latitude = inputLocation.getLatitude();
-                this.longitude = inputLocation.getLongitude();
-                new GetMarkersBySearch().execute();
+                if (description_checked == 1)
+                    this.description = et_description.getText().toString();
+                if (radius_checked == 1)
+                    this.radius = Float.parseFloat(spinner_radius.getSelectedItem().toString());
 
-            } else {
-                Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
-            }
+                String inputAddr = mAutocompleteView.getText().toString();
+                if (inputAddr.length() == 0 && currentLocation.isValid()) {
+                    this.address = currentLocation.getAddress();
+                    this.latitude = currentLocation.getLatitude();
+                    this.longitude = currentLocation.getLongitude();
+                    new GetMarkersBySearch().execute();
 
+                } else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress())) {
+                    this.address = inputLocation.getAddress();
+                    this.latitude = inputLocation.getLatitude();
+                    this.longitude = inputLocation.getLongitude();
+                    new GetMarkersBySearch().execute();
 
-        }
+                } else {
+                    Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+                }
+                break;
 
-/*        switch(v.getId())
-        {
-         
-         case R.id.btn_show_filtered_events_on_map:
-             show_events_in_list=false;
-             if(radius_checked==0 && description_checked==0 && type_of_event_checked==0 && date_checked==0)
-                Toast.makeText(this,"Filter not chosen!",Toast.LENGTH_SHORT).show();
-             else
-                new GetMarkersBySearch().execute();
-             break;
-         case R.id.btn_show_filtered_events:
-            show_events_in_list = true;
-            if(radius_checked==0 && description_checked==0 && type_of_event_checked==0 && date_checked==0)
-                Toast.makeText(this,"Filter not chosen!",Toast.LENGTH_SHORT).show();
-            else
-                new GetMarkersBySearch().execute();
-            break;
+            case R.id.btn_filter_from_date:
+                fromDatePickerDialog.show();
+                break;
+            case R.id.btn_filter_to_date:
+                toDatePickerDialog.show();
+                break;
+            case R.id.btn_filter_clear_from_date:
+                btn_fromDate.setText("");
+                break;
+            case R.id.btn_filter_clear_to_date:
+                btn_toDate.setText("");
+                break;
 
         }
-        */
-		
-	}
-	
+    }
 
-    private double  toRad(double val) {
-        /** Converts numeric degrees to radians */
+    private double  toRad(double val) {  /** Converts numeric degrees to radians */
         return val * Math.PI / 180;
     }
 
-    private double  toDeg(double val) {
-        /** Converts numeric degrees to radians */
+    private double  toDeg(double val) { /** Converts numeric degrees to radians */
         return val * 180 / Math.PI;
     }
 	
 	class GetMarkersBySearch extends AsyncTask<Void, Void, Integer>
 	{
-
 		@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
         @Override
 		protected Integer doInBackground(Void... paramss) {
@@ -530,14 +533,13 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             params.add(new BasicNameValuePair("radius_checked",Integer.toString(radius_checked)));
             params.add(new BasicNameValuePair("description_checked",Integer.toString(description_checked)));
             params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
-	        
 
-            Date begin_date = new Date(dt_begin.getCalendarView().getDate());
-            Date end_date = new Date(dt_end.getCalendarView().getDate());
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            params.add(new BasicNameValuePair("begin_time", String.format("%s 00:00:00", dateFormat.format(begin_date))));
-            params.add(new BasicNameValuePair("end_time", String.format("%s 23:59:59", dateFormat.format(end_date))));
+            if (!btn_fromDate.getText().equals("") && !btn_toDate.getText().equals("") ){
+                params.add(new BasicNameValuePair("date_checked","1"));
+                params.add(new BasicNameValuePair("begin_time", String.format("%s 00:00:00", dateFormat.format(dt_begin))));
+                params.add(new BasicNameValuePair("end_time", String.format("%s 23:59:59", dateFormat.format(dt_end))));
+            }
 
 	       
         	JSONObject json = jParser.makeHttpRequest(URL1, "GET", params);
@@ -555,8 +557,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	                	else{
 	                		markers = new Marker[events_response.length()];
 	 
-                            for (int i = 0; i < events_response.length(); i++)
-                            {
+                            for (int i = 0; i < events_response.length(); i++){
                                 JSONObject c = events_response.getJSONObject(i);
 
                                 markers[i] = new Marker();
@@ -576,6 +577,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	                }
 	                else{
 	                	msg = "No markers found!";
+                        markers = null;
 	                }
             	}
             	catch (JSONException e){
