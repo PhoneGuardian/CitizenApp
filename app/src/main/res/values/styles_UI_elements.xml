@@ -3,9 +3,10 @@
 
     <style name="ClearableAutoCompleteTextView" parent="app_text_normal_light">
         <item name="android:textColor">@color/black</item>
-        <item name="android:drawablePadding">@dimen/spacing_small</item>
         <item name="android:dropDownVerticalOffset">@dimen/spacing_tiny</item>
-        <item name="android:drawableLeft">@drawable/location_pin_gray_15x18</item>
+        <item name="android:drawableLeft">@drawable/location_pin_gray</item>
+        <item name="android:drawablePadding">@dimen/spacing_small</item>
+
 
     </style>
 

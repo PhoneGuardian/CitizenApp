@@ -102,7 +102,7 @@
                     android:layout_marginRight="@dimen/spacing_tiny"
 
                     android:drawablePadding="@dimen/spacing_small"
-                    android:drawableLeft="@drawable/clock_gray_18x18"
+                    android:drawableLeft="@drawable/clock_gray"
                     android:hint="Any date"
                     style="@android:style/Widget.Holo.Spinner"
                     />
@@ -136,8 +136,9 @@
                     android:layout_marginRight="@dimen/spacing_tiny"
                     android:layout_weight="1"
                     android:drawablePadding="@dimen/spacing_small"
-                    android:drawableLeft="@drawable/clock_gray_18x18"
+                    android:drawableLeft="@drawable/clock_gray"
                     android:hint="Any date"
+
                     style="@android:style/Widget.Holo.Spinner"
                     />
                 <ImageButton
