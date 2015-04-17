@@ -18,40 +18,40 @@
         android:orientation="vertical"
         >
 
-       <TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/event_report"
             android:textAllCaps="true"
             style="@style/app_text_normal"
-           tools:ignore="UnusedAttribute" />
+            tools:ignore="UnusedAttribute" />
 
-       <View style="@style/divider_black"
-           android:layout_marginBottom="@dimen/spacing_huge"
-           />
+        <View style="@style/divider_black"
+            android:layout_marginBottom="@dimen/spacing_large"
+            />
 
-       <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
-           android:id="@+id/autocomplete_places"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:hint="@string/current_location"
-           style="@style/ClearableAutoCompleteTextView"
-           />
+        <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
+            android:id="@+id/autocomplete_places"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/current_location"
+            style="@style/ClearableAutoCompleteTextView"
+            />
 
-       <TextView android:id="@+id/label_addingtime"
+        <TextView android:id="@+id/label_addingtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dummy_datetime"
             android:layout_marginBottom="@dimen/spacing_tiny"
             android:layout_marginTop="@dimen/spacing_large"
             style="@style/addlocation_date"
-           />
+            />
 
-       <View style="@style/divider_gray"
+        <View style="@style/divider_gray"
             android:layout_marginBottom="@dimen/spacing_large"
             />
 
-       <RadioGroup android:id="@+id/rg_category"
+        <RadioGroup android:id="@+id/rg_category"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,52 +88,52 @@
                 android:text="@string/police"
                 style="@style/app_checkbox"
                 />
-       </RadioGroup>
+        </RadioGroup>
 
-    <edu.elfak.mosis.phoneguardian.LineEditText android:id="@+id/edit_text_descr"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:inputType="textMultiLine"
-        android:hint="@string/description_dotdotdot"
-        android:lines="5"
-        android:minLines="3"
-        style="@style/addlocation_LineEditText"
-     />
+        <edu.elfak.mosis.phoneguardian.LineEditText android:id="@+id/edit_text_descr"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:inputType="textMultiLine"
+            android:hint="@string/description_dotdotdot"
+            android:lines="5"
+            android:minLines="3"
+            style="@style/addlocation_LineEditText"
+            />
 
-    <CheckBox
-        android:id="@+id/cb_anonymous"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:onClick="onCheckboxClicked"
-        android:text="@string/anonymous_message"
-        style="@style/app_checkbox"
-        />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_large"
-        >
-
-        <Button
-            android:id="@+id/btn_report_event"
+        <CheckBox
+            android:id="@+id/cb_anonymous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/save"
-            style="@style/button_rounded_transparent_thin"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:onClick="onCheckboxClicked"
+            android:text="@string/anonymous_message"
+            style="@style/app_checkbox"
             />
-        <ProgressBar
-            android:id="@+id/spinner_report_event"
-            android:layout_width="wrap_content"
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_normal"
-            android:layout_toRightOf="@id/btn_report_event"
-            android:layout_centerVertical="true"
-            android:visibility="invisible"
-            style="?android:attr/progressBarStyleSmallInverse"
-            />
-    </RelativeLayout>
+            android:layout_marginTop="@dimen/spacing_large"
+            >
+
+            <Button
+                android:id="@+id/btn_report_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/save"
+                style="@style/button_rounded_transparent_thin"
+                />
+            <ProgressBar
+                android:id="@+id/spinner_report_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:layout_toRightOf="@id/btn_report_event"
+                android:layout_centerVertical="true"
+                android:visibility="invisible"
+                style="?android:attr/progressBarStyleSmallInverse"
+                />
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

@@ -535,9 +535,12 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            if (!btn_fromDate.getText().equals("") && !btn_toDate.getText().equals("") ){
-                params.add(new BasicNameValuePair("date_checked","1"));
+            if (!btn_fromDate.getText().equals("") ) {
+                params.add(new BasicNameValuePair("from_date_checked", "1"));
                 params.add(new BasicNameValuePair("begin_time", String.format("%s 00:00:00", dateFormat.format(dt_begin))));
+            }
+            if (!btn_toDate.getText().equals("") ) {
+                params.add(new BasicNameValuePair("to_date_checked", "1"));
                 params.add(new BasicNameValuePair("end_time", String.format("%s 23:59:59", dateFormat.format(dt_end))));
             }
 
