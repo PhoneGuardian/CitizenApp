@@ -43,8 +43,12 @@
 
     <string name="dummy_datetime">12:00 01/01/2015</string>
     <string name="dummy_countrycode">+39</string>
+    <string name="infinite_kilometers">∞ km</string>
+    <string name="filter_events_by">Filter events by:</string>
+    <string name="in_radius">In radius:</string>
+    <string name="any_date">Any date</string>
 
-	<string-array name="CountryCodes" >
+    <string-array name="CountryCodes" >
 		<item>93,AF</item>
 		<item>355,AL</item>
 		<item>213,DZ</item>

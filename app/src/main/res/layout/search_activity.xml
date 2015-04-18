@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filter events by:"
+                android:text="@string/filter_events_by"
                 android:textAllCaps="true"
                 style="@style/app_text_normal"
                 />
@@ -34,17 +34,57 @@
                 android:id="@+id/autocomplete_places_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_normal"
                 android:hint="@string/current_location"
                 style="@style/ClearableAutoCompleteTextView"
                 />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/in_radius"
+                    style="@style/app_text_small_light"
+                    />
+
+                <SeekBar
+                    android:id="@+id/filter_seekBar"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginBottom="@dimen/spacing_tiny"
+                    android:max="50"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_filter_seekbar_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/spacing_small"
+                    android:text="@string/infinite_kilometers"
+                    style="@style/app_text_small_light"
+                    />
+            </LinearLayout>
+
+            <View style="@style/divider_gray"
+                android:layout_marginBottom="@dimen/spacing_large"
+                />
 
             <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="3"
-                android:layout_marginBottom="@dimen/spacing_small"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="@dimen/spacing_large"
                 >
 
 
@@ -89,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minEms="2"
-                    android:text="From:"
+                    android:text="@string/from"
                     style="@style/app_text_normal_light"/>
 
 
@@ -102,7 +142,7 @@
                     android:layout_marginRight="@dimen/spacing_tiny"
                     android:drawablePadding="@dimen/spacing_small"
                     android:drawableLeft="@drawable/clock_gray"
-                    android:hint="Any date"
+                    android:hint="@string/any_date"
                     style="@android:style/Widget.Holo.Spinner"
                     />
 
@@ -181,28 +221,7 @@
 
             </LinearLayout>
 
-            <LinearLayout android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
 
-                <CheckBox
-                    android:id="@+id/cb_radius"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_gravity="left"
-                    android:text="@string/radius"
-                    android:textColor="@color/black"
-                    android:onClick="onCheckboxClicked"/>
-
-                <Spinner
-                    android:id="@+id/radius_filter"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
 
             <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

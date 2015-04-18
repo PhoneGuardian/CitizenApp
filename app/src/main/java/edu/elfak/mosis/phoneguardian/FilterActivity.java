@@ -1,21 +1,5 @@
 package edu.elfak.mosis.phoneguardian;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -28,19 +12,17 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
-import android.widget.Spinner;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -52,6 +34,21 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class FilterActivity extends FragmentActivity implements android.view.View.OnClickListener,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
@@ -69,7 +66,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     Marker markers[];
 
 	boolean show_events_in_list = false;
-	int radius_checked = 0;
+
     int description_checked = 0;
     int date_checked = 0;
 	 
@@ -102,7 +99,9 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     CheckBox cb_emergency;
     CheckBox cd_police;
 
-	Spinner spinner_radius;
+    SeekBar seekBar;
+    TextView tvSeekBarProgress;
+    boolean filterByRadius = false;
 
     Button btn_show_map;
     Button btn_filtered_events;
@@ -171,23 +170,23 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         fromDatePickerDialog = new DatePickerDialog(this, fromDateSetListener, cYear, cMonth, cDay);
         toDatePickerDialog = new DatePickerDialog(this, toDateSetListener, cYear, cMonth, cDay);
 
-
 		cb_fire = (CheckBox)findViewById(R.id.cb_fire_filter);
 		cb_emergency = (CheckBox)findViewById(R.id.cb_emergency_filter);
 		cd_police = (CheckBox)findViewById(R.id.cb_police_filter);
 
 
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-		         this, R.array.radius_array, android.R.layout.simple_spinner_item );
-		       adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-		     
-	    spinner_radius = (Spinner) findViewById( R.id.radius_filter );
-	    spinner_radius.setAdapter( adapter );
+        tvSeekBarProgress = (TextView) findViewById(R.id.tv_filter_seekbar_progress);
+        seekBar = (SeekBar) findViewById(R.id.filter_seekBar);
+        seekBar.setOnSeekBarChangeListener(radiusSeekBarChangeListener);
+
 	     
 	    events_in_radius = new ArrayList<Marker>();
 	    geoCoder = new Geocoder(FilterActivity.this);
 
         findViewById(R.id.filter_layout).setOnTouchListener(hideKeyboardlistener);
+        ///
+
+
 
     }
 
@@ -208,6 +207,19 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             btn_toDate.setText(dateFormat.format(view.getCalendarView().getDate()));
 
         }
+    };
+    private SeekBar.OnSeekBarChangeListener radiusSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            tvSeekBarProgress.setText( (progress == 0 ? "∞": progress) + " km");
+            filterByRadius = progress != 0;
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) { }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) { }
     };
 
     public Location getlocation() {
@@ -419,15 +431,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	            }
 	            break;
 
-	        case R.id.cb_radius:
-	             if (checked){
-	              spinner_radius.setEnabled(true);
-	              radius_checked = 1;
-	             }else{
-	              spinner_radius.setEnabled(false);
-	              radius_checked = 0;
-	             }
-	             break;
 	    }
 	}
 	
@@ -440,30 +443,34 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
             case R.id.btn_show_filtered_events_on_map:
             case R.id.btn_show_filtered_events:
-
-                show_events_in_list = v.getId() == R.id.btn_show_filtered_events ? true : false;
+                boolean inputDataIsValid = true;
+                show_events_in_list = v.getId() == R.id.btn_show_filtered_events ;
 
                 if (description_checked == 1)
                     this.description = et_description.getText().toString();
-                if (radius_checked == 1)
-                    this.radius = Float.parseFloat(spinner_radius.getSelectedItem().toString());
 
-                String inputAddr = mAutocompleteView.getText().toString();
-                if (inputAddr.length() == 0 && currentLocation.isValid()) {
-                    this.address = currentLocation.getAddress();
-                    this.latitude = currentLocation.getLatitude();
-                    this.longitude = currentLocation.getLongitude();
-                    new GetMarkersBySearch().execute();
+                if (filterByRadius) {
+                    this.radius = seekBar.getProgress();
 
-                } else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress())) {
-                    this.address = inputLocation.getAddress();
-                    this.latitude = inputLocation.getLatitude();
-                    this.longitude = inputLocation.getLongitude();
-                    new GetMarkersBySearch().execute();
+                    String inputAddr = mAutocompleteView.getText().toString();
+                    if (inputAddr.length() == 0 && currentLocation.isValid()) {
+                        this.address = currentLocation.getAddress();
+                        this.latitude = currentLocation.getLatitude();
+                        this.longitude = currentLocation.getLongitude();
 
-                } else {
-                    Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+                    } else if (inputLocation.isValid() && inputAddr.equals(inputLocation.getAddress())) {
+                        this.address = inputLocation.getAddress();
+                        this.latitude = inputLocation.getLatitude();
+                        this.longitude = inputLocation.getLongitude();
+
+                    } else {
+                        inputDataIsValid = false;
+                        Toast.makeText(FilterActivity.this, "Entered Address is not a valid location ", Toast.LENGTH_LONG).show();
+                    }
                 }
+                if(inputDataIsValid)
+                    new GetMarkersBySearch().execute();
+
                 break;
 
             case R.id.btn_filter_from_date:
@@ -499,8 +506,8 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             String URL1 = "http://nemanjastolic.co.nf/guardian/get_events_by_filter.php";
-            if(radius_checked==1) {
-                double R = 6371; //in km
+            if(filterByRadius) {
+                double R = 6371.0; //in km
                 double r = radius / R; //d has to be in km
 
                 double lat_rad = toRad(latitude);
@@ -530,7 +537,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
             params.add(new BasicNameValuePair("description", description));
 
-            params.add(new BasicNameValuePair("radius_checked",Integer.toString(radius_checked)));
+            params.add(new BasicNameValuePair("radius_checked", filterByRadius ? "1" :"0"));
             params.add(new BasicNameValuePair("description_checked",Integer.toString(description_checked)));
             params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
 
@@ -592,7 +599,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 		@Override
 		protected void onPostExecute(Integer result)
 		{
-            	if(show_events_in_list == true){
+            	if(show_events_in_list){
                  Intent i = new Intent(FilterActivity.this,ListFilterActivity.class);
                  i.putExtra("markers", new DataWrapper(markers));
                  startActivity(i);
