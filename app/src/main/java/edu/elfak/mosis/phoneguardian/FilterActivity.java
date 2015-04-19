@@ -1,7 +1,6 @@
 package edu.elfak.mosis.phoneguardian;
 
 import android.annotation.TargetApi;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
@@ -19,8 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +42,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,14 +58,10 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
     LatLngBounds BOUNDS_GREATER;
 
-
     Marker markers[];
 
 	boolean show_events_in_list = false;
 
-    int description_checked = 0;
-    int date_checked = 0;
-	 
 	ArrayList<Marker> events_in_radius;
 	Geocoder geoCoder ;
 
@@ -553,8 +544,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                   Intent returnIntent = new Intent();
                   returnIntent.putExtra("markers", new DataWrapper(markers));
                   setResult(RESULT_OK, returnIntent);
-                    
-                  Toast.makeText(FilterActivity.this,"USPEH",Toast.LENGTH_LONG).show();
                   FilterActivity.this.finish();
                 }
         }

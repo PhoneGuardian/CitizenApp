@@ -17,7 +17,6 @@
 	<string name="emergency">Emergency</string>
 	<string name="police">Police</string>
 	
-	<string name="category">Category:</string>
 	<string name="description">Description:</string>
 	<string name="save">Save</string>
 	
@@ -31,7 +30,6 @@
 	<string name="view_details">Marker details</string>
 	<string name="list_is_empty">Search result: None</string>
 	
-	<string name="radius">Radius</string>
 	<string name="from">From:</string>
 	<string name="to">To:</string>
 
