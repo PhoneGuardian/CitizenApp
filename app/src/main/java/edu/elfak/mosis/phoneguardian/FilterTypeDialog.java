@@ -51,11 +51,11 @@ public class FilterTypeDialog {
 
 
     public String getChoices (){
-        String filterBy = "Filter by: ";
-        if (isFireChecked()) filterBy += "F ";
-        if (isPoliceChecked()) filterBy += "P ";
-        if (isEmergencyChecked()) filterBy += "E ";
-        if(!isFireChecked() && !isPoliceChecked() && !isEmergencyChecked())  filterBy = "Any";
-        return filterBy ;
+        String filterBy = "";
+        if (isFireChecked()) filterBy += "Fire";
+        if (isPoliceChecked()) filterBy += filterBy.length() == 0 ? "Police": ", Police";
+        if (isEmergencyChecked()) filterBy += filterBy.length() == 0 ? "Emergency" : ", Emergency";
+
+        return filterBy.length() == 0 ? "Any" : filterBy;
     }
 }
