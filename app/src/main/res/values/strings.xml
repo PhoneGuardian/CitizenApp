@@ -49,6 +49,9 @@
     <string name="any">Any</string>
     <string name="description_colon">Description:</string>
     <string name="date_colon">Date:</string>
+    <string name="dummy_address">Via Gaetano Strambio 23, 20133 Milano, Italy</string>
+    <string name="dummy_event_descr">fire in the cinema</string>
+    <string name="filtered_events_colon">Filtered events:</string>
 
     <string-array name="CountryCodes" >
 		<item>93,AF</item>

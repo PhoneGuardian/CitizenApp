@@ -2,35 +2,34 @@ package edu.elfak.mosis.phoneguardian;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
 public class ListFilterActivity extends ListActivity {
- 
- Marker[] markers;
- String[] values;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_of_markers_activity);
-      
+
         DataWrapper dw = (DataWrapper) getIntent().getSerializableExtra("markers");
-        
-        markers = dw.getMarkers();
-        
-        String[] niz = new String[0];
-        if(markers !=null) {    //if there's no internet connection on the phone markers will be null
-            niz = new String[markers.length];
+        Marker[] markers = dw.getMarkers();
+
+        String[] eventType = new String[0];
+        String[] eventDate = new String[0];
+        String[] eventAddress = new String[0];
+        String[] eventDescription = new String[0];
+
+        if(markers != null) {    //if there's no internet connection on the phone markers will be null
+            eventType = new String[markers.length];
+            eventDate = new String[markers.length];
+            eventAddress = new String[markers.length];
+            eventDescription = new String[markers.length];
 
             for (int i = 0; i < markers.length; i++) {
-                niz[i] = "address: " + markers[i].getAddress() + "\nType of event: " + markers[i].getType_of_event();
+                eventType[i] = markers[i].getType_of_event();
+                eventDate[i] = markers[i].getEvent_time();
+                eventAddress[i] = markers[i].getAddress();
+                eventDescription[i] = markers[i].getDescription();
             }
         }
-        
-        
-        setListAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, niz));
-       
+        setListAdapter(new FilterListAdapter(this, eventType, eventDate, eventAddress, eventDescription));
     }
-    
-    
- 
 }
