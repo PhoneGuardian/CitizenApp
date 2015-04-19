@@ -61,7 +61,7 @@
             android:layout_marginRight="@dimen/spacing_tiny"
             android:layout_weight="1"
             android:drawableLeft="@drawable/clock_gray"
-            android:hint="Any date"
+            android:hint="@string/any_date"
             style="@style/filterDateSpinner"
             />
 

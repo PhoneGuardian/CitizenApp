@@ -10,17 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/spacing_normal"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/event_details"
-            android:textAllCaps="true"
-            style="@style/app_text_normal"
-            />
-
-        <View style="@style/divider_black"
-            android:layout_marginBottom="@dimen/spacing_large"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -137,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
-                android:text="Anonymous tip:"
+                android:text="@string/anonymous_tip"
                 android:minEms="9"
                 style="@style/app_text_normal"
                 />
@@ -164,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
                 android:minEms="9"
-                android:text="Location Accuracy:"
+                android:text="@string/location_accuracy"
                 style="@style/app_text_normal"
                 />
 

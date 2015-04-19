@@ -27,7 +27,6 @@
 	<string name="show_markers_on_map">Show on map</string>
 	<string name="show_list">Show in list</string>
 	<string name="add_comment">Add comment</string>
-	<string name="view_details">Marker details</string>
 	<string name="list_is_empty">Search result: None</string>
 	
 	<string name="from">From:</string>
@@ -52,8 +51,10 @@
     <string name="dummy_address">Via Gaetano Strambio 23, 20133 Milano, Italy</string>
     <string name="dummy_event_descr">fire in the cinema</string>
     <string name="filtered_events_colon">Filtered events:</string>
-    <string name="event_details">Event details</string>
-    <string name="yes">Yes</string>
+    <string name="write_comment">Write comment</string>
+    <string name="no_comments">No comments</string>
+    <string name="anonymous_tip">Anonymous tip:</string>
+    <string name="location_accuracy">Location Accuracy:</string>
 
     <string-array name="CountryCodes" >
 		<item>93,AF</item>

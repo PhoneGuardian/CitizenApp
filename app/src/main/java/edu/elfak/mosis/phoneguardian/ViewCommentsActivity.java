@@ -29,7 +29,7 @@ public class ViewCommentsActivity extends ListActivity {
 
 	JSONArray comments_response = null;
 	
-	TextView t;
+
 	String id_event = "";
 	
 	int success;
@@ -47,9 +47,7 @@ public class ViewCommentsActivity extends ListActivity {
 		m = (Marker) getIntent().getSerializableExtra("marker");
 		id_event = m.id;
 		
-		t= (TextView) findViewById(R.id.tv_empty);
-	    t.setVisibility(View.GONE);
-	   
+
 
 
 	}
@@ -127,9 +125,7 @@ public class ViewCommentsActivity extends ListActivity {
          * **/
         protected void onPostExecute(String file_url) {
         	
-     	if( success == 0 )
-                t.setVisibility(View.VISIBLE);
-        	else
+     	if( success == 1 )
                 setListAdapter(new CommentArrayAdapter(ctx, R.layout.view_comments_list_item, comments));
         	
         }

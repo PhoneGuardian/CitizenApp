@@ -1,70 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/black" >
-    
-   
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/spacing_large"
+    android:padding="@dimen/spacing_normal"
+    android:background="@drawable/border_gray_oval_transparent"
+    >
+
+
     <TextView android:id="@+id/label_username_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:textColor="@color/white"
+        android:layout_alignParentLeft="true"
+        android:text="@string/username"
+        style="@style/app_text_normal"
         />
-    
+
 
     <TextView android:id="@+id/label_date_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="20sp"
-        android:text="16.5.2014"
-        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/label_username_comment"
+        android:text="@string/dummy_datetime"
+        style="@style/app_text_small_light_gray"
         />
-    
 
-    	
-    	<TextView 
-    	    android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_horizontal"
-	        android:textSize="20sp"
-	        android:text="@string/comment"
-	        android:textColor="@color/white"/>
-    	
-    	<EditText 
-    	    android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20sp"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:id="@+id/et_comment"
-            android:background="@color/white"
-            android:textColor="@color/black"/>
-    	
-    	 <LinearLayout 
-            android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-       		android:orientation="horizontal"
-       		android:layout_margin="20dp"
-        	android:layout_gravity="center">
-            
+    <edu.elfak.mosis.phoneguardian.LineEditText android:id="@+id/et_comment"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_below="@id/label_username_comment"
+        android:inputType="textMultiLine"
+        android:hint="@string/write_comment"
+        android:lines="5"
+        android:minLines="3"
+        style="@style/addlocation_LineEditText"
+        />
 
-        
+    <Button
+        android:id="@+id/btn_add_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_comment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:padding="10dp"
+        android:text="@string/add_comment"
+        style="@style/button_flat_gray_thin"
+        />
 
-        </LinearLayout>
-        
-    	 <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/btn_add_comment"
-            android:text="@string/add_comment"
-            android:background="@color/white"
-            android:layout_marginTop="10sp"
-            android:padding="10dp"
-            />
-    	
-</LinearLayout>
+</RelativeLayout>
