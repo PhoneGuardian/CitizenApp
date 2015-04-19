@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="filterDialogButton" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:layout_marginBottom">@dimen/spacing_normal</item>
+    </style>
+
+</resources>

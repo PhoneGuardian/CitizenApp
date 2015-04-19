@@ -52,6 +52,7 @@ import java.util.Locale;
 
 public class FilterActivity extends FragmentActivity implements android.view.View.OnClickListener,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
+    FilterTypeDialog filterTypeDialog;
 
     EventLocation inputLocation = new EventLocation();
     EventLocation currentLocation = new EventLocation();
@@ -95,9 +96,8 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     ClearableAutoCompleteTextView mAutocompleteView;
 	EditText et_description;
 	
-    CheckBox cb_fire;
-    CheckBox cb_emergency;
-    CheckBox cd_police;
+    CheckBox cb_filterByType;
+
 
     SeekBar seekBar;
     TextView tvSeekBarProgress;
@@ -152,6 +152,9 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 		btn_filtered_events = (Button) findViewById(R.id.btn_show_filtered_events);
 		btn_filtered_events.setOnClickListener(this);
 
+        findViewById(R.id.filter_type_dialog).setOnClickListener(this);
+        cb_filterByType = (CheckBox) findViewById(R.id.filter_type_checkbox);
+
 		et_description = (EditText)findViewById(R.id.et_desc_filter);
 
         btn_fromDate = (Button) findViewById(R.id.btn_filter_from_date);
@@ -170,10 +173,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         fromDatePickerDialog = new DatePickerDialog(this, fromDateSetListener, cYear, cMonth, cDay);
         toDatePickerDialog = new DatePickerDialog(this, toDateSetListener, cYear, cMonth, cDay);
 
-		cb_fire = (CheckBox)findViewById(R.id.cb_fire_filter);
-		cb_emergency = (CheckBox)findViewById(R.id.cb_emergency_filter);
-		cd_police = (CheckBox)findViewById(R.id.cb_police_filter);
-
 
         tvSeekBarProgress = (TextView) findViewById(R.id.tv_filter_seekbar_progress);
         seekBar = (SeekBar) findViewById(R.id.filter_seekBar);
@@ -185,7 +184,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
         findViewById(R.id.filter_layout).setOnTouchListener(hideKeyboardlistener);
         ///
-
+        filterTypeDialog = new FilterTypeDialog(this, (TextView) findViewById(R.id.filter_type));
 
 
     }
@@ -431,7 +430,9 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	            }
 	            break;
 
-	    }
+
+
+        }
 	}
 	
 
@@ -486,6 +487,10 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 btn_toDate.setText("");
                 break;
 
+            case R.id.filter_type_dialog:
+                if(cb_filterByType.isChecked())
+                    filterTypeDialog.show();
+                break;
         }
     }
 
@@ -531,10 +536,11 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 params.add(new BasicNameValuePair("lat_max",Double.toString(lat_max)));
             }
 
-            params.add(new BasicNameValuePair("fire_event_checked", cb_fire.isChecked()? "1" : "0"));
-            params.add(new BasicNameValuePair("police_event_checked", cd_police.isChecked()? "1" : "0"));
-            params.add(new BasicNameValuePair("emergency_event_checked", cb_emergency.isChecked()? "1" : "0"));
-
+            if( cb_filterByType.isChecked()) {
+                params.add(new BasicNameValuePair("fire_event_checked", filterTypeDialog.isFireChecked() ? "1" : "0"));
+                params.add(new BasicNameValuePair("police_event_checked", filterTypeDialog.isPoliceChecked() ? "1" : "0"));
+                params.add(new BasicNameValuePair("emergency_event_checked", filterTypeDialog.isEmergencyChecked() ? "1" : "0"));
+            }
             params.add(new BasicNameValuePair("description", description));
 
             params.add(new BasicNameValuePair("radius_checked", filterByRadius ? "1" :"0"));

@@ -79,45 +79,46 @@
                 android:layout_marginBottom="@dimen/spacing_large"
                 />
 
-            <LinearLayout android:layout_width="fill_parent"
+
+            <RelativeLayout
+                android:id="@+id/filter_type_dialog"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/spacing_large"
+                style="@style/filterDialogButton"
                 >
-
-
-                <CheckBox android:id="@+id/cb_fire_filter"
-                    android:text="@string/fire"
+                <CheckBox
+                    android:id="@+id/filter_type_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:layout_weight="1"
-                    style="@style/app_checkbox"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/spacing_large"
                     />
 
-                <CheckBox android:id="@+id/cb_emergency_filter"
-                    android:text="@string/emergency"
+                <TextView
+                    android:id="@+id/filter_type_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/app_checkbox"
-                    />
+                    android:layout_toRightOf="@id/filter_type_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:text="Type:"
+                    style="@style/app_text_normal"
 
-                <CheckBox android:id="@+id/cb_police_filter"
-                    android:text="@string/police"
+                    />
+                <TextView
+                    android:id="@+id/filter_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/app_checkbox"
+                    android:layout_below="@id/filter_type_header"
+                    android:layout_toRightOf="@id/filter_type_checkbox"
+                    android:text="Any"
+                    android:paddingLeft="@dimen/spacing_small"
+                    style="@style/app_text_normal_light_gray"
                     />
 
-            </LinearLayout>
 
-            <View style="@style/divider_gray"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                />
+            </RelativeLayout>
+
+
 
             <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
