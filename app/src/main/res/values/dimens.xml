@@ -20,4 +20,7 @@
     <dimen name="button_height_short">32dp</dimen>
 
     <dimen name="checkbox_padding_left">24dp</dimen>
+    <dimen name="corner_radius">4dp</dimen>
+    <dimen name="layer_padding">2dp</dimen>
+    <dimen name="layer_padding_negative">-2dp</dimen>
 </resources>

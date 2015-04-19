@@ -176,18 +176,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="@dimen/spacing_normal"
             android:layout_gravity="left"
             android:text="@string/show_list"
-            android:textColor="@color/black"/>
+   />
 
         <Button
             android:id="@+id/btn_show_filtered_events_on_map"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+
             android:layout_weight="1"
             android:layout_gravity="left"
             android:text="@string/show_markers_on_map"
-            android:textColor="@color/black"/>
+            android:background="@drawable/button_selector_flat_gray"
+            style="@style/app_text_normal_light"/>
 
     </LinearLayout>
 

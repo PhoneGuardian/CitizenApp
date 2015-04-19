@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/rect_pressed" />
+
+    <item android:bottom="@dimen/layer_padding" android:left="@dimen/layer_padding_negative"  android:right="@dimen/layer_padding_negative" >
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/corner_radius" />
+            <solid android:color="@color/gray_normal" />
+        </shape>
+    </item>
+</layer-list>

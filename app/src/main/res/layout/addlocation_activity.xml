@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="@string/save"
-                style="@style/button_rounded_transparent_thin"
+                style="@style/button_flat_gray_thin"
                 />
             <ProgressBar
                 android:id="@+id/spinner_report_event"

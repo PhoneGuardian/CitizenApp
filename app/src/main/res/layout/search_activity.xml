@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    tools:context=".FilterActivity">
-
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
@@ -14,6 +9,7 @@
         android:paddingLeft="@dimen/spacing_large"
         android:paddingRight="@dimen/spacing_large"
         android:paddingBottom="@dimen/spacing_tiny"
+        tools:context=".FilterActivity"
         >
 
         <LinearLayout android:id="@+id/filter_layout"
@@ -30,8 +26,7 @@
                 />
 
             <View style="@style/divider_black"
-                android:layout_marginBottom="@dimen/spacing_large"
-                />
+                android:layout_marginBottom="@dimen/spacing_large"/>
 
             <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
                 android:id="@+id/autocomplete_places_filter"
@@ -79,9 +74,7 @@
             </LinearLayout>
 
             <View style="@style/divider_gray"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                />
-
+                android:layout_marginBottom="@dimen/spacing_normal"/>
 
             <RelativeLayout
                 android:id="@+id/filter_type_dialog"
@@ -89,6 +82,7 @@
                 android:layout_height="wrap_content"
                 style="@style/filterDialogButton"
                 >
+
                 <CheckBox
                     android:id="@+id/filter_type_checkbox"
                     android:layout_width="wrap_content"
@@ -103,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/filter_type_checkbox"
                     android:layout_alignParentRight="true"
-                    android:text="Type:"
+                    android:text="@string/type_colon"
                     style="@style/app_text_normal"
 
                     />
@@ -113,12 +107,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/filter_type_header"
                     android:layout_toRightOf="@id/filter_type_checkbox"
-                    android:text="Any"
                     android:paddingLeft="@dimen/spacing_small"
+                    android:text="@string/any"
                     style="@style/app_text_normal_light_gray"
                     />
-
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -141,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/filter_description_checkbox"
                     android:layout_alignParentRight="true"
-                    android:text="Description:"
+                    android:text="@string/description_colon"
                     style="@style/app_text_normal"
 
                     />
@@ -153,10 +145,11 @@
                     android:layout_below="@id/filter_description_header"
                     android:layout_toRightOf="@id/filter_description_checkbox"
                     android:paddingLeft="@dimen/spacing_small"
-                    android:text="Any"
+                    android:text="@string/any"
                     style="@style/app_text_normal_light_gray"
                     />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/filter_date_dialog"
                 android:layout_width="wrap_content"
@@ -177,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/filter_date_checkbox"
                     android:layout_alignParentRight="true"
-                    android:text="Date:"
+                    android:text="@string/date_colon"
                     style="@style/app_text_normal"
 
                     />
@@ -188,14 +181,10 @@
                     android:layout_below="@id/filter_date_header"
                     android:layout_toRightOf="@id/filter_date_checkbox"
                     android:paddingLeft="@dimen/spacing_small"
-                    android:text="Any"
+                    android:text="@string/any"
                     style="@style/app_text_normal_light_gray"
                     />
-
-
             </RelativeLayout>
-
-
 
             <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -204,23 +193,21 @@
 
                 <Button
                     android:id="@+id/btn_show_filtered_events"
+                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="left"
+                    android:layout_margin="@dimen/spacing_small"
                     android:text="@string/show_list"
-                    android:textColor="@color/black"/>
+                    style="@style/button_flat_gray_thin"/>
 
                 <Button
                     android:id="@+id/btn_show_filtered_events_on_map"
+                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="left"
+                    android:layout_margin="@dimen/spacing_small"
                     android:text="@string/show_markers_on_map"
-                    android:textColor="@color/black"/>
-
+                    style="@style/button_flat_gray_thin"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>

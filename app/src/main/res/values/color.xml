@@ -14,5 +14,6 @@
 
     <!-- other -->
     <color name="transparent">#00000000</color>
-
+    <color name="gray_pressed">#BBBBBB</color>
+    <color name="gray_normal">#EEEEEE</color>
 </resources>

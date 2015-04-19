@@ -47,6 +47,10 @@
     <string name="filter_events_by">Filter events by:</string>
     <string name="in_radius">In radius:</string>
     <string name="any_date">Any date</string>
+    <string name="type_colon">Type:</string>
+    <string name="any">Any</string>
+    <string name="description_colon">Description:</string>
+    <string name="date_colon">Date:</string>
 
     <string-array name="CountryCodes" >
 		<item>93,AF</item>
