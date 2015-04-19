@@ -10,7 +10,10 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:background="@color/white"
-        android:padding="@dimen/spacing_large"
+        android:paddingTop="@dimen/spacing_large"
+        android:paddingLeft="@dimen/spacing_large"
+        android:paddingRight="@dimen/spacing_large"
+        android:paddingBottom="@dimen/spacing_tiny"
         >
 
         <LinearLayout android:id="@+id/filter_layout"
@@ -76,7 +79,7 @@
             </LinearLayout>
 
             <View style="@style/divider_gray"
-                android:layout_marginBottom="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_normal"
                 />
 
 
@@ -154,79 +157,43 @@
                     style="@style/app_text_normal_light_gray"
                     />
             </RelativeLayout>
-
-            <LinearLayout android:layout_width="fill_parent"
+            <RelativeLayout
+                android:id="@+id/filter_date_dialog"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                android:layout_marginBottom="@dimen/spacing_small"
+                style="@style/filterDialogButton"
                 >
+                <CheckBox
+                    android:id="@+id/filter_date_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/spacing_large"
+                    />
+
                 <TextView
+                    android:id="@+id/filter_date_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minEms="2"
-                    android:text="@string/from"
-                    style="@style/app_text_normal_light"/>
+                    android:layout_toRightOf="@id/filter_date_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:text="Date:"
+                    style="@style/app_text_normal"
 
-
-                <Button
-                    android:id="@+id/btn_filter_from_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/spacing_tiny"
-                    android:layout_marginRight="@dimen/spacing_tiny"
-                    android:drawablePadding="@dimen/spacing_small"
-                    android:drawableLeft="@drawable/clock_gray"
-                    android:hint="@string/any_date"
-                    style="@android:style/Widget.Holo.Spinner"
                     />
-
-                <ImageButton
-                    android:id="@+id/btn_filter_clear_from_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    style="@style/button_cross"
-                    />
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                android:layout_marginBottom="@dimen/spacing_large"
-                >
                 <TextView
+                    android:id="@+id/filter_date_summary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minEms="2"
-                    android:text="@string/to"
-                    style="@style/app_text_normal_light"/>
-
-                <Button
-                    android:id="@+id/btn_filter_to_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_tiny"
-                    android:layout_marginRight="@dimen/spacing_tiny"
-                    android:layout_weight="1"
-                    android:drawablePadding="@dimen/spacing_small"
-                    android:drawableLeft="@drawable/clock_gray"
-                    android:hint="Any date"
-
-                    style="@android:style/Widget.Holo.Spinner"
-                    />
-                <ImageButton
-                    android:id="@+id/btn_filter_clear_to_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    style="@style/button_cross"
+                    android:layout_below="@id/filter_date_header"
+                    android:layout_toRightOf="@id/filter_date_checkbox"
+                    android:paddingLeft="@dimen/spacing_small"
+                    android:text="Any"
+                    style="@style/app_text_normal_light_gray"
                     />
 
-            </LinearLayout>
 
+            </RelativeLayout>
 
 
 

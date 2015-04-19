@@ -32,6 +32,7 @@ Context ctx;
                 filterResult.setText(description.length() == 0 ? "Any" : description);
             }
         });
+        builder.create();
 
     }
 

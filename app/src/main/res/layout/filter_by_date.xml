@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_normal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_marginBottom="@dimen/spacing_small"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="2"
+            android:text="@string/from"
+            style="@style/app_text_normal_light"/>
+
+
+        <Button
+            android:id="@+id/btn_filter_from_date1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/spacing_tiny"
+            android:layout_marginRight="@dimen/spacing_tiny"
+            android:hint="@string/any_date"
+            style="@style/filterDateSpinner"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_filter_clear_from_date1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            style="@style/button_cross"
+            />
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_marginBottom="@dimen/spacing_large"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="2"
+            android:text="@string/to"
+            style="@style/app_text_normal_light"/>
+
+        <Button
+            android:id="@+id/btn_filter_to_date1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_tiny"
+            android:layout_marginRight="@dimen/spacing_tiny"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/clock_gray"
+            android:hint="Any date"
+            style="@style/filterDateSpinner"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_filter_clear_to_date1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            style="@style/button_cross"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

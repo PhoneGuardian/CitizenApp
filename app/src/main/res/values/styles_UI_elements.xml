@@ -6,8 +6,6 @@
         <item name="android:dropDownVerticalOffset">@dimen/spacing_tiny</item>
         <item name="android:drawableLeft">@drawable/location_pin_gray</item>
         <item name="android:drawablePadding">@dimen/spacing_small</item>
-
-
     </style>
 
     <style name="button_base">

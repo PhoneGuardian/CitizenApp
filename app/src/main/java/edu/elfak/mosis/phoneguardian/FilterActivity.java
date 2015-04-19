@@ -85,21 +85,14 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
     JSONArray events_response = null;
 
-	Date dt_begin = new Date();
-	Date dt_end  = new Date();
-    Button btn_fromDate;
-    Button btn_toDate;
-
-    DatePickerDialog fromDatePickerDialog;
-    DatePickerDialog toDatePickerDialog;
-
     ClearableAutoCompleteTextView mAutocompleteView;
-	EditText et_description;
-	
+
     CheckBox cb_filterByType;
     CheckBox cb_filterByDescription;
+    CheckBox cb_filterByDate;
     FilterTypeDialog filterTypeDialog;
     FilterDescriptionDialog filterDescriptionDialog;
+    FilterDateDialog filterDateDialog;
 
 
     SeekBar seekBar;
@@ -110,7 +103,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     Button btn_filtered_events;
 	
 	String address="";
-
 
 	 
 	double latitude;
@@ -159,23 +151,8 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         cb_filterByType = (CheckBox) findViewById(R.id.filter_type_checkbox);
         findViewById(R.id.filter_description_dialog).setOnClickListener(this);
         cb_filterByDescription = (CheckBox) findViewById(R.id.filter_description_checkbox);
-
-
-        btn_fromDate = (Button) findViewById(R.id.btn_filter_from_date);
-        btn_fromDate.setOnClickListener(this);
-        btn_toDate = (Button) findViewById(R.id.btn_filter_to_date);
-        btn_toDate.setOnClickListener(this);
-
-        findViewById(R.id.btn_filter_clear_from_date).setOnClickListener(this);
-        findViewById(R.id.btn_filter_clear_to_date).setOnClickListener(this);
-
-        Calendar c = Calendar.getInstance();
-        int cYear = c.get(Calendar.YEAR);
-        int cMonth = c.get(Calendar.MONTH);
-        int cDay = c.get(Calendar.DAY_OF_MONTH);
-
-        fromDatePickerDialog = new DatePickerDialog(this, fromDateSetListener, cYear, cMonth, cDay);
-        toDatePickerDialog = new DatePickerDialog(this, toDateSetListener, cYear, cMonth, cDay);
+        findViewById(R.id.filter_date_dialog).setOnClickListener(this);
+        cb_filterByDate = (CheckBox) findViewById(R.id.filter_date_checkbox);
 
 
         tvSeekBarProgress = (TextView) findViewById(R.id.tv_filter_seekbar_progress);
@@ -190,28 +167,13 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         ///
         filterTypeDialog = new FilterTypeDialog(this, (TextView) findViewById(R.id.filter_type));
         filterDescriptionDialog = new FilterDescriptionDialog(this, (TextView) findViewById(R.id.filter_description_summary));
+        filterDateDialog = new FilterDateDialog(this, (TextView) findViewById(R.id.filter_date_summary));
 
 
     }
 
-    private DatePickerDialog.OnDateSetListener  fromDateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            dt_begin = new Date(view.getCalendarView().getDate());
-            btn_fromDate.setText(dateFormat.format(view.getCalendarView().getDate()));
 
-        }
-    };
-    private DatePickerDialog.OnDateSetListener  toDateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            dt_end = new Date(view.getCalendarView().getDate());
-            btn_toDate.setText(dateFormat.format(view.getCalendarView().getDate()));
 
-        }
-    };
     private SeekBar.OnSeekBarChangeListener radiusSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -453,19 +415,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
                 break;
 
-            case R.id.btn_filter_from_date:
-                fromDatePickerDialog.show();
-                break;
-            case R.id.btn_filter_to_date:
-                toDatePickerDialog.show();
-                break;
-            case R.id.btn_filter_clear_from_date:
-                btn_fromDate.setText("");
-                break;
-            case R.id.btn_filter_clear_to_date:
-                btn_toDate.setText("");
-                break;
-
             case R.id.filter_type_dialog:
                 if(cb_filterByType.isChecked())
                     filterTypeDialog.show();
@@ -473,6 +422,10 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             case R.id.filter_description_dialog:
                 if(cb_filterByDescription.isChecked())
                     filterDescriptionDialog.show();
+                break;
+            case R.id.filter_date_dialog:
+                if(cb_filterByDate.isChecked())
+                    filterDateDialog.show();
                 break;
         }
     }
@@ -531,18 +484,18 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             params.add(new BasicNameValuePair("description_checked", cb_filterByDescription.isChecked()? "1" : "0"));
             params.add(new BasicNameValuePair("description", filterDescriptionDialog.getDescription()));
 
-            params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
-
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            if (!btn_fromDate.getText().equals("") ) {
-                params.add(new BasicNameValuePair("from_date_checked", "1"));
-                params.add(new BasicNameValuePair("begin_time", String.format("%s 00:00:00", dateFormat.format(dt_begin))));
+            params.add(new BasicNameValuePair("date_checked", cb_filterByDate.isChecked()? "1": "0"));
+            if( cb_filterByDate.isChecked()) {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                if (filterDateDialog.isFilteringByFromDate()) {
+                    params.add(new BasicNameValuePair("from_date_checked", "1"));
+                    params.add(new BasicNameValuePair("begin_time", String.format("%s 00:00:00", dateFormat.format(filterDateDialog.getFromDate()))));
+                }
+                if (filterDateDialog.isFilteringByToDate()) {
+                    params.add(new BasicNameValuePair("to_date_checked", "1"));
+                    params.add(new BasicNameValuePair("end_time", String.format("%s 23:59:59", dateFormat.format(filterDateDialog.getToDate()))));
+                }
             }
-            if (!btn_toDate.getText().equals("") ) {
-                params.add(new BasicNameValuePair("to_date_checked", "1"));
-                params.add(new BasicNameValuePair("end_time", String.format("%s 23:59:59", dateFormat.format(dt_end))));
-            }
-
 	       
         	JSONObject json = jParser.makeHttpRequest(URL1, "GET", params);
  
