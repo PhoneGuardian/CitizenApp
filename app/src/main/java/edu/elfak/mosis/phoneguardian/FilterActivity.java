@@ -52,7 +52,7 @@ import java.util.Locale;
 
 public class FilterActivity extends FragmentActivity implements android.view.View.OnClickListener,GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
-    FilterTypeDialog filterTypeDialog;
+
 
     EventLocation inputLocation = new EventLocation();
     EventLocation currentLocation = new EventLocation();
@@ -97,6 +97,9 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 	EditText et_description;
 	
     CheckBox cb_filterByType;
+    CheckBox cb_filterByDescription;
+    FilterTypeDialog filterTypeDialog;
+    FilterDescriptionDialog filterDescriptionDialog;
 
 
     SeekBar seekBar;
@@ -107,7 +110,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
     Button btn_filtered_events;
 	
 	String address="";
-	String description="";
+
 
 	 
 	double latitude;
@@ -154,8 +157,9 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
         findViewById(R.id.filter_type_dialog).setOnClickListener(this);
         cb_filterByType = (CheckBox) findViewById(R.id.filter_type_checkbox);
+        findViewById(R.id.filter_description_dialog).setOnClickListener(this);
+        cb_filterByDescription = (CheckBox) findViewById(R.id.filter_description_checkbox);
 
-		et_description = (EditText)findViewById(R.id.et_desc_filter);
 
         btn_fromDate = (Button) findViewById(R.id.btn_filter_from_date);
         btn_fromDate.setOnClickListener(this);
@@ -185,6 +189,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
         findViewById(R.id.filter_layout).setOnTouchListener(hideKeyboardlistener);
         ///
         filterTypeDialog = new FilterTypeDialog(this, (TextView) findViewById(R.id.filter_type));
+        filterDescriptionDialog = new FilterDescriptionDialog(this, (TextView) findViewById(R.id.filter_description_summary));
 
 
     }
@@ -413,30 +418,7 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
 
     }
 
-	public void onCheckboxClicked(View view) {
-	    // Is the view now checked?
-	    boolean checked = ((CheckBox) view).isChecked();
-	    
-	    // Check which checkbox was clicked
-	    switch(view.getId()) {
 
-	        case R.id.cb_desc_filter:
-	            if (checked){
-                    description_checked = 1;
-	            	et_description.setEnabled(true);
-	            }else{
-	            	et_description.setEnabled(false);
-	            	description_checked = 0;
-	            }
-	            break;
-
-
-
-        }
-	}
-	
-
-	
 	@Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
@@ -446,9 +428,6 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             case R.id.btn_show_filtered_events:
                 boolean inputDataIsValid = true;
                 show_events_in_list = v.getId() == R.id.btn_show_filtered_events ;
-
-                if (description_checked == 1)
-                    this.description = et_description.getText().toString();
 
                 if (filterByRadius) {
                     this.radius = seekBar.getProgress();
@@ -490,6 +469,10 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
             case R.id.filter_type_dialog:
                 if(cb_filterByType.isChecked())
                     filterTypeDialog.show();
+                break;
+            case R.id.filter_description_dialog:
+                if(cb_filterByDescription.isChecked())
+                    filterDescriptionDialog.show();
                 break;
         }
     }
@@ -541,10 +524,13 @@ public class FilterActivity extends FragmentActivity implements android.view.Vie
                 params.add(new BasicNameValuePair("police_event_checked", filterTypeDialog.isPoliceChecked() ? "1" : "0"));
                 params.add(new BasicNameValuePair("emergency_event_checked", filterTypeDialog.isEmergencyChecked() ? "1" : "0"));
             }
-            params.add(new BasicNameValuePair("description", description));
+
 
             params.add(new BasicNameValuePair("radius_checked", filterByRadius ? "1" :"0"));
-            params.add(new BasicNameValuePair("description_checked",Integer.toString(description_checked)));
+
+            params.add(new BasicNameValuePair("description_checked", cb_filterByDescription.isChecked()? "1" : "0"));
+            params.add(new BasicNameValuePair("description", filterDescriptionDialog.getDescription()));
+
             params.add(new BasicNameValuePair("date_checked",Integer.toString(date_checked)));
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

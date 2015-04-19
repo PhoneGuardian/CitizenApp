@@ -118,7 +118,42 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/filter_description_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/filterDialogButton"
+                >
+                <CheckBox
+                    android:id="@+id/filter_description_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/spacing_large"
+                    />
 
+                <TextView
+                    android:id="@+id/filter_description_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/filter_description_checkbox"
+                    android:layout_alignParentRight="true"
+                    android:text="Description:"
+                    style="@style/app_text_normal"
+
+                    />
+
+                <TextView
+                    android:id="@+id/filter_description_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/filter_description_header"
+                    android:layout_toRightOf="@id/filter_description_checkbox"
+                    android:paddingLeft="@dimen/spacing_small"
+                    android:text="Any"
+                    style="@style/app_text_normal_light_gray"
+                    />
+            </RelativeLayout>
 
             <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -192,35 +227,6 @@
 
             </LinearLayout>
 
-            <View style="@style/divider_gray"
-                android:layout_marginBottom="@dimen/spacing_large"
-                />
-
-
-            <LinearLayout android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <CheckBox
-                    android:id="@+id/cb_desc_filter"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:layout_gravity="left"
-                    android:text="@string/description"
-                    android:textColor="@color/black"
-                    android:onClick="onCheckboxClicked"/>
-
-                <EditText
-                    android:id="@+id/et_desc_filter"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:enabled="false"
-                    android:inputType="text" />
-
-            </LinearLayout>
 
 
 
