@@ -6,10 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".PGMapActivity">
 
+    <LinearLayout
+        android:id="@+id/pgmap_type_options"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:padding="@dimen/spacing_small"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="@string/filter_by_type"
+            style="@style/app_text_normal_light"/>
+        <CheckBox
+            android:id="@+id/cb_emergency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:checked="true"
+            android:button="@drawable/checbox_ambulance"
+            android:onClick="onCheckboxClicked" />
+
+        <CheckBox
+            android:id="@+id/cb_police"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:checked="true"
+            android:button="@drawable/checbox_policebadge"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:id="@+id/cb_fire"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:checked="true"
+            android:button="@drawable/checbox_flame"
+            android:onClick="onCheckboxClicked" />
+    </LinearLayout>
+
     <fragment
         android:id="@+id/mapf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/pgmap_type_options"
         class="com.google.android.gms.maps.SupportMapFragment"
         tools:layout="@layout/dummy_google_map" />
 

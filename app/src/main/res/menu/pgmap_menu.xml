@@ -3,44 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <group android:checkableBehavior="all">
-        <item android:id="@+id/emergency_events_toggle"
-            android:icon="@drawable/ambulance_blue"
-            android:title="@string/emergency_events"
-            android:checkable="true"
-            android:checked="true"
-            android:showAsAction="always"
-            app:showAsAction="always"
-            tools:ignore="AppCompatResource" />
-
-        <item android:id="@+id/police_events_toggle"
-            android:icon="@drawable/police_badge_blue"
-            android:title="@string/police_events"
-            android:checkable="true"
-            android:checked="true"
-            android:showAsAction="always"
-            app:showAsAction="always"
-            tools:ignore="AppCompatResource" />
-
-        <item android:id="@+id/fire_events_toggle"
-            android:icon="@drawable/flame_blue"
-            android:title="@string/fire_events"
-            android:checkable="true"
-            android:checked="true"
-            android:showAsAction="always"
-            app:showAsAction="always"
-            tools:ignore="AppCompatResource" />
-    </group>
 
     <item android:id="@+id/refresh_events"
+        android:icon="@drawable/refresh"
         android:title="@string/refresh_map"
-        android:showAsAction="never"
-        app:showAsAction="never"
+        android:showAsAction="always"
+        app:showAsAction="always"
         tools:ignore="AppCompatResource" />
 
     <item android:id="@+id/filter_events"
+        android:icon="@drawable/funnel"
         android:title="@string/filter_events"
-        android:showAsAction="never"
-        app:showAsAction="never"
+        android:showAsAction="always"
+        app:showAsAction="always"
         tools:ignore="AppCompatResource" />
 </menu>

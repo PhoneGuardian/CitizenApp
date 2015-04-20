@@ -54,6 +54,7 @@
     <string name="anonymous_tip">Anonymous tip:</string>
     <string name="location_accuracy">Location Accuracy:</string>
     <string name="dummy_phone_numb">333 333</string>
+    <string name="filter_by_type">Filter by type:</string>
 
     <string-array name="CountryCodes" >
 		<item>93,AF</item>

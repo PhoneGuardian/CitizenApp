@@ -1,29 +1,7 @@
 package edu.elfak.mosis.phoneguardian;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.VisibleRegion;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -32,20 +10,32 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
-import java.lang.Math;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PGMapActivity extends FragmentActivity implements OnMarkerClickListener,GoogleMap.OnCameraChangeListener
 {
 
-    CheckableMenuItem fireMenuItem;
-    CheckableMenuItem emergencyMenuItem;
-    CheckableMenuItem policeMenuItem;
 
 	GoogleMap mapa;
     boolean asyncTaskInProgress = false;
@@ -60,6 +50,11 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
     double lat_max;
     double lng_max;
     double lat_min;
+
+    CheckBox cb_fire;
+    CheckBox cb_police;
+    CheckBox cb_emergency;
+
 
     JSONArray markers_response = null;
 	JSONParser jParser = new JSONParser();
@@ -76,6 +71,10 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
         mapa = ((SupportMapFragment) (getSupportFragmentManager().findFragmentById(R.id.mapf))).getMap();
         mapa.setOnMarkerClickListener(this);
         mapa.setOnCameraChangeListener(this);
+
+        cb_fire = (CheckBox) findViewById(R.id.cb_fire);
+        cb_police = (CheckBox) findViewById(R.id.cb_police);
+        cb_emergency = (CheckBox) findViewById(R.id.cb_emergency);
 
         lat = getIntent().getDoubleExtra("lat", 0);
         lng = getIntent().getDoubleExtra("lng", 0);
@@ -135,12 +134,7 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.pgmap_menu, menu);
 
-        fireMenuItem = new CheckableMenuItem(menu.findItem(R.id.fire_events_toggle), menu.findItem(R.id.fire_events_toggle).isChecked(),
-                R.drawable.flame_blue, R.drawable.flame_gray);
-        emergencyMenuItem = new CheckableMenuItem(menu.findItem(R.id.emergency_events_toggle), menu.findItem(R.id.emergency_events_toggle).isChecked(),
-                R.drawable.ambulance_blue, R.drawable.ambulance_gray);
-        policeMenuItem = new CheckableMenuItem(menu.findItem(R.id.police_events_toggle), menu.findItem(R.id.police_events_toggle).isChecked(),
-                R.drawable.police_badge_blue, R.drawable.police_badge_gray);
+
 
         new GetMarkersByCategory().execute();
         return super.onCreateOptionsMenu(menu);
@@ -153,35 +147,35 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 		{
 			case R.id.refresh_events:
 				refresh = 1;
-                fireMenuItem.setChecked(true);
-                policeMenuItem.setChecked(true);
-                emergencyMenuItem.setChecked(true);
+                cb_fire.setChecked(true);
+                cb_police.setChecked(true);
+                cb_emergency.setChecked(true);
                 onRestart();
 				break;
 			case R.id.filter_events:
 				Intent i = new Intent(PGMapActivity.this,FilterActivity.class);
 				startActivityForResult(i, 1);
 				break;
-            case R.id.fire_events_toggle:
-                refresh = 1;
-                fireMenuItem.toggle();
-                onRestart();
-                break;
-            case R.id.emergency_events_toggle:
-                refresh = 1;
-                emergencyMenuItem.toggle();
-                onRestart();
-            break;
-            case R.id.police_events_toggle:
-                refresh = 1;
-                policeMenuItem.toggle();
-                onRestart();
-            break;
+
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	@Override
+
+    public void onCheckboxClicked(View v) {
+        // Check which checkbox was clicked
+        switch (v.getId()) {
+            case R.id.cb_fire:
+            case R.id.cb_police:
+            case R.id.cb_emergency:
+                refresh = 1;
+                onRestart();
+                break;
+        }
+
+    }
+
+
+        @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
@@ -288,9 +282,9 @@ public class PGMapActivity extends FragmentActivity implements OnMarkerClickList
 
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			
-			params.add(new BasicNameValuePair("category_fire", fireMenuItem.isChecked()? "1" : "0"));
-	        params.add(new BasicNameValuePair("category_police", policeMenuItem.isChecked()? "1" : "0"));
-	        params.add(new BasicNameValuePair("category_emergency", emergencyMenuItem.isChecked()? "1" : "0"));
+			params.add(new BasicNameValuePair("category_fire", cb_fire.isChecked() ? "1" : "0"));
+	        params.add(new BasicNameValuePair("category_police", cb_police.isChecked() ? "1" : "0"));
+	        params.add(new BasicNameValuePair("category_emergency", cb_emergency.isChecked() ? "1" : "0"));
 
 
             params.add(new BasicNameValuePair("lng_min",Double.toString(lng_min)));
