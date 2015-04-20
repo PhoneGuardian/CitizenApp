@@ -46,12 +46,16 @@
             android:button="@drawable/checbox_flame"
             android:onClick="onCheckboxClicked" />
     </LinearLayout>
+    <View style="@style/divider_gray"
+        android:id="@+id/pgmap_filter_divider"
+        android:layout_below="@+id/pgmap_type_options"
+        />
 
     <fragment
         android:id="@+id/mapf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/pgmap_type_options"
+        android:layout_below="@id/pgmap_filter_divider"
         class="com.google.android.gms.maps.SupportMapFragment"
         tools:layout="@layout/dummy_google_map" />
 
