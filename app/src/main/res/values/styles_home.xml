@@ -14,7 +14,7 @@
         <item name="android:background">@drawable/btn_selector_oval_overlay</item>
         <item name="android:drawablePadding">-65sp</item>
         <item name="android:paddingLeft">65sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/blue_dark</item>
         <item name="android:fontFamily">sans-serif-bold</item>
         />
     </style>

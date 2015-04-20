@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bg_main"
+        android:src="@drawable/bg_main_blur"
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription"
         />
@@ -20,7 +20,7 @@
         android:layout_marginBottom="@dimen/spacing_large"
         android:layout_centerInParent="true"
         android:text="@string/report_event"
-        android:drawableLeft="@drawable/alert_icon"
+        android:drawableLeft="@drawable/alert_icon_blue"
         style="@style/home_button_rounded_overlay_tall"
         />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/browse_map"
-        android:drawableLeft="@drawable/map_icon"
+        android:drawableLeft="@drawable/map_icon_blue"
         style="@style/home_button_rounded_overlay_tall"
         />
 
@@ -42,7 +42,7 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@id/btn_report_event"
         android:layout_alignParentTop="true"
-        android:src="@drawable/title_header"
+        android:src="@drawable/title_header_white"
         />
 
 </RelativeLayout>

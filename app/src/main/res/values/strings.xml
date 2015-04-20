@@ -9,7 +9,6 @@
     <string name="description_dotdotdot">Description…</string>
 
     <string name="anonymous_message">Anonymous message</string>
-    <string name="sign_up">Sign Up</string>
     <string name="username">Username</string>
     <string name="phone_num">Phone number</string>
 
@@ -22,8 +21,7 @@
 	
 	<string name="address">Address:</string>
 	<string name="date">Date:</string>
-	<string name="comment">Comment:</string>
-	
+
 	<string name="show_markers_on_map">Show on map</string>
 	<string name="show_list">Show in list</string>
 	<string name="add_comment">Add comment</string>
