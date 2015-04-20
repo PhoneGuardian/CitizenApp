@@ -10,8 +10,8 @@
 
     <string name="anonymous_message">Anonymous message</string>
     <string name="sign_up">Sign Up</string>
-    <string name="username">username</string>
-    <string name="phone_num">phone number</string>
+    <string name="username">Username</string>
+    <string name="phone_num">Phone number</string>
 
 	<string name="fire">Fire</string>
 	<string name="emergency">Emergency</string>
@@ -55,6 +55,7 @@
     <string name="no_comments">No comments</string>
     <string name="anonymous_tip">Anonymous tip:</string>
     <string name="location_accuracy">Location Accuracy:</string>
+    <string name="dummy_phone_numb">333 333</string>
 
     <string-array name="CountryCodes" >
 		<item>93,AF</item>

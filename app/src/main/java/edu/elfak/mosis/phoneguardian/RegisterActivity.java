@@ -155,10 +155,12 @@ public class RegisterActivity extends Activity implements OnClickListener {
     }
     private void enableSignUp(){
         ProgressBar spinner = (ProgressBar)findViewById(R.id.spinner_signup);
-        spinner.setVisibility(View.INVISIBLE);
+        spinner.setVisibility(View.GONE);
 
         Button signupBtn = (Button) findViewById(R.id.btn_signup);
         signupBtn.setEnabled(true);
+        signupBtn.setVisibility(View.VISIBLE);
+
     }
     private void disableSignUp(){
         ProgressBar spinner = (ProgressBar)findViewById(R.id.spinner_signup);
@@ -166,6 +168,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
         Button signupBtn = (Button) findViewById(R.id.btn_signup);
         signupBtn.setEnabled(false);
+        signupBtn.setVisibility(View.GONE);
     }
 
     private void checkAndSaveUser(String userNm, String phone) {

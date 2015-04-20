@@ -2,16 +2,33 @@
 <resources>
 
     <style name="signup_form_base">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">@dimen/font_large</item>
         <item name="android:textColor">@color/black</item>
     </style>
     <style name="signup_form_hint">
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">@dimen/font_large</item>
-        <item name="android:textColorHint">@color/blue_dark</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:minWidth">210dp</item>
+        <item name="android:textColorHint">@color/gray_dark</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:padding">@dimen/spacing_small</item>
+        <item name="android:minEms">7</item>
     </style>
+
+    <style name="signup_arrow_button" >
+        <item name="android:background">@drawable/right_arrow_in_circle</item>
+        <item name="android:minHeight">@dimen/button_height_normal</item>
+        <item name="android:minWidth">@dimen/button_height_normal</item>
+        <item name="android:height">@dimen/button_height_normal</item>
+        <item name="android:width">@dimen/button_height_normal</item>
+    </style>
+
+    <style name="signup_progress_circle" parent="@android:style/Widget.Holo.Light.ProgressBar.Large.Inverse" >
+        <item name="android:minHeight">@dimen/button_height_normal</item>
+        <item name="android:minWidth">@dimen/button_height_normal</item>
+        <item name="android:maxHeight">@dimen/button_height_normal</item>
+        <item name="android:maxWidth">@dimen/button_height_normal</item>
+    </style>
+
 
 </resources>

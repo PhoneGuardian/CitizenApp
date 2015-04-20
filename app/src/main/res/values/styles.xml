@@ -48,6 +48,11 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/gray_light</item>
     </style>
+    <style name="divider_gray_dark">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/gray_dark</item>
+    </style>
     <style name="divider_black">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
