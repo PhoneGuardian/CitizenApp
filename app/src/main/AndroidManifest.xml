@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.elfak.mosis.phoneguardian"
+    package="it.polimi.guardian.citizenapp"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -9,7 +9,7 @@
         android:targetSdkVersion="21" />
 
     <permission
-	android:name="edu.elfak.mosis.phoneguardian.permission.MAPS_RECEIVE"
+	android:name="it.polimi.guardian.citizenapp.permission.MAPS_RECEIVE"
 	android:protectionLevel="signature"/>
     
 	<uses-permission android:name="org.elfak.modis.myplaces.permission.MAPS_RECEIVE"/>
@@ -30,7 +30,7 @@
         android:required="true"/>
 	
     <application
-        android:name="PhoneGuardianApplication"
+        android:name="it.polimi.guardian.citizenapp.PhoneGuardianApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -52,7 +52,7 @@
 
 
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.RegisterActivity"
+            android:name="it.polimi.guardian.citizenapp.RegisterActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppThemeNoActionBar">
@@ -62,70 +62,70 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="edu.elfak.mosis.phoneguardian.PGMapActivity"
+        <activity android:name="it.polimi.guardian.citizenapp.PGMapActivity"
             android:label=""
             android:theme="@style/AppTheme"
-            android:parentActivityName="edu.elfak.mosis.phoneguardian.AlertActivity">
+            android:parentActivityName="it.polimi.guardian.citizenapp.AlertActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.elfak.mosis.phoneguardian.AlertActivity" />
+                android:value="it.polimi.guardian.citizenapp.AlertActivity" />
         </activity>
         
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.AlertActivity"
+            android:name="it.polimi.guardian.citizenapp.AlertActivity"
             android:theme="@style/AppThemeNoActionBar" >
         </activity>
 
         
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.AddLocationActivity"
+            android:name="it.polimi.guardian.citizenapp.AddLocationActivity"
             android:label=""
             android:windowSoftInputMode="stateHidden"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName="edu.elfak.mosis.phoneguardian.AlertActivity" >
+            android:parentActivityName="it.polimi.guardian.citizenapp.AlertActivity" >
             <intent-filter >
                 <action android:name="android.media.action.IMAGE_CAPTURE"/>
   				<category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.elfak.mosis.phoneguardian.AlertActivity" />
+                android:value="it.polimi.guardian.citizenapp.AlertActivity" />
         </activity>
 
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.FilterActivity"
+            android:name="it.polimi.guardian.citizenapp.FilterActivity"
             android:label=""
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName="edu.elfak.mosis.phoneguardian.PGMapActivity">
+            android:parentActivityName="it.polimi.guardian.citizenapp.PGMapActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.elfak.mosis.phoneguardian.PGMapActivity" />
+                android:value="it.polimi.guardian.citizenapp.PGMapActivity" />
         </activity>
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.MarkerActivity"
+            android:name="it.polimi.guardian.citizenapp.MarkerActivity"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.AddCommentActivity"
+            android:name="it.polimi.guardian.citizenapp.AddCommentActivity"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.ViewCommentsActivity"
+            android:name="it.polimi.guardian.citizenapp.ViewCommentsActivity"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.ViewMarkerDetailsActivity"
+            android:name="it.polimi.guardian.citizenapp.ViewMarkerDetailsActivity"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="edu.elfak.mosis.phoneguardian.ListFilterActivity"
+            android:name="it.polimi.guardian.citizenapp.ListFilterActivity"
             android:theme="@style/AppTheme" >
         </activity>
 
         
-        <service android:name = "edu.elfak.mosis.phoneguardian.NotificationService" />
+        <service android:name = "it.polimi.guardian.citizenapp.NotificationService" />
     </application>
 
 </manifest>

@@ -30,7 +30,7 @@
             android:layout_marginBottom="@dimen/spacing_large"
             />
 
-        <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
+        <it.polimi.guardian.citizenapp.ClearableAutoCompleteTextView
             android:id="@+id/autocomplete_places"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,7 +90,8 @@
                 />
         </RadioGroup>
 
-        <edu.elfak.mosis.phoneguardian.LineEditText android:id="@+id/edit_text_descr"
+        <it.polimi.guardian.citizenapp.LineEditText
+            android:id="@+id/edit_text_descr"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:inputType="textMultiLine"

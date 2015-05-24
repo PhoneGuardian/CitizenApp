@@ -27,7 +27,7 @@
             <View style="@style/divider_black"
                 android:layout_marginBottom="@dimen/spacing_large"/>
 
-            <edu.elfak.mosis.phoneguardian.ClearableAutoCompleteTextView
+            <it.polimi.guardian.citizenapp.ClearableAutoCompleteTextView
                 android:id="@+id/autocomplete_places_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.1"
 
     defaultConfig {
-        applicationId "edu.elfak.mosis.phoneguardian"
+        applicationId "it.polimi.guardian.citizenapp"
         minSdkVersion 14
         targetSdkVersion 21
     }

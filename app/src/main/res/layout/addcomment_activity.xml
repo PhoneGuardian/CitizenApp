@@ -26,7 +26,8 @@
         style="@style/app_text_small_light_gray"
         />
 
-    <edu.elfak.mosis.phoneguardian.LineEditText android:id="@+id/et_comment"
+    <it.polimi.guardian.citizenapp.LineEditText
+        android:id="@+id/et_comment"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:layout_below="@id/label_username_comment"
