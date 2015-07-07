@@ -131,7 +131,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 else
                 {
                     disableSignUp();
-                    Cognalys.verifyMobileNumber(context, "d11cf058b1991bada9be7114bbe471410d433454", "bd0f84a2509f4f0f92b89b5", phone, new VerificationListner() {
+                    Cognalys.verifyMobileNumber(context, "a521b10743611d028e178c577a0bf87daca7963c", "0634cad489ec4b7fb3287d7", phone, new VerificationListner() {
                         @Override
                         public void onVerificationStarted() {
                         }
