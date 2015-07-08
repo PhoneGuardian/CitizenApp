@@ -8,13 +8,11 @@
         android:icon="@drawable/refresh"
         android:title="@string/refresh_map"
         android:showAsAction="always"
-        app:showAsAction="always"
         tools:ignore="AppCompatResource" />
 
     <item android:id="@+id/filter_events"
         android:icon="@drawable/funnel"
         android:title="@string/filter_events"
         android:showAsAction="always"
-        app:showAsAction="always"
         tools:ignore="AppCompatResource" />
 </menu>

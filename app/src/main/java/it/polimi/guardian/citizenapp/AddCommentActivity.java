@@ -1,26 +1,23 @@
 package it.polimi.guardian.citizenapp;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
-
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-
-import android.widget.TextView;
-import android.widget.Toast;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class AddCommentActivity extends Activity implements android.view.View.OnClickListener {
 
@@ -138,6 +135,9 @@ public class AddCommentActivity extends Activity implements android.view.View.On
         protected void onPostExecute(String file_url)
         {
             Toast.makeText(AddCommentActivity.this,msg,Toast.LENGTH_SHORT).show();
+            if (success == 1) {
+                et_comment.setText("");
+            }
         }
 
     }

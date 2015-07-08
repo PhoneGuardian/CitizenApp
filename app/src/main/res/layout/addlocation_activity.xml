@@ -96,8 +96,9 @@
             android:layout_width="fill_parent"
             android:inputType="textMultiLine"
             android:hint="@string/description_dotdotdot"
-            android:lines="5"
+            android:lines="3"
             android:minLines="3"
+            android:layout_marginBottom="@dimen/spacing_normal"
             style="@style/addlocation_LineEditText"
             />
 

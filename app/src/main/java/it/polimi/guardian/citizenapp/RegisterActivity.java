@@ -134,14 +134,21 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     Cognalys.verifyMobileNumber(context, "a521b10743611d028e178c577a0bf87daca7963c", "0634cad489ec4b7fb3287d7", phone, new VerificationListner() {
                         @Override
                         public void onVerificationStarted() {
+
                         }
 
                         @Override
-                        public void onVerificationSuccess() {
+                        public void onVerificationSucess() {
                             enableSignUp();
                             checkAndSaveUser(userNm, Cognalys.getCountryCode(RegisterActivity.this)+ phone);
-
                         }
+
+//                        @Override
+//                        public void onVerificationSuccess() {
+//                            enableSignUp();
+//                            checkAndSaveUser(userNm, Cognalys.getCountryCode(RegisterActivity.this)+ phone);
+//
+//                        }
 
                         @Override
                         public void onVerificationFailed(ArrayList<String> errorList) {

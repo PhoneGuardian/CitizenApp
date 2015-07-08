@@ -115,7 +115,7 @@ public class AddLocationActivity extends FragmentActivity implements OnClickList
         mAutocompleteView.setAdapter(mAdapter);
 
 		(new GetAddressTask(this)).execute(location);
-        findViewById(R.id.layout_add_location).setOnTouchListener(hideKeyboardlistener);
+        //findViewById(R.id.layout_add_location).setOnTouchListener(hideKeyboardlistener);
 
 
     }
